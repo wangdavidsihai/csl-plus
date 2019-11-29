@@ -1,12 +1,13 @@
 package com.csl.plus.sys.entity;
 
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -165,5 +166,15 @@ public class SysPermission implements Serializable {
         ", createTime=" + createTime +
         ", sort=" + sort +
         "}";
+    }
+    
+    public static class Comparators {
+        //排序
+        public static Comparator<SysPermission> SORT = new Comparator<SysPermission>() {
+            @Override
+            public int compare(SysPermission s1, SysPermission s2) {
+                return s1.sort.compareTo(s2.sort);
+            }
+        };
     }
 }
