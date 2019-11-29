@@ -1,2 +1,4 @@
 # MyBatis generate files #
 src\main\resources\com\zscat\mall\mapper
+/target/
+/.apt_generated_tests/
