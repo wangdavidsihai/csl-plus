@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import com.csl.plus.portal.oms.service.IOmsOrderService;
 import com.csl.plus.utils.CommonResult;
 
-/**
- * https://github.com/shenzhuan/mallplus on 2018/8/24. 订单超时取消并解锁库存的定时器
- */
 @Component
 public class OrderTimeOutCancelTask {
 	private Logger LOGGER = LoggerFactory.getLogger(OrderTimeOutCancelTask.class);

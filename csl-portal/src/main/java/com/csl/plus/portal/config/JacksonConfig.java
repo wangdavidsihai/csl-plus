@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Jackson配置类 json不返回null的字段 https://github.com/shenzhuan/mallplus on 2018/8/2.
+ * Jackson配置类 json不返回null的字段
  */
 @Configuration
 public class JacksonConfig {

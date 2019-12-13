@@ -14,7 +14,7 @@ import com.csl.plus.portal.util.JsonUtil;
 import com.csl.plus.utils.CommonResult;
 
 /**
- * 当访问接口没有权限时，自定义的返回结果 https://github.com/shenzhuan/mallplus on 2018/4/26.
+ * 当访问接口没有权限时，自定义的返回结果
  */
 @Component
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler {

@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 购物车管理Controller https://github.com/shenzhuan/mallplus on 2018/8/2.
+ * 购物车管理Controller
  */
 @Controller
 @Api(tags = "OmsCartItemController", description = "购物车管理")

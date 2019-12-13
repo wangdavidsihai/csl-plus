@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 会员登录注册管理Controller https://github.com/shenzhuan/mallplus on 2018/8/3.
+ * 会员登录注册管理Controller
  */
 @Controller
 @Api(tags = "UmsMemberController", description = "会员管理系统")

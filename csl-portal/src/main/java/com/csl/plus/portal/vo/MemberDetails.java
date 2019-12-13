@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.csl.plus.ums.entity.UmsMember;
 
 /**
- * 会员详情封装 https://github.com/shenzhuan/mallplus on 2018/8/3.
+ * 会员详情封装
  */
 public class MemberDetails implements UserDetails {
 	private UmsMember umsMember;

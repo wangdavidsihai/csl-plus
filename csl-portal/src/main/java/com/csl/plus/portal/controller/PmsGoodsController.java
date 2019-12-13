@@ -43,7 +43,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 首页内容管理Controller https://github.com/shenzhuan/mallplus on 2019/1/28.
+ * 首页内容管理Controller
  */
 @RestController
 @Api(tags = "GoodsController", description = "商品相关管理")

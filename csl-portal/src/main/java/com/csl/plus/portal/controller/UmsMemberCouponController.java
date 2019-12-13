@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 用户优惠券管理Controller https://github.com/shenzhuan/mallplus on 2018/8/29.
+ * 用户优惠券管理Controller
  */
 @Controller
 @Api(tags = "UmsMemberCouponController", description = "用户优惠券管理")

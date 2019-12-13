@@ -19,7 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 会员收货地址管理Controller https://github.com/shenzhuan/mallplus on 2018/8/28.
+ * 会员收货地址管理Controller
  */
 @Controller
 @Api(tags = "UmsMemberReceiveAddressController", description = "会员收货地址管理")

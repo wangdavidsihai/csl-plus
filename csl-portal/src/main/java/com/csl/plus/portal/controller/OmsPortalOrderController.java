@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 订单管理Controller https://github.com/shenzhuan/mallplus on 2018/8/30.
+ * 订单管理Controller
  */
 @Slf4j
 @Controller
