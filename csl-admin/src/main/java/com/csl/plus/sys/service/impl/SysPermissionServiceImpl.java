@@ -40,8 +40,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 	@Override
 	public List<Tree<SysPermission>> getPermissionsByUserId(Long id) {
 		List<Tree<SysPermission>> trees = new ArrayList<Tree<SysPermission>>();
-		// List<SysPermission> menuDOs = permissionMapper.listMenuByUserId(id);
-		List<SysPermission> menuDOs = userService.listUserPerms(id);
+		List<SysPermission> menuDOs = permissionMapper.listMenuByUserId(id);
 		menuDOs.sort(SysPermission.Comparators.SORT);
 		for (SysPermission sysMenuDO : menuDOs) {
 			Tree<SysPermission> tree = new Tree<SysPermission>();

@@ -109,6 +109,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// passwordEncoder.encode(password));
 		try {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+			String encoderPass = passwordEncoder.encode(password);
 			if (!passwordEncoder.matches(password, userDetails.getPassword())) {
 				throw new BadCredentialsException("密码不正确");
 			}

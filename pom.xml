@@ -12,7 +12,7 @@
     <modules>
         <module>csl-mbg</module>
         <module>csl-admin</module>
-        <!-- <module>mall-portal</module> -->
+        <module>csl-portal</module>
     </modules>
 
 </project>
