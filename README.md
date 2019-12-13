@@ -4,7 +4,7 @@ This the backend application for admin to maintain back office;
 - git clone
 - use maven command to install and run
 
-Admin client portal UI repo: 
+Admin client portal UI repo: https://github.com/wangdavidsihai/csl-admin-web
 
 # csl-mbg
 
