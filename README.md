@@ -16,7 +16,7 @@ it is a shared lib, no need import
 
 This is the portal for client side,web application to have data interaction
 
-# csl-portal
+# csl-generator
 
 Code generator 
 
