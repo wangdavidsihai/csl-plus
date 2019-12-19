@@ -16,3 +16,8 @@ it is a shared lib, no need import
 
 This is the portal for client side,web application to have data interaction
 
+# csl-portal
+
+Code generator 
+
+Start the application, then access http://localhost:8082
