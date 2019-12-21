@@ -114,13 +114,13 @@ public class CmsCompanyController {
 	public Object delete(@ApiParam("id") @PathVariable Long id) {
 		try {
 			if (ValidatorUtils.empty(id)) {
-				return new CommonResult().paramFailed("帮助表id");
+				return new CommonResult().paramFailed("company id");
 			}
 			if (cmsCompanyService.removeById(id)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
-			log.error("删除帮助表：%s", e.getMessage(), e);
+			log.error("删除表：%s", e.getMessage(), e);
 			return new CommonResult().failed();
 		}
 		return new CommonResult().failed();

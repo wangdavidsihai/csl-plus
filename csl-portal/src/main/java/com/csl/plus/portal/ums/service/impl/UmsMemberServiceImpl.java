@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.csl.plus.common.utils.CommonConstant;
 import com.csl.plus.exception.ApiMallPlusException;
 import com.csl.plus.portal.config.WxAppletProperties;
 import com.csl.plus.portal.single.ApiBaseAction;
@@ -86,8 +87,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 	public UmsMember getByUsername(String username) {
 		UmsMember umsMember = new UmsMember();
 		umsMember.setUsername(username);
-
-		return memberMapper.selectOne(new QueryWrapper<>(umsMember));
+		return memberMapper.getByUsername(username);
 	}
 
 	@Override
@@ -118,25 +118,19 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 			return new CommonResult().failed("密码不一致");
 		}
 		// 查询是否已有该用户
-
-		UmsMember queryM = new UmsMember();
-		queryM.setUsername(user.getUsername());
-		queryM.setPassword(passwordEncoder.encode(user.getPassword()));
-		UmsMember umsMembers = memberMapper.selectOne(new QueryWrapper<>(queryM));
+		UmsMember umsMembers = getByUsername(user.getUsername());
 		if (umsMembers != null) {
 			return new CommonResult().failed("该用户已经存在");
 		}
 		// 没有该用户进行添加操作
-		UmsMember umsMember = new UmsMember();
-		umsMember.setUsername(user.getUsername());
-		umsMember.setPhone(user.getPhone());
-		umsMember.setPassword(passwordEncoder.encode(user.getPassword()));
-		umsMember.setCreateTime(new Date());
-		umsMember.setStatus(1);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setCreateTime(new Date());
+		// default in review status
+		user.setStatus(CommonConstant.UMS_STATUS_REVIEW);
 
-		memberMapper.insert(umsMember);
-		umsMember.setPassword(null);
-		return new CommonResult().success("注册成功", null);
+		memberMapper.insert(user);
+		user.setPassword(null);
+		return new CommonResult().success("注册成功", user);
 	}
 
 	@Override

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,9 +65,9 @@ public class UmsMemberController extends ApiBaseAction {
 
 	@IgnoreAuth
 	@ApiOperation("注册")
-	@RequestMapping(value = "/reg")
+	@PostMapping(value = "/reg")
 	@ResponseBody
-	public Object register(UmsMember umsMember) {
+	public Object register(@RequestBody UmsMember umsMember) {
 		if (umsMember == null) {
 			return new CommonResult().validateFailed("用户名或密码错误");
 		}
@@ -97,7 +99,6 @@ public class UmsMemberController extends ApiBaseAction {
 			return new CommonResult().success(umsMember);
 		}
 		return new CommonResult().failed();
-
 	}
 
 	@ApiOperation(value = "刷新token")
@@ -160,5 +161,16 @@ public class UmsMemberController extends ApiBaseAction {
 		 */
 
 		return new CommonResult().success("添加成功");
+	}
+
+	@IgnoreAuth
+	@GetMapping("/list")
+	@ResponseBody
+	public Object list() {
+		UmsMember umsMember = memberService.getById(1);
+		if (umsMember != null && umsMember.getId() != null) {
+			return new CommonResult().success(umsMember);
+		}
+		return new CommonResult().failed();
 	}
 }
