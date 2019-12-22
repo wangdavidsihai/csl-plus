@@ -1,10 +1,11 @@
 package com.csl.plus.cms.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 
 /**
@@ -100,5 +101,9 @@ public class CmsNotice implements Serializable {
 	 * 删除标记
 	 */
 	private String delFlag;
+	/**
+	 * 状态标记
+	 */
+	private String status;
 
 }

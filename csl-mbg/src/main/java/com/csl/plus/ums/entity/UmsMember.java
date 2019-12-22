@@ -47,9 +47,9 @@ public class UmsMember implements Serializable {
 	 */
 	private String phone;
 	/**
-	 * 帐号启用状态:0->正常；1->关闭; 2->审核中; 3->暂停
+	 * 帐号启用状态:A->正常；C->关闭; R->审核中; S->暂停
 	 */
-	private Integer status;
+	private String status;
 	/**
 	 * 注册时间
 	 */
