@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.csl.plus.common.utils.CommonCodeConst;
 import com.csl.plus.ums.entity.UmsMember;
 
 /**
@@ -52,7 +53,7 @@ public class MemberDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return umsMember.getStatus() == 1;
+		return umsMember.getStatus().equals(CommonCodeConst.STATUS_ACTIVE);
 	}
 
 	public UmsMember getUmsMember() {

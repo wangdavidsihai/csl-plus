@@ -27,7 +27,7 @@ import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.csl.plus.common.utils.CommonConstant;
+import com.csl.plus.common.utils.CommonCodeConst;
 import com.csl.plus.exception.ApiMallPlusException;
 import com.csl.plus.portal.config.WxAppletProperties;
 import com.csl.plus.portal.single.ApiBaseAction;
@@ -126,7 +126,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setCreateTime(new Date());
 		// default in review status
-		user.setStatus(CommonConstant.UMS_STATUS_REVIEW);
+		user.setStatus(CommonCodeConst.STATUS_REVIEW);
 
 		memberMapper.insert(user);
 		user.setPassword(null);
@@ -239,7 +239,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 				umsMember.setSourceType(1);
 				umsMember.setPassword(passwordEncoder.encode("123456"));
 				umsMember.setCreateTime(new Date());
-				umsMember.setStatus(1);
+				umsMember.setStatus(CommonCodeConst.STATUS_ACTIVE);
 				umsMember.setBlance(new BigDecimal(0));
 				umsMember.setIntegration(0);
 				umsMember.setHistoryIntegration(0);
