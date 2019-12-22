@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "CmsController", description = "商品关系管理")
 @RequestMapping("/api/single/pms")
-public class SingePmsController extends ApiBaseAction {
+public class SinglePmsController extends ApiBaseAction {
 
 	@Resource
 	private ISmsGroupService groupService;

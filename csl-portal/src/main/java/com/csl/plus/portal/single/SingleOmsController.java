@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "OmsController", description = "订单管理系统")
 @RequestMapping("/api/single/oms")
-public class SingeOmsController extends ApiBaseAction {
+public class SingleOmsController extends ApiBaseAction {
 
     @Resource
     private ISmsGroupService groupService;

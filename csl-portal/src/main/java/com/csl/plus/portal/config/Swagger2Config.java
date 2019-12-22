@@ -20,11 +20,13 @@ public class Swagger2Config {
 	@Bean
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.macro.mall.portal.single")).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.csl.plus.portal.single")).paths(PathSelectors.any())
 				.build();
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("mall前台系统").description("mall前台系统").contact("mall").version("1.0").build();
+		return new ApiInfoBuilder().title("csl-plus 前台API")
+				.description("csl-plus 前台展现层API列表，只支持**/list 类型接口无状态调用，其他接口需要安全验证").contact("csl-plus").version("1.0")
+				.build();
 	}
 }

@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "HomeController", description = "首页内容管理")
 @RequestMapping("/api/single/home")
-public class SingelHomeController {
+public class SingleHomeController {
 
 	@Value("${jwt.tokenHeader}")
 	private String tokenHeader;
