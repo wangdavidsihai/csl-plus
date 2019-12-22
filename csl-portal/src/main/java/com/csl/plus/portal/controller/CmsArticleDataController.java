@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.cms.entity.CmsArticleData;
+import com.csl.plus.common.utils.CommonCodeConst;
 import com.csl.plus.portal.cms.service.ICmsArticleDataService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
@@ -46,6 +47,7 @@ public class CmsArticleDataController {
 			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
 		try {
+			entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
 			return new CommonResult().success(cmsArticleDataService.page(new Page<CmsArticleData>(pageNum, pageSize),
 					new QueryWrapper<>(entity)));
 		} catch (Exception e) {
