@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.csl.plus.cms.mapper.CmsExpertMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.csl.plus.cms.entity.CmsExpert" id="cmsExpertMap">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="dateofbirth" column="dateofbirth"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+
+</mapper>
