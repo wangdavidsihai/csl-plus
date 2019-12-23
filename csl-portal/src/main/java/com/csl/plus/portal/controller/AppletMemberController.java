@@ -47,10 +47,12 @@ import com.csl.plus.vo.OrderStatusCount;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 会员登录注册管理Controller
  */
+@ApiIgnore
 @RestController
 @Api(tags = "AppletMemberController", description = "小程序登录首页")
 @RequestMapping("/api/applet")

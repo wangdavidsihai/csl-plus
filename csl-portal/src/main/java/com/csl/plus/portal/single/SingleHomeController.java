@@ -1,16 +1,13 @@
 package com.csl.plus.portal.single;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,7 +21,6 @@ import com.csl.plus.portal.oms.service.IOmsOrderService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
 import com.csl.plus.portal.util.JsonUtil;
-import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
@@ -86,50 +82,50 @@ public class SingleHomeController {
 		return new CommonResult().success(bannerList);
 	}
 
-	@IgnoreAuth
-	@ApiOperation(value = "登录以后返回token")
-	@GetMapping(value = "/login")
-	@ResponseBody
-	public Object login(UmsMember umsMember) {
-		if (umsMember == null) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
-		try {
-			Map<String, Object> token = memberService.login(umsMember.getUsername(), umsMember.getPassword());
-			if (token.get("token") == null) {
-				return new CommonResult().validateFailed("用户名或密码错误");
-			}
-			return new CommonResult().success(token);
-		} catch (AuthenticationException e) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
+//	@IgnoreAuth
+//	@ApiOperation(value = "登录以后返回token")
+//	@GetMapping(value = "/login")
+//	@ResponseBody
+//	public Object login(UmsMember umsMember) {
+//		if (umsMember == null) {
+//			return new CommonResult().validateFailed("用户名或密码错误");
+//		}
+//		try {
+//			Map<String, Object> token = memberService.login(umsMember.getUsername(), umsMember.getPassword());
+//			if (token.get("token") == null) {
+//				return new CommonResult().validateFailed("用户名或密码错误");
+//			}
+//			return new CommonResult().success(token);
+//		} catch (AuthenticationException e) {
+//			return new CommonResult().validateFailed("用户名或密码错误");
+//		}
+//
+//	}
 
-	}
-
-	@IgnoreAuth
-	@ApiOperation("注册")
-	@RequestMapping(value = "/reg")
-	@ResponseBody
-	public Object register(UmsMember umsMember) {
-		if (umsMember == null) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
-		return memberService.register(umsMember);
-	}
-
-	@IgnoreAuth
-	@ApiOperation("获取验证码")
-	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
-	@ResponseBody
-	public Object getAuthCode(@RequestParam String telephone) {
-		return memberService.generateAuthCode(telephone);
-	}
-
-	@ApiOperation("修改密码")
-	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
-	@ResponseBody
-	public Object updatePassword(@RequestParam String telephone, @RequestParam String password,
-			@RequestParam String authCode) {
-		return memberService.updatePassword(telephone, password, authCode);
-	}
+//	@IgnoreAuth
+//	@ApiOperation("注册")
+//	@RequestMapping(value = "/reg")
+//	@ResponseBody
+//	public Object register(UmsMember umsMember) {
+//		if (umsMember == null) {
+//			return new CommonResult().validateFailed("用户名或密码错误");
+//		}
+//		return memberService.register(umsMember);
+//	}
+//
+//	@IgnoreAuth
+//	@ApiOperation("获取验证码")
+//	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+//	@ResponseBody
+//	public Object getAuthCode(@RequestParam String telephone) {
+//		return memberService.generateAuthCode(telephone);
+//	}
+//
+//	@ApiOperation("修改密码")
+//	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Object updatePassword(@RequestParam String telephone, @RequestParam String password,
+//			@RequestParam String authCode) {
+//		return memberService.updatePassword(telephone, password, authCode);
+//	}
 }

@@ -31,13 +31,15 @@ import com.csl.plus.utils.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 订单管理Controller
  */
+@ApiIgnore
 @Slf4j
 @Controller
-@Api(tags = "OmsPortalOrderController", description = "订单管理")
+@Api(tags = "订单管理", description = "订单管理")
 @RequestMapping("/api/order")
 public class OmsPortalOrderController extends ApiBaseAction {
 

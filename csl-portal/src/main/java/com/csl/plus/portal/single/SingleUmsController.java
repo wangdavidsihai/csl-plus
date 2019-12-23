@@ -2,16 +2,20 @@ package com.csl.plus.portal.single;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.annotation.SysLog;
 import com.csl.plus.portal.cms.service.ISysAreaService;
@@ -32,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
  * @Description:
  */
 @RestController
-@Api(tags = "UmsController", description = "会员关系管理")
+@Api(tags = "通用会员管理", description = "通用会员管理")
 @RequestMapping("/api/single/user")
 public class SingleUmsController extends ApiBaseAction {
 
@@ -81,5 +85,41 @@ public class SingleUmsController extends ApiBaseAction {
 			return new CommonResult().validateFailed("用户名或密码错误");
 		}
 		return memberService.register(umsMember);
+	}
+
+	@IgnoreAuth
+	@ApiOperation(value = "登录以后返回token")
+	@PostMapping(value = "/login")
+	@ResponseBody
+	public Object login(@RequestBody UmsMember umsMember) {
+		if (umsMember == null || StringUtils.isEmpty(umsMember.getUsername())
+				|| StringUtils.isEmpty(umsMember.getPassword())) {
+			return new CommonResult().validateFailed("用户名或密码错误");
+		}
+		try {
+			Map<String, Object> token = memberService.login(umsMember.getUsername(), umsMember.getPassword());
+			if (token.get("token") == null) {
+				return new CommonResult().validateFailed("用户名或密码错误");
+			}
+			return new CommonResult().success(token);
+		} catch (AuthenticationException e) {
+			return new CommonResult().validateFailed("用户名或密码错误");
+		}
+
+	}
+
+	@IgnoreAuth
+	@ApiOperation("获取验证码")
+	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getAuthCode(@RequestParam String telephone) {
+		return memberService.generateAuthCode(telephone);
+	}
+
+	@ApiOperation(value = "登出功能")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@ResponseBody
+	public Object logout() {
+		return new CommonResult().success(null);
 	}
 }

@@ -43,11 +43,13 @@ import com.csl.plus.ums.entity.UmsMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@ApiIgnore
 @Api(tags = "商户支付")
 @Slf4j
 @RestController

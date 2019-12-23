@@ -29,12 +29,14 @@ import com.csl.plus.utils.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * 用户优惠券管理Controller
+ * 用户兑换码管理Controller
  */
+@ApiIgnore
 @Controller
-@Api(tags = "UmsMemberCouponController", description = "用户优惠券管理")
+@Api(tags = "用户兑换码", description = "用户兑换码管理")
 @RequestMapping("/api/member/coupon")
 public class UmsMemberCouponController {
 	@Autowired
@@ -60,15 +62,15 @@ public class UmsMemberCouponController {
 	@Autowired
 	private IOmsCartItemService cartItemService;
 
-	@ApiOperation("领取指定优惠券")
+	@ApiOperation("领取指定兑换码")
 	@RequestMapping(value = "/add")
 	@ResponseBody
 	public Object add(Long couponId) {
 		return couponService.add(couponId);
 	}
 
-	@ApiOperation("获取用户优惠券列表")
-	@ApiImplicitParam(name = "useStatus", value = "优惠券筛选类型:0->未使用；1->已使用；2->已过期", allowableValues = "0,1,2", paramType = "query", dataType = "integer")
+	@ApiOperation("获取用户兑换码列表")
+	@ApiImplicitParam(name = "useStatus", value = "兑换码筛选类型:0->未使用；1->已使用；2->已过期", allowableValues = "0,1,2", paramType = "query", dataType = "integer")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(@RequestParam(value = "useStatus", required = false) Integer useStatus) {
@@ -77,7 +79,7 @@ public class UmsMemberCouponController {
 	}
 
 	/**
-	 * 所有可领取的优惠券
+	 * 所有可领取的兑换码
 	 * 
 	 * @return
 	 */
@@ -89,7 +91,7 @@ public class UmsMemberCouponController {
 		return new CommonResult().success(couponList);
 	}
 
-	@ApiOperation("获取登录会员购物车的相关优惠券")
+	@ApiOperation("获取登录会员购物车的相关兑换码")
 	@ApiImplicitParam(name = "type", value = "使用可用:0->不可用；1->可用", defaultValue = "1", allowableValues = "0,1", paramType = "query", dataType = "integer")
 	@RequestMapping(value = "/list/cart/{type}", method = RequestMethod.GET)
 	@ResponseBody

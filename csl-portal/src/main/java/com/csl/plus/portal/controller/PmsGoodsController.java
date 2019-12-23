@@ -41,12 +41,14 @@ import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 首页内容管理Controller
  */
+@ApiIgnore
 @RestController
-@Api(tags = "GoodsController", description = "商品相关管理")
+@Api(tags = "商品管理", description = "商品相关管理")
 @RequestMapping("/api/pms")
 public class PmsGoodsController {
 

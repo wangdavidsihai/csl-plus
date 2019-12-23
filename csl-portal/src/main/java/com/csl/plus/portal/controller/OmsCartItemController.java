@@ -26,12 +26,14 @@ import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 购物车管理Controller
  */
+@ApiIgnore
 @Controller
-@Api(tags = "OmsCartItemController", description = "购物车管理")
+@Api(tags = "购物车管理", description = "购物车管理")
 @RequestMapping("/api/cart")
 public class OmsCartItemController {
 	@Autowired

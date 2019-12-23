@@ -8,11 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,12 +25,13 @@ import com.csl.plus.utils.ValidatorUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 会员登录注册管理Controller
  */
 @Controller
-@Api(tags = "UmsMemberController", description = "会员管理系统")
+@Api(tags = "会员自助管理", description = "会员自助管理")
 @RequestMapping("/api/member")
 public class UmsMemberController extends ApiBaseAction {
 	@Autowired
@@ -42,45 +40,6 @@ public class UmsMemberController extends ApiBaseAction {
 	private String tokenHeader;
 	@Value("${jwt.tokenHead}")
 	private String tokenHead;
-
-	@IgnoreAuth
-	@ApiOperation(value = "登录以后返回token")
-	@GetMapping(value = "/login")
-	@ResponseBody
-	public Object login(UmsMember umsMember) {
-		if (umsMember == null) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
-		try {
-			Map<String, Object> token = memberService.login(umsMember.getUsername(), umsMember.getPassword());
-			if (token.get("token") == null) {
-				return new CommonResult().validateFailed("用户名或密码错误");
-			}
-			return new CommonResult().success(token);
-		} catch (AuthenticationException e) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
-
-	}
-
-	@IgnoreAuth
-	@ApiOperation("注册")
-	@PostMapping(value = "/reg")
-	@ResponseBody
-	public Object register(@RequestBody UmsMember umsMember) {
-		if (umsMember == null) {
-			return new CommonResult().validateFailed("用户名或密码错误");
-		}
-		return memberService.register(umsMember);
-	}
-
-	@IgnoreAuth
-	@ApiOperation("获取验证码")
-	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
-	@ResponseBody
-	public Object getAuthCode(@RequestParam String telephone) {
-		return memberService.generateAuthCode(telephone);
-	}
 
 	@ApiOperation("修改密码")
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
@@ -91,7 +50,8 @@ public class UmsMemberController extends ApiBaseAction {
 	}
 
 	@IgnoreAuth
-	@GetMapping("/user")
+	@ApiOperation("会员详细信息接口")
+	@GetMapping("/info")
 	@ResponseBody
 	public Object user() {
 		UmsMember umsMember = memberService.getCurrentMember();
@@ -116,13 +76,6 @@ public class UmsMemberController extends ApiBaseAction {
 		return new CommonResult().success(tokenMap);
 	}
 
-	@ApiOperation(value = "登出功能")
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	@ResponseBody
-	public Object logout() {
-		return new CommonResult().success(null);
-	}
-
 	/**
 	 * 提交小程序推送formid
 	 * 
@@ -133,6 +86,7 @@ public class UmsMemberController extends ApiBaseAction {
 	 *                 com.fittime.health.market.model.PushUserFormIdRecord.source
 	 * @return
 	 */
+	@ApiIgnore
 	@RequestMapping(value = "submitFormId")
 	@ApiOperation(value = "提交小程序推送formid")
 	@ResponseBody
@@ -161,16 +115,5 @@ public class UmsMemberController extends ApiBaseAction {
 		 */
 
 		return new CommonResult().success("添加成功");
-	}
-
-	@IgnoreAuth
-	@GetMapping("/list")
-	@ResponseBody
-	public Object list() {
-		UmsMember umsMember = memberService.getById(1);
-		if (umsMember != null && umsMember.getId() != null) {
-			return new CommonResult().success(umsMember);
-		}
-		return new CommonResult().failed();
 	}
 }

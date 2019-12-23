@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 文章详表
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @email wangdavidsihai@gmail.com
  * @date 2019-12-22 14:02:33
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "CmsNoticeDataController", description = "文章详表管理")

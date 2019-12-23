@@ -17,10 +17,12 @@ import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 会员收货地址管理Controller
  */
+@ApiIgnore
 @Controller
 @Api(tags = "UmsMemberReceiveAddressController", description = "会员收货地址管理")
 @RequestMapping("/api/address")

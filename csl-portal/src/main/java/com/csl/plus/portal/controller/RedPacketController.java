@@ -25,12 +25,14 @@ import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 红包
  *
  * @date 2019-04-05 16:20:35
  */
+@ApiIgnore
 @Controller
 @Api(tags = "RedPacketController", description = "红包管理")
 @RequestMapping("/api/redPacket")

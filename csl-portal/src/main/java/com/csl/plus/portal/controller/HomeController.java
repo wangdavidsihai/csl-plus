@@ -30,10 +30,12 @@ import com.csl.plus.utils.CommonResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 首页内容管理Controller
  */
+@ApiIgnore
 @RestController
 @Api(tags = "HomeController", description = "首页内容管理")
 @RequestMapping("/api/home")

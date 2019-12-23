@@ -20,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Company
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  * @email wangdavidsihai@gmail.com
  * @date 2019-12-19 20:56:57
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "CmsCompanyController", description = "Company管理")

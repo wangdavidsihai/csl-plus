@@ -20,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 栏目表
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  * @email wangdavidsihai@gmail.com
  * @date 2019-12-22 14:02:33
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "CmsCategoryController", description = "栏目表管理")
