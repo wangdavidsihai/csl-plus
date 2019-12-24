@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "SingleHomeController", description = "首页内容管理")
 @RequestMapping("/api/single/home")
-public class SingleHomeController {
+public class SingleHomeController extends ApiBaseAction {
 
 	@Value("${jwt.tokenHeader}")
 	private String tokenHeader;
@@ -64,7 +64,7 @@ public class SingleHomeController {
 	 */
 	@IgnoreAuth
 	@SysLog(MODULE = "home", REMARK = "bannerList")
-	@GetMapping("/bannerList")
+	@GetMapping(value = "/bannerList")
 	public Object bannerList(@RequestParam(value = "type", required = false, defaultValue = "10") Integer type) {
 		List<SmsHomeAdvertise> bannerList = null;
 		String bannerJson = redisService.get(RedisKey.appletBannerKey + type);
