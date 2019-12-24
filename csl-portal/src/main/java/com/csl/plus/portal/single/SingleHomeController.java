@@ -49,7 +49,7 @@ public class SingleHomeController extends ApiBaseAction {
 	private IOmsOrderService orderService;
 
 	@IgnoreAuth
-	@ApiOperation("首页内容页信息展示")
+	@ApiOperation("首页内容页信息展示：首页广告，//推荐品牌，//新品推荐，//推荐专题")
 	@SysLog(MODULE = "home", REMARK = "首页内容页信息展示")
 	@RequestMapping(value = "/content", method = RequestMethod.GET)
 	public Object content() {
@@ -63,7 +63,7 @@ public class SingleHomeController extends ApiBaseAction {
 	 * @return
 	 */
 	@IgnoreAuth
-	@SysLog(MODULE = "home", REMARK = "bannerList")
+	@SysLog(MODULE = "home", REMARK = "首页广告")
 	@GetMapping(value = "/bannerList")
 	public Object bannerList(@RequestParam(value = "type", required = false, defaultValue = "10") Integer type) {
 		List<SmsHomeAdvertise> bannerList = null;

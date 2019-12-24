@@ -124,29 +124,41 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
 	public List<PmsBrand> getRecommendBrandList(int pageNum, int pageSize) {
 		List<SmsHomeBrand> brands = homeBrandService.list(new QueryWrapper<>());
 		List<Long> ids = new ArrayList<>();
-		return (List<PmsBrand>) brandService.listByIds(brands);
+		for (SmsHomeBrand shb : brands) {
+			ids.add(shb.getBrandId());
+		}
+		return (List<PmsBrand>) brandService.listByIds(ids);
 
 	}
 
 	@Override
 	public List<PmsProduct> getNewProductList(int pageNum, int pageSize) {
-		List<SmsHomeNewProduct> brands = homeNewProductService.list(new QueryWrapper<>());
+		List<SmsHomeNewProduct> products = homeNewProductService.list(new QueryWrapper<>());
 		List<Long> ids = new ArrayList<>();
-		return (List<PmsProduct>) pmsProductService.listByIds(brands);
+		for (SmsHomeNewProduct sp : products) {
+			ids.add(sp.getProductId());
+		}
+		return (List<PmsProduct>) pmsProductService.listByIds(ids);
 	}
 
 	@Override
 	public List<PmsProduct> getHotProductList(int pageNum, int pageSize) {
-		List<SmsHomeRecommendProduct> brands = homeRecommendProductService.list(new QueryWrapper<>());
+		List<SmsHomeRecommendProduct> products = homeRecommendProductService.list(new QueryWrapper<>());
 		List<Long> ids = new ArrayList<>();
-		return (List<PmsProduct>) pmsProductService.listByIds(brands);
+		for (SmsHomeRecommendProduct sp : products) {
+			ids.add(sp.getProductId());
+		}
+		return (List<PmsProduct>) pmsProductService.listByIds(ids);
 	}
 
 	@Override
 	public List<CmsSubject> getRecommendSubjectList(int pageNum, int pageSize) {
-		List<SmsHomeRecommendSubject> brands = homeRecommendSubjectService.list(new QueryWrapper<>());
+		List<SmsHomeRecommendSubject> subjects = homeRecommendSubjectService.list(new QueryWrapper<>());
 		List<Long> ids = new ArrayList<>();
-		return (List<CmsSubject>) subjectService.listByIds(brands);
+		for (SmsHomeRecommendSubject sub : subjects) {
+			ids.add(sub.getSubjectId());
+		}
+		return (List<CmsSubject>) subjectService.listByIds(ids);
 	}
 
 	@Override
