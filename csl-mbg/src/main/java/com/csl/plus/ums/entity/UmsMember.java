@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -21,6 +22,7 @@ import lombok.Data;
  */
 @Data
 @TableName("ums_member")
+@ApiModel(value = "user对象", description = "用户对象user")
 public class UmsMember implements Serializable {
 
 	private static final long serialVersionUID = 1L;
