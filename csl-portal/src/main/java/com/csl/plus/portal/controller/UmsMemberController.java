@@ -31,7 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * 会员登录注册管理Controller
  */
 @Controller
-@Api(tags = "会员自助管理", description = "会员自助管理")
+@Api(tags = "UmsMemberController", description = "会员自助管理")
 @RequestMapping("/api/member")
 public class UmsMemberController extends ApiBaseAction {
 	@Autowired
@@ -41,7 +41,7 @@ public class UmsMemberController extends ApiBaseAction {
 	@Value("${jwt.tokenHead}")
 	private String tokenHead;
 
-	@ApiOperation("修改密码")
+	@ApiOperation(value = "修改密码")
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
 	@ResponseBody
 	public Object updatePassword(@RequestParam String telephone, @RequestParam String password,

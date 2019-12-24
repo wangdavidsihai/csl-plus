@@ -33,7 +33,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @ApiIgnore
 @Controller
-@Api(tags = "购物车管理", description = "购物车管理")
+@Api(tags = "OmsCartItemController", description = "购物车管理")
 @RequestMapping("/api/cart")
 public class OmsCartItemController {
 	@Autowired

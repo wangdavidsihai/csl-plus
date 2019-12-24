@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@Api(tags = "CmsController", description = "内容关系管理")
+@Api(tags = "SingleCmsController", description = "内容关系管理")
 @RequestMapping("/api/single/cms")
 public class SingleCmsController extends ApiBaseAction {
 

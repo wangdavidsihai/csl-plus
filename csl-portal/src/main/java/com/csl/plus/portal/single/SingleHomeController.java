@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
  * 首页内容管理Controller
  */
 @RestController
-@Api(tags = "HomeController", description = "首页内容管理")
+@Api(tags = "SingleHomeController", description = "首页内容管理")
 @RequestMapping("/api/single/home")
 public class SingleHomeController {
 

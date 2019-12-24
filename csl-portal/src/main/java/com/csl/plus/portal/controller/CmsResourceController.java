@@ -2,7 +2,10 @@ package com.csl.plus.portal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +44,7 @@ public class CmsResourceController {
 	 */
 	@SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
 	@ApiOperation("根据条件查询列表")
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	public Object getCmsResourceByPage(CmsResource entity,
 			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
@@ -70,7 +73,7 @@ public class CmsResourceController {
 	 */
 	@SysLog(MODULE = "cms", REMARK = "保存资源表")
 	@ApiOperation("保存资源表")
-	@RequestMapping("/save")
+	@PostMapping("/save")
 	@PreAuthorize("hasAuthority('cms:cmsresource:save')")
 	public Object save(@RequestBody CmsResource entity) {
 		try {
@@ -89,7 +92,7 @@ public class CmsResourceController {
 	 */
 	@SysLog(MODULE = "cms", REMARK = "修改资源表")
 	@ApiOperation("修改资源表")
-	@RequestMapping("/update")
+	@PostMapping("/update")
 	@PreAuthorize("hasAuthority('cms:cmsresource:update')")
 	public Object update(@RequestBody CmsResource entity) {
 		try {
@@ -108,7 +111,7 @@ public class CmsResourceController {
 	 */
 	@SysLog(MODULE = "cms", REMARK = "删除资源表")
 	@ApiOperation("删除资源表")
-	@RequestMapping("/delete")
+	@DeleteMapping("/delete")
 	@PreAuthorize("hasAuthority('cms:cmsresource:delete')")
 	public Object delete(@ApiParam("id") @PathVariable Long id) {
 		try {

@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
  * @Description:
  */
 @RestController
-@Api(tags = "订单管理系统", description = "订单管理系统")
+@Api(tags = "SingleOmsController", description = "订单管理系统")
 @RequestMapping("/api/single/oms")
 public class SingleOmsController extends ApiBaseAction {
 

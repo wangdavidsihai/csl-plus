@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -36,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
  * @Description:
  */
 @RestController
-@Api(tags = "通用会员管理", description = "通用会员管理")
+@Api(tags = "SingleUmsController", description = "通用会员管理")
 @RequestMapping("/api/single/user")
 public class SingleUmsController extends ApiBaseAction {
 
@@ -77,9 +76,8 @@ public class SingleUmsController extends ApiBaseAction {
 	}
 
 	@IgnoreAuth
-	@ApiOperation("注册")
+	@ApiOperation(value = "注册")
 	@PostMapping(value = "/reg")
-	@ResponseBody
 	public Object register(@RequestBody UmsMember umsMember) {
 		if (umsMember == null) {
 			return new CommonResult().validateFailed("用户名或密码错误");
@@ -90,7 +88,6 @@ public class SingleUmsController extends ApiBaseAction {
 	@IgnoreAuth
 	@ApiOperation(value = "登录以后返回token")
 	@PostMapping(value = "/login")
-	@ResponseBody
 	public Object login(@RequestBody UmsMember umsMember) {
 		if (umsMember == null || StringUtils.isEmpty(umsMember.getUsername())
 				|| StringUtils.isEmpty(umsMember.getPassword())) {
@@ -109,16 +106,15 @@ public class SingleUmsController extends ApiBaseAction {
 	}
 
 	@IgnoreAuth
-	@ApiOperation("获取验证码")
+	@ApiOperation(value = "获取验证码")
 	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
-	@ResponseBody
 	public Object getAuthCode(@RequestParam String telephone) {
 		return memberService.generateAuthCode(telephone);
 	}
 
+	@IgnoreAuth
 	@ApiOperation(value = "登出功能")
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	@ResponseBody
 	public Object logout() {
 		return new CommonResult().success(null);
 	}
