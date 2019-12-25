@@ -17,6 +17,8 @@
         <result property="weight" column="weight"/>
         <result property="weightDate" column="weight_date"/>
         <result property="hits" column="hits"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="forwardCount" column="forward_count"/>
         <result property="posid" column="posid"/>
         <result property="customContentView" column="custom_content_view"/>
         <result property="viewConfig" column="view_config"/>
@@ -26,6 +28,7 @@
         <result property="updateDate" column="update_date"/>
         <result property="remarks" column="remarks"/>
         <result property="delFlag" column="del_flag"/>
+        <result property="status" column="status"/>
     </resultMap>
 
 
