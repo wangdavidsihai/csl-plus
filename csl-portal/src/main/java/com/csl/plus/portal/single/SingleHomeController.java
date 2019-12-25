@@ -63,6 +63,7 @@ public class SingleHomeController extends ApiBaseAction {
 	 * @return
 	 */
 	@IgnoreAuth
+	@ApiOperation("首页广告")
 	@SysLog(MODULE = "home", REMARK = "首页广告")
 	@GetMapping(value = "/bannerList")
 	public Object bannerList(@RequestParam(value = "type", required = false, defaultValue = "10") Integer type) {

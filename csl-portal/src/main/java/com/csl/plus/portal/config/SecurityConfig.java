@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
 						"/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/swagger-resources/**",
-						"/v2/api-docs/**")
+						"/v2/api-docs/**", "doc.html")
 				.permitAll().antMatchers("/api/single/**")// 公共api要允许匿名访问
 				.permitAll().antMatchers(HttpMethod.OPTIONS)// 跨域请求会先进行一次options请求
 				.permitAll().anyRequest()// 除上面外的所有请求全部需要鉴权认证
