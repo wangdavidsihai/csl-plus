@@ -8,7 +8,7 @@ Admin client portal UI repo: https://github.com/wangdavidsihai/csl-admin-web
 
 # csl-mbg
 
-Commond object relates to DB and also the confi files for Mybatis. use baomidou as the base mybatis lib
+Common entity object relates to DB and also the confi files for Mybatis. use baomidou as the base mybatis lib
 
 it is a shared lib, no need import
 
