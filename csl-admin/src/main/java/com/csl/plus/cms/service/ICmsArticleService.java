@@ -3,7 +3,6 @@ package com.csl.plus.cms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.csl.plus.cms.entity.CmsArticle;
 
-
 /**
  * 文章表
  *
@@ -13,7 +12,7 @@ import com.csl.plus.cms.entity.CmsArticle;
  */
 public interface ICmsArticleService extends IService<CmsArticle> {
 
-    
-    boolean saves(CmsArticle entity);
-}
+	boolean saves(CmsArticle entity);
 
+	int updateShowStatus(Long ids, Integer showStatus);
+}

@@ -130,4 +130,20 @@ public class ${className}Controller {
 		return new CommonResult().failed();
     }
 
+	@SysLog(MODULE = "cms", REMARK = "查询${comments}明细")
+	@ApiOperation("查询${comments}明细")
+	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+	public Object get${className}ById(@ApiParam("新闻表id") @PathVariable Long id) {
+		try {
+			if (ValidatorUtils.empty(id)) {
+				return new CommonResult().paramFailed("${comments}id");
+			}
+			${className} object = ${classname}Service.getById(id);
+			return new CommonResult().success(object);
+		} catch (Exception e) {
+			log.error("查询${comments}明细：%s", e.getMessage(), e);
+			return new CommonResult().failed();
+		}
+	}
 }

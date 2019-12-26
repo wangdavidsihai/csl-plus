@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -95,7 +96,7 @@ public class CmsArticleController {
 	 */
 	@SysLog(MODULE = "cms", REMARK = "修改文章表")
 	@ApiOperation("修改文章表")
-	@GetMapping("/update")
+	@PostMapping("/update")
 	@PreAuthorize("hasAuthority('cms:cmsarticle:update')")
 	public Object update(@RequestParam CmsArticle entity) {
 		try {
@@ -129,6 +130,36 @@ public class CmsArticleController {
 			return new CommonResult().failed();
 		}
 		return new CommonResult().failed();
+	}
+
+	@ApiOperation("修改展示状态")
+	@RequestMapping(value = "/updateShowStatus")
+	@ResponseBody
+	@SysLog(MODULE = "cms", REMARK = "修改展示状态")
+	public Object updateShowStatus(@RequestParam("id") Long ids, @RequestParam("showStatus") Integer showStatus) {
+		int count = cmsArticleService.updateShowStatus(ids, showStatus);
+		if (count > 0) {
+			return new CommonResult().success(count);
+		} else {
+			return new CommonResult().failed();
+		}
+	}
+
+	@SysLog(MODULE = "cms", REMARK = "根据ID新闻表")
+	@ApiOperation("查询新闻表明细")
+	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('cms:cmsarticle:info')")
+	public Object getCmsArticleById(@ApiParam("新闻表id") @PathVariable Long id) {
+		try {
+			if (ValidatorUtils.empty(id)) {
+				return new CommonResult().paramFailed("新闻表id");
+			}
+			CmsArticle object = cmsArticleService.getById(id);
+			return new CommonResult().success(object);
+		} catch (Exception e) {
+			log.error("查询新闻表明细：%s", e.getMessage(), e);
+			return new CommonResult().failed();
+		}
 	}
 
 }

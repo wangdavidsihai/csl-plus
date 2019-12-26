@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.csl.plus.cms.entity.CmsArticle;
 import com.csl.plus.cms.mapper.CmsArticleMapper;
@@ -29,6 +30,17 @@ public class CmsArticleServiceImpl extends ServiceImpl<CmsArticleMapper, CmsArti
 		entity.setCreateDate(new Date());
 		cmsArticleMapper.insert(entity);
 		return true;
+	}
+
+	@Override
+	public int updateShowStatus(Long id, Integer showStatus) {
+		CmsArticle record = new CmsArticle();
+		if (showStatus == 0) {
+			record.setStatus(CommonCodeConst.STATUS_TERMINATED);
+		} else {
+			record.setStatus(CommonCodeConst.STATUS_REVIEW);
+		}
+		return cmsArticleMapper.update(record, new QueryWrapper<CmsArticle>().eq("id", id));
 	}
 
 }

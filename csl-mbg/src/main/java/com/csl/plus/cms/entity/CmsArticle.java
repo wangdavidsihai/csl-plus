@@ -25,7 +25,7 @@ public class CmsArticle implements Serializable {
 	 * 编号
 	 */
 	@TableId(value = "id", type = IdType.AUTO)
-	private Integer id = 1;
+	private Integer id;
 	/**
 	 * 栏目编号
 	 */

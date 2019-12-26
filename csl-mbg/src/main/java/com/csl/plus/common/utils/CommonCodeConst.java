@@ -8,10 +8,10 @@ package com.csl.plus.common.utils;
  * @date 2016年11月15日 下午1:23:52
  */
 public interface CommonCodeConst {
-	// 帐号启用状态:A->正常；T->关闭; R->审核中; S->暂停
-	public static final String STATUS_ACTIVE = "A";
-	public static final String STATUS_TERMINATED = "T";
-	public static final String STATUS_REVIEW = "R";
-	public static final String USTATUS_SUSPEND = "S";
+	// 帐号启用状态:0->正常；1->关闭; 2->审核中; 3->暂停
+	public static final String STATUS_ACTIVE = "0";
+	public static final String STATUS_TERMINATED = "1";
+	public static final String STATUS_REVIEW = "2";
+	public static final String USTATUS_SUSPEND = "3";
 
 }

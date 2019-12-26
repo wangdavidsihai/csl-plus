@@ -7,10 +7,12 @@ set @parentId = @@identity;
 
 -- 菜单对应按钮SQL
 INSERT INTO `sys_permission` (`pid`, `name`,`value`, `icon`, `type`,`uri`, `status`, `create_time`,`sort`)
-    SELECT @parentId, '查看${comments}', '${moduleName}:${pathName}:list,${moduleName}:${pathName}:info',null, '2','${moduleName}',1, CURRENT_TIMESTAMP, '999';
+    SELECT @parentId, '查看${comments}', '${moduleName}:${pathName}:list',null, '2','list${pathName}',1, CURRENT_TIMESTAMP, '999';
 INSERT INTO `sys_permission` (`pid`, `name`,`value`, `icon`, `type`,`uri`, `status`, `create_time`,`sort`)
-    SELECT @parentId, '新增${comments}', '${moduleName}:${pathName}:save',null, '2','add${moduleName}', 1, CURRENT_TIMESTAMP,'999';
+    SELECT @parentId, '删除${comments}', '${moduleName}:${pathName}:info',null, '2','delete${pathName}', 1, CURRENT_TIMESTAMP,'999';
 INSERT INTO `sys_permission` (`pid`, `name`,`value`, `icon`, `type`,`uri`, `status`, `create_time`,`sort`)
-    SELECT @parentId, '修改${comments}', '${moduleName}:${pathName}:update',null, '2','update${moduleName}', 1, CURRENT_TIMESTAMP,'999';
+    SELECT @parentId, '新增${comments}', '${moduleName}:${pathName}:save',null, '2','add$${pathName}', 1, CURRENT_TIMESTAMP,'999';
 INSERT INTO `sys_permission` (`pid`, `name`,`value`, `icon`, `type`,`uri`, `status`, `create_time`,`sort`)
-    SELECT @parentId, '删除${comments}', '${moduleName}:${pathName}:delete',null, '2','delete${moduleName}', 1, CURRENT_TIMESTAMP,'999';
+    SELECT @parentId, '修改${comments}', '${moduleName}:${pathName}:update',null, '2','update${pathName}', 1, CURRENT_TIMESTAMP,'999';
+INSERT INTO `sys_permission` (`pid`, `name`,`value`, `icon`, `type`,`uri`, `status`, `create_time`,`sort`)
+    SELECT @parentId, '删除${comments}', '${moduleName}:${pathName}:delete',null, '2','delete${pathName}', 1, CURRENT_TIMESTAMP,'999';
