@@ -14,4 +14,7 @@ public interface CommonCodeConst {
 	public static final String STATUS_REVIEW = "2";
 	public static final String USTATUS_SUSPEND = "3";
 
+	public static final String ALLOWED = "Y";
+	public static final String NOT_ALLOWED = "N";
+
 }

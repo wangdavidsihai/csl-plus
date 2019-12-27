@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -119,5 +120,8 @@ public class CmsArticle implements Serializable {
 	 * 状态标记
 	 */
 	private String status;
+	// 新闻详细信息
+	@TableField(exist = false)
+	private CmsArticleData detail;
 
 }

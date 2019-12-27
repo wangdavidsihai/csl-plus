@@ -15,6 +15,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.cms.entity.CmsArticle;
+import com.csl.plus.cms.entity.CmsArticleData;
+import com.csl.plus.cms.service.ICmsArticleDataService;
 import com.csl.plus.cms.service.ICmsArticleService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
@@ -38,6 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CmsArticleController {
 	@Autowired
 	private ICmsArticleService cmsArticleService;
+	@Autowired
+	private ICmsArticleDataService cmsArticleDataService;
 
 	/**
 	 * 列表
@@ -82,6 +86,7 @@ public class CmsArticleController {
 				return new CommonResult().failed();
 			}
 			if (cmsArticleService.saves(entity)) {
+				cmsArticleDataService.saves(entity);
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -126,7 +131,7 @@ public class CmsArticleController {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
-			log.error("删除帮助表：%s", e.getMessage(), e);
+			log.error("删除文章表：%s", e.getMessage(), e);
 			return new CommonResult().failed();
 		}
 		return new CommonResult().failed();
@@ -155,6 +160,10 @@ public class CmsArticleController {
 				return new CommonResult().paramFailed("新闻表id");
 			}
 			CmsArticle object = cmsArticleService.getById(id);
+			if (object != null) {
+				CmsArticleData detail = cmsArticleDataService.getById(object.getId());
+				object.setDetail(detail);
+			}
 			return new CommonResult().success(object);
 		} catch (Exception e) {
 			log.error("查询新闻表明细：%s", e.getMessage(), e);

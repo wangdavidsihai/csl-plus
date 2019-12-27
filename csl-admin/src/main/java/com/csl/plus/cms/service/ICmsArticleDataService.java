@@ -1,8 +1,8 @@
 package com.csl.plus.cms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.csl.plus.cms.entity.CmsArticle;
 import com.csl.plus.cms.entity.CmsArticleData;
-
 
 /**
  * 文章详表
@@ -13,7 +13,5 @@ import com.csl.plus.cms.entity.CmsArticleData;
  */
 public interface ICmsArticleDataService extends IService<CmsArticleData> {
 
-    
-    boolean saves(CmsArticleData entity);
+	boolean saves(CmsArticle entity);
 }
-
