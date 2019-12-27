@@ -2,52 +2,51 @@ package com.csl.plus.sys.vo;
 
 /**
  * 获取OSS上传授权返回结果
- * https://github.com/shenzhuan/mallplus on 2018/5/17.
  */
 public class OssPolicyResult {
-    private String accessKeyId;
-    private String policy;
-    private String signature;
-    private String dir;
-    private String host;
+	private String accessKeyId;
+	private String policy;
+	private String signature;
+	private String dir;
+	private String host;
 
-    public String getAccessKeyId() {
-        return accessKeyId;
-    }
+	public String getAccessKeyId() {
+		return accessKeyId;
+	}
 
-    public void setAccessKeyId(String accessKeyId) {
-        this.accessKeyId = accessKeyId;
-    }
+	public void setAccessKeyId(String accessKeyId) {
+		this.accessKeyId = accessKeyId;
+	}
 
-    public String getPolicy() {
-        return policy;
-    }
+	public String getPolicy() {
+		return policy;
+	}
 
-    public void setPolicy(String policy) {
-        this.policy = policy;
-    }
+	public void setPolicy(String policy) {
+		this.policy = policy;
+	}
 
-    public String getSignature() {
-        return signature;
-    }
+	public String getSignature() {
+		return signature;
+	}
 
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
 
-    public String getDir() {
-        return dir;
-    }
+	public String getDir() {
+		return dir;
+	}
 
-    public void setDir(String dir) {
-        this.dir = dir;
-    }
+	public void setDir(String dir) {
+		this.dir = dir;
+	}
 
-    public String getHost() {
-        return host;
-    }
+	public String getHost() {
+		return host;
+	}
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+	public void setHost(String host) {
+		this.host = host;
+	}
 }
