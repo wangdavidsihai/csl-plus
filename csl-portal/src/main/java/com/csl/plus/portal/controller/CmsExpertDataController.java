@@ -21,7 +21,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 专家表
@@ -30,7 +29,6 @@ import springfox.documentation.annotations.ApiIgnore;
  * @email wangdavidsihai@gmail.com
  * @date 2019-12-22 13:11:01
  */
-@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "CmsExpertDataController", description = "专家表管理")
