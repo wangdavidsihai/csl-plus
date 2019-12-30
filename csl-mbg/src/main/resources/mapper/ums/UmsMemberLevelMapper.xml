@@ -20,6 +20,7 @@
         <result column="goodscount" property="goodscount" />
         <result column="price" property="price" />
         <result column="note" property="note" />
+        <result column="value" property="value" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

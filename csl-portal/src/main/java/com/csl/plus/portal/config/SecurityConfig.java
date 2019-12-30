@@ -1,5 +1,13 @@
 package com.csl.plus.portal.config;
 
+import com.csl.plus.portal.component.JwtAuthenticationTokenFilter;
+import com.csl.plus.portal.component.RestAuthenticationEntryPoint;
+import com.csl.plus.portal.component.RestfulAccessDeniedHandler;
+import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
+import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.portal.vo.MemberDetails;
+import com.csl.plus.ums.entity.UmsMember;
+import com.csl.plus.ums.entity.UmsMemberLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +29,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.csl.plus.portal.component.JwtAuthenticationTokenFilter;
-import com.csl.plus.portal.component.RestAuthenticationEntryPoint;
-import com.csl.plus.portal.component.RestfulAccessDeniedHandler;
-import com.csl.plus.portal.ums.service.IUmsMemberService;
-import com.csl.plus.portal.vo.MemberDetails;
-import com.csl.plus.ums.entity.UmsMember;
-
 /**
  * SpringSecurity的配置
  */
@@ -35,79 +36,82 @@ import com.csl.plus.ums.entity.UmsMember;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private IUmsMemberService memberService;
-	@Autowired
-	private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-	@Autowired
-	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    @Autowired
+    private IUmsMemberService memberService;
+    @Autowired
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    @Autowired
+    private IUmsMemberLevelService memberLevelService;
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
-				.disable().sessionManagement()// 基于token，所以不需要session
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
-						"/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/swagger-resources/**",
-						"/v2/api-docs/**", "doc.html")
-				.permitAll().antMatchers("/api/single/**")// 公共api要允许匿名访问
-				.permitAll().antMatchers(HttpMethod.OPTIONS)// 跨域请求会先进行一次options请求
-				.permitAll().anyRequest()// 除上面外的所有请求全部需要鉴权认证
-				.authenticated();
-		// 禁用缓存
-		httpSecurity.headers().cacheControl();
-		// 添加JWT filter
-		httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		// 添加自定义未授权和未登录结果返回
-		httpSecurity.exceptionHandling().accessDeniedHandler(restfulAccessDeniedHandler)
-				.authenticationEntryPoint(restAuthenticationEntryPoint);
-	}
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
+                .disable().sessionManagement()// 基于token，所以不需要session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
+                        "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/swagger-resources/**",
+                        "/v2/api-docs/**", "doc.html")
+                .permitAll().antMatchers("/api/single/**", "/api/**/list")// 公共api要允许匿名访问
+                .permitAll().antMatchers(HttpMethod.OPTIONS)// 跨域请求会先进行一次options请求
+                .permitAll().anyRequest()// 除上面外的所有请求全部需要鉴权认证
+                .authenticated();
+        // 禁用缓存
+        httpSecurity.headers().cacheControl();
+        // 添加JWT filter
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        // 添加自定义未授权和未登录结果返回
+        httpSecurity.exceptionHandling().accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
+    }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Override
-	@Bean
-	public UserDetailsService userDetailsService() {
-		// 获取登录用户信息
-		return new UserDetailsService() {
-			@Override
-			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				UmsMember member = memberService.getByUsername(username);
-				if (member != null) {
-					return new MemberDetails(member);
-				}
-				throw new UsernameNotFoundException("用户名或密码错误");
-			}
-		};
-	}
+    @Override
+    @Bean
+    public UserDetailsService userDetailsService() {
+        // 获取登录用户信息
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                UmsMember member = memberService.getByUsername(username);
+                UmsMemberLevel level = memberLevelService.getById(member.getMemberLevelId());
+                if (member != null && level != null) {
+                    return new MemberDetails(member, level.getValue());
+                }
+                throw new UsernameNotFoundException("用户名或密码错误");
+            }
+        };
+    }
 
-	@Bean
-	public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-		return new JwtAuthenticationTokenFilter();
-	}
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
+    }
 
-	/**
-	 * 允许跨域调用的过滤器
-	 */
-	@Bean
-	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedOrigin("*");
-		config.setAllowCredentials(true);
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration("/**", config);
-		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-		bean.setOrder(0);
-		return new CorsFilter(source);
-	}
+    /**
+     * 允许跨域调用的过滤器
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return new CorsFilter(source);
+    }
 }

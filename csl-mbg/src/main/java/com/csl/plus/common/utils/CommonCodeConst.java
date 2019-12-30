@@ -12,7 +12,7 @@ public interface CommonCodeConst {
 	public static final String STATUS_ACTIVE = "0";
 	public static final String STATUS_TERMINATED = "1";
 	public static final String STATUS_REVIEW = "2";
-	public static final String USTATUS_SUSPEND = "3";
+	public static final String STATUS_SUSPECTED = "3";
 
 	public static final String ALLOWED = "Y";
 	public static final String NOT_ALLOWED = "N";

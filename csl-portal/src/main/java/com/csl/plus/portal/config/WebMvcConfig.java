@@ -31,7 +31,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 //		super.addInterceptors(registry);
 		registry.addInterceptor(vueViewInterceptor).addPathPatterns("/api/**").excludePathPatterns(
 				"/swagger-resources/**", "*.js", "/**/*.js", "*.css", "/**/*.css", "*.html", "/v2/*", "/**/*.html",
-				"doc.html", "/api/single/**", "/**/reg");
+				"doc.html", "/api/single/**", "/**/reg","/api/**/list");
 
 	}
 

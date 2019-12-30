@@ -2,6 +2,7 @@ package com.csl.plus.portal.vo;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,15 +16,17 @@ import com.csl.plus.ums.entity.UmsMember;
  */
 public class MemberDetails implements UserDetails {
 	private UmsMember umsMember;
+	private String role;
 
-	public MemberDetails(UmsMember umsMember) {
+	public MemberDetails(UmsMember umsMember, String role) {
 		this.umsMember = umsMember;
+		this.role=role;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// 返回当前用户的权限
-		return Arrays.asList(new SimpleGrantedAuthority("TEST"));
+		return Arrays.asList(new SimpleGrantedAuthority(role));
 	}
 
 	@Override

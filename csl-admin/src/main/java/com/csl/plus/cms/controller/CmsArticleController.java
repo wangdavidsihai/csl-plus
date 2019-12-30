@@ -90,7 +90,7 @@ public class CmsArticleController {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
-			log.error("保存帮助表：%s", e.getMessage(), e);
+			log.error("保存文章表：%s", e.getMessage(), e);
 			return new CommonResult().failed();
 		}
 		return new CommonResult().failed();
@@ -153,7 +153,7 @@ public class CmsArticleController {
 	@SysLog(MODULE = "cms", REMARK = "根据ID新闻表")
 	@ApiOperation("查询新闻表明细")
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('cms:cmsarticle:info')")
+	@PreAuthorize(value = "hasAnyAuthority('cms:cmsarticle:info','cms:cmsarticle:view')")
 	public Object getCmsArticleById(@ApiParam("新闻表id") @PathVariable Long id) {
 		try {
 			if (ValidatorUtils.empty(id)) {

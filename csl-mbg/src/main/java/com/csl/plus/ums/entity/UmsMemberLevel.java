@@ -99,6 +99,8 @@ public class UmsMemberLevel implements Serializable {
 
     private String note;
 
+    private String value;
+
 
     public Long getId() {
         return id;
@@ -226,6 +228,14 @@ public class UmsMemberLevel implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override

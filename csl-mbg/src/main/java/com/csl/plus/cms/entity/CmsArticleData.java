@@ -3,6 +3,7 @@ package com.csl.plus.cms.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -23,8 +24,8 @@ public class CmsArticleData implements Serializable {
 	/**
 	 * 编号
 	 */
-	@TableId
-	private String id;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 	/**
 	 * 文章内容
 	 */

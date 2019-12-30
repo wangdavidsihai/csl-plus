@@ -1,36 +1,12 @@
 package com.csl.plus.portal.single;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.csl.plus.cms.entity.CmsArticle;
-import com.csl.plus.cms.entity.CmsArticleData;
-import com.csl.plus.cms.entity.CmsNotice;
-import com.csl.plus.cms.entity.CmsNoticeData;
-import com.csl.plus.cms.entity.CmsSubject;
-import com.csl.plus.cms.entity.CmsSubjectCategory;
-import com.csl.plus.cms.entity.CmsSubjectComment;
+import com.csl.plus.cms.entity.*;
 import com.csl.plus.common.utils.CommonCodeConst;
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.annotation.SysLog;
-import com.csl.plus.portal.cms.service.ICmsArticleDataService;
-import com.csl.plus.portal.cms.service.ICmsArticleService;
-import com.csl.plus.portal.cms.service.ICmsNoticeDataService;
-import com.csl.plus.portal.cms.service.ICmsNoticeService;
-import com.csl.plus.portal.cms.service.ICmsSubjectCategoryService;
-import com.csl.plus.portal.cms.service.ICmsSubjectCommentService;
-import com.csl.plus.portal.cms.service.ICmsSubjectService;
+import com.csl.plus.portal.cms.service.*;
 import com.csl.plus.portal.marking.service.ISmsGroupService;
 import com.csl.plus.portal.pms.service.IPmsProductAttributeCategoryService;
 import com.csl.plus.portal.pms.service.IPmsProductCategoryService;
@@ -39,10 +15,14 @@ import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberLevel;
 import com.csl.plus.utils.CommonResult;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Date: 2019/4/2 15:02
@@ -166,7 +146,7 @@ public class SingleCmsController extends ApiBaseAction {
 	@SysLog(MODULE = "cms", REMARK = "根据Id查询新闻内容")
 	@ApiOperation("根据Id查询新闻内容")
 	@GetMapping("/article/{id}")
-	public Object getCmsArticleDataById(@PathVariable String id,
+	public Object getCmsArticleDataById(@PathVariable Integer id,
 			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
 		try {
