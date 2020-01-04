@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.I${className}Service;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ${comments}
@@ -31,7 +32,7 @@ import ${package}.${moduleName}.service.I${className}Service;
  */
 @Slf4j
 @RestController
-@Api(tags = "${className}Controller", description = "${comments}管理")
+@Api(tags = "/api/${className}Controller", description = "${comments}管理")
 @RequestMapping("${moduleName}/${pathName}")
 public class ${className}Controller {
     @Autowired
