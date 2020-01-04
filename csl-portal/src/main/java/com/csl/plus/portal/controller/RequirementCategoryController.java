@@ -36,7 +36,7 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @RequestMapping("/list")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:list')")
+//    @PreAuthorize("hasAuthority('rms:requirementcategory:list')")
     public Object getRequirementCategoryByPage(RequirementCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
         try {

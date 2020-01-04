@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(tags = "RequirementController", description = "需求表管理")
-@RequestMapping("rms/requirement")
+@RequestMapping("api/rms/requirement")
 public class RequirementController {
     @Autowired
     private IRequirementService requirementService;

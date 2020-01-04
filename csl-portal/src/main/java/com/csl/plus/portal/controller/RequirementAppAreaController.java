@@ -36,7 +36,7 @@ public class RequirementAppAreaController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @RequestMapping("/list")
-    @PreAuthorize("hasAuthority('rms:requirementapparea:list')")
+//    @PreAuthorize("hasAuthority('rms:requirementapparea:list')")
     public Object getRequirementAppAreaByPage(RequirementAppArea entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
         try {
