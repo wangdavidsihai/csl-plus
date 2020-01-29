@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
  * 需求表
  * 
  * @author David
- * @email wangdavidsihai@gmail.com
- * @date 2020-01-04 20:03:44
+ * @email 
+ * @date 2020-01-29 10:44:58
  */
 @Mapper
 public interface RequirementMapper extends BaseMapper<Requirement> {

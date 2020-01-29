@@ -11,8 +11,8 @@ import lombok.Data;
  * 需求表
  * 
  * @author David
- * @email wangdavidsihai@gmail.com
- * @date 2020-01-04 20:03:44
+ * @email 
+ * @date 2020-01-29 10:44:58
  */
 @Data
 @TableName("rms_requirement")
@@ -96,5 +96,25 @@ public class Requirement implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateDate;
+	/**
+	 * 
+	 */
+	private Date endDate;
+	/**
+	 * 
+	 */
+	private String status;
+	/**
+	 * 
+	 */
+	private Date startDate;
+	/**
+	 * 
+	 */
+	private String mobile;
+	/**
+	 * 
+	 */
+	private String email;
 
 }
