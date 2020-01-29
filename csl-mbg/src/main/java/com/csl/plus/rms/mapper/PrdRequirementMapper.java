@@ -1,6 +1,6 @@
 package com.csl.plus.rms.mapper;
 
-import com.csl.plus.rms.entity.Requirement;
+import com.csl.plus.rms.entity.PrdRequirement;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,9 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author David
  * @email 
- * @date 2020-01-29 10:44:58
+ * @date 2020-01-29 11:36:20
  */
 @Mapper
-public interface RequirementMapper extends BaseMapper<Requirement> {
+public interface PrdRequirementMapper extends BaseMapper<PrdRequirement> {
 	
 }

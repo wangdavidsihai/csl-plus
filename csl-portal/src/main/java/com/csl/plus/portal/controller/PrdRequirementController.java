@@ -1,34 +1,42 @@
-package com.csl.plus.rms.controller;
+package com.csl.plus.portal.controller;
+
+import com.csl.plus.annotation.SysLog;
+import com.csl.plus.portal.rms.service.IPrdRequirementService;
+import com.csl.plus.utils.CommonResult;
+import com.csl.plus.utils.ValidatorUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.csl.plus.annotation.SysLog;
-import com.csl.plus.rms.entity.Requirement;
-import com.csl.plus.rms.service.IRequirementService;
-import com.csl.plus.utils.CommonResult;
-import com.csl.plus.utils.ValidatorUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+
+import com.csl.plus.rms.entity.PrdRequirement;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 需求表
  *
  * @author David
- * @email wangdavidsihai@gmail.com
- * @date 2020-01-04 20:03:44
+ * @email 
+ * @date 2020-01-29 11:36:20
  */
 @Slf4j
 @RestController
-@Api(tags = "RequirementController", description = "需求表管理")
-@RequestMapping("api/rms/requirement")
-public class RequirementController {
+@Api(tags = "/api/PrdRequirementController", description = "需求表管理")
+@RequestMapping("/api/rms/prdrequirement")
+public class PrdRequirementController {
     @Autowired
-    private IRequirementService requirementService;
+    private IPrdRequirementService prdRequirementService;
 
     /**
      * 列表
@@ -36,12 +44,12 @@ public class RequirementController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @RequestMapping("/list")
-    @PreAuthorize("hasAuthority('rms:requirement:list')")
-    public Object getRequirementByPage(Requirement entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+//    @PreAuthorize("hasAuthority('rms:prdrequirement:list')")
+    public Object getPrdRequirementByPage(PrdRequirement entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
         try {
 			return new CommonResult()
-					.success(requirementService.page(new Page<Requirement>(pageNum, pageSize), new QueryWrapper<>(entity)));
+					.success(prdRequirementService.page(new Page<PrdRequirement>(pageNum, pageSize), new QueryWrapper<>(entity)));
 		} catch (Exception e) {
 			log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
 		}
@@ -56,11 +64,11 @@ public class RequirementController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询需求表列表")
     @ApiOperation("根据条件查询需求表列表") 
     @RequestMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('rms:requirement:info')")
+    @PreAuthorize("hasAuthority('rms:prdrequirement:info')")
     public R info(@PathVariable("id") Long id){
-		RequirementEntity requirement = requirementService.getById(id);
+		PrdRequirementEntity prdRequirement = prdRequirementService.getById(id);
 
-        return R.ok().put("requirement", requirement);
+        return R.ok().put("prdRequirement", prdRequirement);
     }
 	*/
     /**
@@ -69,10 +77,10 @@ public class RequirementController {
     @SysLog(MODULE = "cms", REMARK = "保存需求表")
     @ApiOperation("保存需求表")
     @RequestMapping("/save")
-    @PreAuthorize("hasAuthority('rms:requirement:save')")
-    public Object save(@RequestBody Requirement entity){
+    @PreAuthorize("hasAuthority('rms:prdrequirement:save')")
+    public Object save(@RequestBody PrdRequirement entity){
 		try {
-			if (requirementService.saves(entity)) {
+			if (prdRequirementService.saves(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -88,10 +96,10 @@ public class RequirementController {
     @SysLog(MODULE = "cms", REMARK = "修改需求表")
     @ApiOperation("修改需求表")
     @RequestMapping("/update")
-    @PreAuthorize("hasAuthority('rms:requirement:update')")
-    public Object update(@RequestBody Requirement entity){
+    @PreAuthorize("hasAuthority('rms:prdrequirement:update')")
+    public Object update(@RequestBody PrdRequirement entity){
 		try {
-			if (requirementService.updateById(entity)) {
+			if (prdRequirementService.updateById(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -107,13 +115,13 @@ public class RequirementController {
     @SysLog(MODULE = "cms", REMARK = "删除需求表")
     @ApiOperation("删除需求表")
     @RequestMapping("/delete")
-    @PreAuthorize("hasAuthority('rms:requirement:delete')")
+    @PreAuthorize("hasAuthority('rms:prdrequirement:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id){
 		try {
 			if (ValidatorUtils.empty(id)) {
 				return new CommonResult().paramFailed("帮助表id");
 			}
-			if (requirementService.removeById(id)) {
+			if (prdRequirementService.removeById(id)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -126,13 +134,13 @@ public class RequirementController {
 	@SysLog(MODULE = "cms", REMARK = "查询需求表明细")
 	@ApiOperation("查询需求表明细")
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
-	public Object getRequirementById(@ApiParam("新闻表id") @PathVariable Long id) {
+//	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+	public Object getPrdRequirementById(@ApiParam("新闻表id") @PathVariable Long id) {
 		try {
 			if (ValidatorUtils.empty(id)) {
 				return new CommonResult().paramFailed("需求表id");
 			}
-			Requirement object = requirementService.getById(id);
+			PrdRequirement object = prdRequirementService.getById(id);
 			return new CommonResult().success(object);
 		} catch (Exception e) {
 			log.error("查询需求表明细：%s", e.getMessage(), e);

@@ -1,34 +1,42 @@
 package com.csl.plus.rms.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
-import com.csl.plus.rms.entity.RequirementCategory;
-import com.csl.plus.rms.service.IRequirementCategoryService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+
+import com.csl.plus.rms.entity.PrdRequirementCategory;
+import com.csl.plus.rms.service.IPrdRequirementCategoryService;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 需求类别表
  *
  * @author David
- * @email wangdavidsihai@gmail.com
- * @date 2020-01-04 20:03:44
+ * @email 
+ * @date 2020-01-29 11:36:20
  */
 @Slf4j
 @RestController
-@Api(tags = "RequirementCategoryController", description = "需求类别表管理")
-@RequestMapping("rms/requirementcategory")
-public class RequirementCategoryController {
+@Api(tags = "/api/PrdRequirementCategoryController", description = "需求类别表管理")
+@RequestMapping("rms/prdrequirementcategory")
+public class PrdRequirementCategoryController {
     @Autowired
-    private IRequirementCategoryService requirementCategoryService;
+    private IPrdRequirementCategoryService prdRequirementCategoryService;
 
     /**
      * 列表
@@ -36,12 +44,12 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @RequestMapping("/list")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:list')")
-    public Object getRequirementCategoryByPage(RequirementCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:list')")
+    public Object getPrdRequirementCategoryByPage(PrdRequirementCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
         try {
 			return new CommonResult()
-					.success(requirementCategoryService.page(new Page<RequirementCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
+					.success(prdRequirementCategoryService.page(new Page<PrdRequirementCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
 		} catch (Exception e) {
 			log.error("根据条件查询所有需求类别表列表：%s", e.getMessage(), e);
 		}
@@ -56,11 +64,11 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询需求类别表列表")
     @ApiOperation("根据条件查询需求类别表列表") 
     @RequestMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:info')")
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:info')")
     public R info(@PathVariable("id") Long id){
-		RequirementCategoryEntity requirementCategory = requirementCategoryService.getById(id);
+		PrdRequirementCategoryEntity prdRequirementCategory = prdRequirementCategoryService.getById(id);
 
-        return R.ok().put("requirementCategory", requirementCategory);
+        return R.ok().put("prdRequirementCategory", prdRequirementCategory);
     }
 	*/
     /**
@@ -69,10 +77,10 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "保存需求类别表")
     @ApiOperation("保存需求类别表")
     @RequestMapping("/save")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:save')")
-    public Object save(@RequestBody RequirementCategory entity){
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:save')")
+    public Object save(@RequestBody PrdRequirementCategory entity){
 		try {
-			if (requirementCategoryService.saves(entity)) {
+			if (prdRequirementCategoryService.saves(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -88,10 +96,10 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "修改需求类别表")
     @ApiOperation("修改需求类别表")
     @RequestMapping("/update")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:update')")
-    public Object update(@RequestBody RequirementCategory entity){
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:update')")
+    public Object update(@RequestBody PrdRequirementCategory entity){
 		try {
-			if (requirementCategoryService.updateById(entity)) {
+			if (prdRequirementCategoryService.updateById(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -107,13 +115,13 @@ public class RequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "删除需求类别表")
     @ApiOperation("删除需求类别表")
     @RequestMapping("/delete")
-    @PreAuthorize("hasAuthority('rms:requirementcategory:delete')")
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id){
 		try {
 			if (ValidatorUtils.empty(id)) {
 				return new CommonResult().paramFailed("帮助表id");
 			}
-			if (requirementCategoryService.removeById(id)) {
+			if (prdRequirementCategoryService.removeById(id)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -127,12 +135,12 @@ public class RequirementCategoryController {
 	@ApiOperation("查询需求类别表明细")
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
-	public Object getRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
+	public Object getPrdRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
 		try {
 			if (ValidatorUtils.empty(id)) {
 				return new CommonResult().paramFailed("需求类别表id");
 			}
-			RequirementCategory object = requirementCategoryService.getById(id);
+			PrdRequirementCategory object = prdRequirementCategoryService.getById(id);
 			return new CommonResult().success(object);
 		} catch (Exception e) {
 			log.error("查询需求类别表明细：%s", e.getMessage(), e);

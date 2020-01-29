@@ -8,15 +8,15 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 需求类别表
+ * 资源应用领域表
  * 
  * @author David
- * @email wangdavidsihai@gmail.com
- * @date 2020-01-04 20:03:44
+ * @email 
+ * @date 2020-01-29 11:36:20
  */
 @Data
-@TableName("rms_requirement_category")
-public class RequirementCategory implements Serializable {
+@TableName("rms_prd_requirement_app_area")
+public class PrdRequirementAppArea implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -33,10 +33,6 @@ public class RequirementCategory implements Serializable {
 	 */
 	private String description;
 	/**
-	 * 备注信息
-	 */
-	private String remarks;
-	/**
 	 * 创建者
 	 */
 	private String createBy;
@@ -44,13 +40,5 @@ public class RequirementCategory implements Serializable {
 	 * 创建时间
 	 */
 	private Date createDate;
-	/**
-	 * 更新者
-	 */
-	private String updateBy;
-	/**
-	 * 更新时间
-	 */
-	private Date updateDate;
 
 }

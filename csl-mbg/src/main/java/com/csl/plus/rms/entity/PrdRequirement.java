@@ -12,11 +12,11 @@ import lombok.Data;
  * 
  * @author David
  * @email 
- * @date 2020-01-29 10:44:58
+ * @date 2020-01-29 11:36:20
  */
 @Data
-@TableName("rms_requirement")
-public class Requirement implements Serializable {
+@TableName("rms_prd_requirement")
+public class PrdRequirement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
