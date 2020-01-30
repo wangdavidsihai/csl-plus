@@ -1,20 +1,5 @@
 package com.csl.plus.portal.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.csl.plus.marking.entity.UserFormId;
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.single.ApiBaseAction;
@@ -22,10 +7,18 @@ import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 会员登录注册管理Controller
