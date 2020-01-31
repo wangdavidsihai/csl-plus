@@ -18,4 +18,19 @@
     </resultMap>
 
 
+    <insert id="insert" parameterType="com.csl.plus.inbox.entity.MtMessageServ">
+
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+
+            select replace(uuid(),'-','') from dual
+
+        </selectKey>
+
+        insert into mt_message_serv (id, sendId, recId, subject, message, refId, send_date,status,del_flag,channel)
+
+        values (#{id,jdbcType=VARCHAR}, #{sendid,jdbcType=VARCHAR}, #{recid,jdbcType=VARCHAR},#{subject,jdbcType=VARCHAR},#{message,jdbcType=VARCHAR},
+        #{refid,jdbcType=VARCHAR},#{sendDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR})
+
+    </insert>
+
 </mapper>

@@ -14,5 +14,16 @@
         <result property="status" column="status"/>
     </resultMap>
 
+    <insert id="insert" parameterType="com.csl.plus.inbox.entity.MtMessageText">
+
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+
+        insert into mt_message_text (id,subject, message, refId, url, create_date,status)
+        values (#{id,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},#{message,jdbcType=VARCHAR},
+        #{refid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},#{createDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR})
+
+    </insert>
 
 </mapper>
