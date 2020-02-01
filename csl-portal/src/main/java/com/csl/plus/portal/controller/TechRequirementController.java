@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/TechRequirementController", description = "需求表管理")
+@Api(tags = "/api/TechRequirementController", description = "技术需求表管理")
 @RequestMapping("/api/rms/techrequirement")
 public class TechRequirementController {
     @Autowired
@@ -33,7 +33,7 @@ public class TechRequirementController {
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+    @SysLog(MODULE = "rms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @RequestMapping("/list")
 //    @PreAuthorize("hasAuthority('rms:techrequirement:list')")

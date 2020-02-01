@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/PrdRequirementCategoryController", description = "需求类别表管理")
+@Api(tags = "/api/PrdRequirementCategoryController", description = "产品需求类别表管理")
 @RequestMapping("/api/rms/prdrequirementcategory")
 public class PrdRequirementCategoryController {
     @Autowired
