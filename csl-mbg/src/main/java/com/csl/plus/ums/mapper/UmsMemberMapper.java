@@ -8,10 +8,11 @@ import com.csl.plus.ums.entity.UmsMember;
  * 会员表 Mapper 接口
  * </p>
  *
- * 
  * @since 2019-04-19
  */
 public interface UmsMemberMapper extends BaseMapper<UmsMember> {
 
-	UmsMember getByUsername(String username);
+    UmsMember getByUsername(String username);
+
+    UmsMember getByInvitecode(String invitecode);
 }
