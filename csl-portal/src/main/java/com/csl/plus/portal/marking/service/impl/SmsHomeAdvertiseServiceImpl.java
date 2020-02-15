@@ -3,7 +3,6 @@ package com.csl.plus.portal.marking.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.csl.plus.cms.entity.CmsArticle;
-import com.csl.plus.cms.entity.CmsExpert;
 import com.csl.plus.cms.entity.CmsNotice;
 import com.csl.plus.cms.entity.CmsSubject;
 import com.csl.plus.marking.entity.*;
@@ -20,11 +19,13 @@ import com.csl.plus.portal.pms.service.IPmsBrandService;
 import com.csl.plus.portal.pms.service.IPmsProductAttributeCategoryService;
 import com.csl.plus.portal.pms.service.IPmsProductCategoryService;
 import com.csl.plus.portal.pms.service.IPmsProductService;
+import com.csl.plus.portal.res.service.*;
 import com.csl.plus.portal.rms.service.IFinRequirementCategoryService;
 import com.csl.plus.portal.rms.service.IPrdRequirementCategoryService;
 import com.csl.plus.portal.rms.service.ITechRequirementCategoryService;
 import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.res.entity.*;
 import com.csl.plus.rms.entity.FinRequirementCategory;
 import com.csl.plus.rms.entity.PrdRequirementCategory;
 import com.csl.plus.rms.entity.TechRequirementCategory;
@@ -84,8 +85,7 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     private ICmsArticleService articleService;
     @Resource
     private ICmsNoticeService noticeService;
-    @Resource
-    private ICmsExpertService expertService;
+
     @Resource
     private IPmsProductCategoryService pmsProductCategoryService;
     @Resource
@@ -95,6 +95,26 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     @Resource
     private IFinRequirementCategoryService finRequirementCategoryService;
 
+    @Resource
+    private IResFinanceCategoryService resFinanceCategoryService;
+    @Resource
+    private IResFinanceService resFinanceService;
+    @Resource
+    private IResProductCategoryService resProductCategoryService;
+    @Resource
+    private IResProductService resProductService;
+    @Resource
+    private IResProjCategoryService resProjCategoryService;
+    @Resource
+    private IResProjProductionService resProjProductionService;
+    @Resource
+    private IResTechnicalCategoryService resTechnicalCategoryService;
+    @Resource
+    private IResTechnicalService resTechnicalService;
+    @Resource
+    private IResExpertService expertService;
+
+
     @Override
     public HomeContentResult singelContent() {
         HomeContentResult result = new HomeContentResult();
@@ -102,7 +122,7 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
         result.setAdvertiseList(getHomeAdvertiseList());
         result.setCmsArticleList(this.getArticleList(0, 5));
         result.setCmsNoticeList(this.getNoticeList(0, 5));
-        result.setCmsExpertList(this.getExpertList(0, 5));
+
         // 获取推荐品牌
         result.setBrandList(this.getRecommendBrandList(0, 4));
         // 获取新品推荐
@@ -111,6 +131,18 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
         result.setFinRequirementCategoryList(this.getFinRequirementCategoryList(0, 10));
         result.setTechRequirementCategoryList(this.getTechRequirementCategoryList(0, 10));
         result.setPrdRequirementCategoryList(this.getPrdRequirementCategoryList(0, 10));
+
+        //返回资源库
+        result.setFinResourceCategories(this.getFinResourceCategoryList(0, 5));
+        result.setFinResourceList(this.getFinResourceList(0, 5));
+        result.setExpertResourceList(this.getExpertList(0, 5));
+        result.setProdResourceCategories(this.getProdResourceCategoryList(0, 5));
+        result.setProdResourceList(this.getProdResourceList(0, 5));
+        result.setProjectResourceCategories(this.getProjectResourceCategoryList(0, 5));
+        result.setProjectResourceList(this.getProjectResourceList(0, 5));
+        result.setTechResourceCategories(this.getTechResourceCategoryList(0, 5));
+        result.setTechResourceList(this.getTechResourceList(0, 5));
+
         // 获取人气推荐
         //result.setHotProductList(this.getHotProductList(0, 4));
         // 获取推荐专题
@@ -198,9 +230,9 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     }
 
     @Override
-    public List<CmsExpert> getExpertList(int pageNum, int pageSize) {
-        CmsExpert cmsExpert = new CmsExpert();
-        return expertService.list(new QueryWrapper<>(cmsExpert));
+    public List<ResExpert> getExpertList(int pageNum, int pageSize) {
+        ResExpert resExpert = new ResExpert();
+        return expertService.list(new QueryWrapper<>(resExpert));
     }
 
     @Override
@@ -225,6 +257,54 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     public List<FinRequirementCategory> getFinRequirementCategoryList(int pageNum, int pageSize) {
         FinRequirementCategory finRequirementCategory = new FinRequirementCategory();
         return finRequirementCategoryService.list(new QueryWrapper<>(finRequirementCategory));
+    }
+
+    @Override
+    public List<ResFinanceCategory> getFinResourceCategoryList(int pageNum, int pageSize) {
+        ResFinanceCategory resFinanceCategory = new ResFinanceCategory();
+        return resFinanceCategoryService.list(new QueryWrapper<>(resFinanceCategory));
+    }
+
+    @Override
+    public List<ResFinance> getFinResourceList(int pageNum, int pageSize) {
+        ResFinance resFinance = new ResFinance();
+        return resFinanceService.list(new QueryWrapper<>(resFinance));
+    }
+
+    @Override
+    public List<ResTechnicalCategory> getTechResourceCategoryList(int pageNum, int pageSize) {
+        ResTechnicalCategory resTechnicalCategory = new ResTechnicalCategory();
+        return resTechnicalCategoryService.list(new QueryWrapper<>(resTechnicalCategory));
+    }
+
+    @Override
+    public List<ResTechnical> getTechResourceList(int pageNum, int pageSize) {
+        ResTechnical resTechnical = new ResTechnical();
+        return resTechnicalService.list(new QueryWrapper<>(resTechnical));
+    }
+
+    @Override
+    public List<ResProductCategory> getProdResourceCategoryList(int pageNum, int pageSize) {
+        ResProductCategory resProductCategory = new ResProductCategory();
+        return resProductCategoryService.list(new QueryWrapper<>(resProductCategory));
+    }
+
+    @Override
+    public List<ResProduct> getProdResourceList(int pageNum, int pageSize) {
+        ResProduct resProduct = new ResProduct();
+        return resProductService.list(new QueryWrapper<>(resProduct));
+    }
+
+    @Override
+    public List<ResProjCategory> getProjectResourceCategoryList(int pageNum, int pageSize) {
+        ResProjCategory resProjCategory = new ResProjCategory();
+        return resProjCategoryService.list(new QueryWrapper<>(resProjCategory));
+    }
+
+    @Override
+    public List<ResProjProduction> getProjectResourceList(int pageNum, int pageSize) {
+        ResProjProduction resProjProduction = new ResProjProduction();
+        return resProjProductionService.list(new QueryWrapper<>(resProjProduction));
     }
 
 }

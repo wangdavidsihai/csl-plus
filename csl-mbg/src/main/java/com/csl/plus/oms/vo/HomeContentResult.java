@@ -1,12 +1,12 @@
 package com.csl.plus.oms.vo;
 
 import com.csl.plus.cms.entity.CmsArticle;
-import com.csl.plus.cms.entity.CmsExpert;
 import com.csl.plus.cms.entity.CmsNotice;
 import com.csl.plus.marking.entity.SmsHomeAdvertise;
 import com.csl.plus.pms.entity.PmsBrand;
 import com.csl.plus.pms.entity.PmsProduct;
 import com.csl.plus.pms.entity.PmsProductCategory;
+import com.csl.plus.res.entity.*;
 import com.csl.plus.rms.entity.FinRequirementCategory;
 import com.csl.plus.rms.entity.PrdRequirementCategory;
 import com.csl.plus.rms.entity.TechRequirementCategory;
@@ -25,7 +25,6 @@ public class HomeContentResult {
     private List<SmsHomeAdvertise> advertiseList;
     private List<CmsArticle> cmsArticleList;
     private List<CmsNotice> cmsNoticeList;
-    private List<CmsExpert> cmsExpertList;
     // 推荐品牌
     private List<PmsBrand> brandList;
     // 当前秒杀场次
@@ -35,6 +34,7 @@ public class HomeContentResult {
     // 人气推荐
     //private List<PmsProduct> hotProductList;
 
+
     private List<PmsProductCategory> pmsProductCategoryList;
 
     private List<PrdRequirementCategory> prdRequirementCategoryList;
@@ -42,8 +42,17 @@ public class HomeContentResult {
     private List<TechRequirementCategory> techRequirementCategoryList;
 
     private List<FinRequirementCategory> finRequirementCategoryList;
-//	// 推荐专题
-//	private List<CmsSubject> subjectList;
 
-    //private List<PmsProductAttributeCategory> cat_list;
+    //Resources start
+
+    private List<ResFinanceCategory> finResourceCategories;
+    private List<ResFinance> finResourceList;
+    private List<ResTechnicalCategory> techResourceCategories;
+    private List<ResTechnical> techResourceList;
+    private List<ResProductCategory> prodResourceCategories;
+    private List<ResProduct> prodResourceList;
+    private List<ResProjCategory> projectResourceCategories;
+    private List<ResProjProduction> projectResourceList;
+    private List<ResExpert> expertResourceList;
+    //Resources end
 }

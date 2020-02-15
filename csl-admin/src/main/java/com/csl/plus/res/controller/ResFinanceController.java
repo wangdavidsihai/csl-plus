@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.controller;
+package com.csl.plus.res.controller;
 
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.utils.CommonResult;
@@ -19,24 +19,24 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 
-import ${package}.${moduleName}.entity.${className};
-import ${package}.${moduleName}.service.I${className}Service;
+import com.csl.plus.res.entity.ResFinance;
+import com.csl.plus.res.service.IResFinanceService;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * ${comments}
+ * 金融需求表
  *
- * @author ${author}
- * @email ${email}
- * @date ${datetime}
+ * @author David
+ * @email 
+ * @date 2020-02-15 22:12:07
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/${className}Controller", description = "${comments}管理")
-@RequestMapping("${moduleName}/${pathName}")
-public class ${className}Controller {
+@Api(tags = "/api/ResFinanceController", description = "金融需求表管理")
+@RequestMapping("res/resfinance")
+public class ResFinanceController {
     @Autowired
-    private I${className}Service ${classname}Service;
+    private IResFinanceService resFinanceService;
 
     /**
      * 列表
@@ -44,14 +44,14 @@ public class ${className}Controller {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('${moduleName}:${pathName}:list')")
-    public Object get${className}ByPage(${className} entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    @PreAuthorize("hasAuthority('res:resfinance:list')")
+    public Object getResFinanceByPage(ResFinance entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
         try {
 			return new CommonResult()
-					.success(${classname}Service.page(new Page<${className}>(pageNum, pageSize), new QueryWrapper<>(entity)));
+					.success(resFinanceService.page(new Page<ResFinance>(pageNum, pageSize), new QueryWrapper<>(entity)));
 		} catch (Exception e) {
-			log.error("根据条件查询所有${comments}列表：%s", e.getMessage(), e);
+			log.error("根据条件查询所有金融需求表列表：%s", e.getMessage(), e);
 		}
 		return new CommonResult().failed();
     }
@@ -61,26 +61,26 @@ public class ${className}Controller {
      * 信息
      */
      /**
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询${comments}列表")
-    @ApiOperation("根据条件查询${comments}列表") 
-    @GetMapping("/info/{${pk.attrname}}")
-    @PreAuthorize("hasAuthority('${moduleName}:${pathName}:info')")
-    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-		${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
+    @SysLog(MODULE = "cms", REMARK = "根据条件查询金融需求表列表")
+    @ApiOperation("根据条件查询金融需求表列表") 
+    @GetMapping("/info/{id}")
+    @PreAuthorize("hasAuthority('res:resfinance:info')")
+    public R info(@PathVariable("id") Long id){
+		ResFinanceEntity resFinance = resFinanceService.getById(id);
 
-        return R.ok().put("${classname}", ${classname});
+        return R.ok().put("resFinance", resFinance);
     }
 	*/
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存${comments}")
-    @ApiOperation("保存${comments}")
+    @SysLog(MODULE = "cms", REMARK = "保存金融需求表")
+    @ApiOperation("保存金融需求表")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('${moduleName}:${pathName}:save')")
-    public Object save(@RequestBody ${className} entity){
+    @PreAuthorize("hasAuthority('res:resfinance:save')")
+    public Object save(@RequestBody ResFinance entity){
 		try {
-			if (${classname}Service.saves(entity)) {
+			if (resFinanceService.saves(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -93,13 +93,13 @@ public class ${className}Controller {
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改${comments}")
-    @ApiOperation("修改${comments}")
+    @SysLog(MODULE = "cms", REMARK = "修改金融需求表")
+    @ApiOperation("修改金融需求表")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('${moduleName}:${pathName}:update')")
-    public Object update(@RequestBody ${className} entity){
+    @PreAuthorize("hasAuthority('res:resfinance:update')")
+    public Object update(@RequestBody ResFinance entity){
 		try {
-			if (${classname}Service.updateById(entity)) {
+			if (resFinanceService.updateById(entity)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -112,16 +112,16 @@ public class ${className}Controller {
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除${comments}")
-    @ApiOperation("删除${comments}")
+    @SysLog(MODULE = "cms", REMARK = "删除金融需求表")
+    @ApiOperation("删除金融需求表")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('${moduleName}:${pathName}:delete')")
+    @PreAuthorize("hasAuthority('res:resfinance:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id){
 		try {
 			if (ValidatorUtils.empty(id)) {
 				return new CommonResult().paramFailed("帮助表id");
 			}
-			if (${classname}Service.removeById(id)) {
+			if (resFinanceService.removeById(id)) {
 				return new CommonResult().success();
 			}
 		} catch (Exception e) {
@@ -131,19 +131,19 @@ public class ${className}Controller {
 		return new CommonResult().failed();
     }
 
-	@SysLog(MODULE = "cms", REMARK = "查询${comments}明细")
-	@ApiOperation("查询${comments}明细")
+	@SysLog(MODULE = "cms", REMARK = "查询金融需求表明细")
+	@ApiOperation("查询金融需求表明细")
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('${moduleName}:${pathName}:read')")
-	public Object get${className}ById(@ApiParam("id") @PathVariable Long id) {
+	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+	public Object getResFinanceById(@ApiParam("新闻表id") @PathVariable Long id) {
 		try {
 			if (ValidatorUtils.empty(id)) {
-				return new CommonResult().paramFailed("${comments}id");
+				return new CommonResult().paramFailed("金融需求表id");
 			}
-			${className} object = ${classname}Service.getById(id);
+			ResFinance object = resFinanceService.getById(id);
 			return new CommonResult().success(object);
 		} catch (Exception e) {
-			log.error("查询${comments}明细：%s", e.getMessage(), e);
+			log.error("查询金融需求表明细：%s", e.getMessage(), e);
 			return new CommonResult().failed();
 		}
 	}
