@@ -1,15 +1,5 @@
 package com.csl.plus.portal.single;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.csl.plus.marking.entity.SmsHomeAdvertise;
 import com.csl.plus.oms.vo.HomeContentResult;
@@ -22,9 +12,13 @@ import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
 import com.csl.plus.portal.util.JsonUtil;
 import com.csl.plus.utils.CommonResult;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 首页内容管理Controller
@@ -34,54 +28,54 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/single/home")
 public class SingleHomeController extends ApiBaseAction {
 
-	@Value("${jwt.tokenHeader}")
-	private String tokenHeader;
-	@Value("${jwt.tokenHead}")
-	private String tokenHead;
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
-	@Autowired
-	private RedisService redisService;
-	@Autowired
-	private IUmsMemberService memberService;
-	@Autowired
-	private ISmsHomeAdvertiseService advertiseService;
-	@Autowired
-	private IOmsOrderService orderService;
+    @Autowired
+    private RedisService redisService;
+    @Autowired
+    private IUmsMemberService memberService;
+    @Autowired
+    private ISmsHomeAdvertiseService advertiseService;
+    @Autowired
+    private IOmsOrderService orderService;
 
-	@IgnoreAuth
-	@ApiOperation("首页内容页信息展示：首页广告，//推荐品牌，//新品推荐，//推荐专题")
-	@SysLog(MODULE = "home", REMARK = "首页内容页信息展示")
-	@RequestMapping(value = "/content", method = RequestMethod.GET)
-	public Object content() {
-		HomeContentResult contentResult = advertiseService.singelContent();
-		return new CommonResult().success(contentResult);
-	}
+    @IgnoreAuth
+    @ApiOperation("首页内容页信息展示：首页广告，//推荐品牌，//新品推荐，//推荐专题")
+    @SysLog(MODULE = "home", REMARK = "首页内容页信息展示")
+    @RequestMapping(value = "/content", method = RequestMethod.GET)
+    public Object content() {
+        HomeContentResult contentResult = advertiseService.singelContent();
+        return new CommonResult().success(contentResult);
+    }
 
-	/**
-	 * banner
-	 *
-	 * @return
-	 */
-	@IgnoreAuth
-	@ApiOperation("首页广告")
-	@SysLog(MODULE = "home", REMARK = "首页广告")
-	@GetMapping(value = "/bannerList")
-	public Object bannerList(@RequestParam(value = "type", required = false, defaultValue = "10") Integer type) {
-		List<SmsHomeAdvertise> bannerList = null;
-		String bannerJson = redisService.get(RedisKey.appletBannerKey + type);
-		if (bannerJson != null && bannerJson != "[]") {
-			bannerList = JsonUtil.jsonToList(bannerJson, SmsHomeAdvertise.class);
-		} else {
-			SmsHomeAdvertise advertise = new SmsHomeAdvertise();
-			advertise.setType(type);
-			bannerList = advertiseService.list(new QueryWrapper<>(advertise));
-			redisService.set(RedisKey.appletBannerKey + type, JsonUtil.objectToJson(bannerList));
-			redisService.expire(RedisKey.appletBannerKey + type, 24 * 60 * 60);
-		}
-		// List<SmsHomeAdvertise> bannerList = advertiseService.list(null, type, null,
-		// 5, 1);
-		return new CommonResult().success(bannerList);
-	}
+    /**
+     * banner
+     *
+     * @return
+     */
+    @IgnoreAuth
+    @ApiOperation("首页广告")
+    @SysLog(MODULE = "home", REMARK = "首页广告")
+    @GetMapping(value = "/bannerList")
+    public Object bannerList(@RequestParam(value = "type", required = false, defaultValue = "10") Integer type) {
+        List<SmsHomeAdvertise> bannerList = null;
+        String bannerJson = redisService.get(RedisKey.appletBannerKey + type);
+        if (bannerJson != null && bannerJson != "[]") {
+            bannerList = JsonUtil.jsonToList(bannerJson, SmsHomeAdvertise.class);
+        } else {
+            SmsHomeAdvertise advertise = new SmsHomeAdvertise();
+            advertise.setType(type);
+            bannerList = advertiseService.list(new QueryWrapper<>(advertise));
+            redisService.set(RedisKey.appletBannerKey + type, JsonUtil.objectToJson(bannerList));
+            redisService.expire(RedisKey.appletBannerKey + type, 24 * 60 * 60);
+        }
+        // List<SmsHomeAdvertise> bannerList = advertiseService.list(null, type, null,
+        // 5, 1);
+        return new CommonResult().success(bannerList);
+    }
 
 //	@IgnoreAuth
 //	@ApiOperation(value = "登录以后返回token")

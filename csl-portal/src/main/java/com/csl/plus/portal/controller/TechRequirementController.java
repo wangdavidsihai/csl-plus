@@ -35,7 +35,7 @@ public class TechRequirementController {
      */
     @SysLog(MODULE = "rms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
-    @RequestMapping("/list")
+    @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('rms:techrequirement:list')")
     public Object getTechRequirementByPage(TechRequirement entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
@@ -53,7 +53,7 @@ public class TechRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据CatId查询列表")
-    @RequestMapping("/{catid}/list")
+    @GetMapping("/{catid}/list")
     public Object getTechRequirementByCatId(TechRequirement entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
@@ -84,7 +84,7 @@ public class TechRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "保存需求表")
     @ApiOperation("保存需求表")
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @PreAuthorize("hasAuthority('rms:techrequirement:save')")
     public Object save(@RequestBody TechRequirement entity) {
         try {
@@ -103,7 +103,7 @@ public class TechRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "修改需求表")
     @ApiOperation("修改需求表")
-    @RequestMapping("/update")
+    @PostMapping("/update")
     @PreAuthorize("hasAuthority('rms:techrequirement:update')")
     public Object update(@RequestBody TechRequirement entity) {
         try {
@@ -122,7 +122,7 @@ public class TechRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "删除需求表")
     @ApiOperation("删除需求表")
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('rms:techrequirement:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {

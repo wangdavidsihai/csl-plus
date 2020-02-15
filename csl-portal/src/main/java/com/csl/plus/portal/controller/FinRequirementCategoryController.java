@@ -6,7 +6,6 @@ import com.csl.plus.annotation.SysLog;
 import com.csl.plus.portal.rms.service.IFinRequirementCategoryService;
 import com.csl.plus.rms.entity.FinRequirementCategory;
 import com.csl.plus.utils.CommonResult;
-
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * 金融类别表
  *
  * @author David
- * @email 
+ * @email
  * @date 2020-01-30 16:15:33
  */
 @Slf4j
@@ -36,51 +35,50 @@ public class FinRequirementCategoryController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
-    @RequestMapping("/list")
+    @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('rms:finrequirementcategory:list')")
     public Object getFinRequirementCategoryByPage(FinRequirementCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize){
+                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-			return new CommonResult()
-					.success(finRequirementCategoryService.page(new Page<FinRequirementCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
-		} catch (Exception e) {
-			log.error("根据条件查询所有金融类别表列表：%s", e.getMessage(), e);
-		}
-		return new CommonResult().failed();
+            return new CommonResult()
+                    .success(finRequirementCategoryService.page(new Page<FinRequirementCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
+        } catch (Exception e) {
+            log.error("根据条件查询所有金融类别表列表：%s", e.getMessage(), e);
+        }
+        return new CommonResult().failed();
     }
 
 
     /**
      * 信息
      */
-     /**
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询金融类别表列表")
-    @ApiOperation("根据条件查询金融类别表列表") 
-    @RequestMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('rms:finrequirementcategory:info')")
-    public R info(@PathVariable("id") Long id){
-		FinRequirementCategoryEntity finRequirementCategory = finRequirementCategoryService.getById(id);
+    /**
+     @SysLog(MODULE = "cms", REMARK = "根据条件查询金融类别表列表")
+     @ApiOperation("根据条件查询金融类别表列表")
+     @RequestMapping("/info/{id}")
+     @PreAuthorize("hasAuthority('rms:finrequirementcategory:info')") public R info(@PathVariable("id") Long id){
+     FinRequirementCategoryEntity finRequirementCategory = finRequirementCategoryService.getById(id);
 
-        return R.ok().put("finRequirementCategory", finRequirementCategory);
-    }
-	*/
+     return R.ok().put("finRequirementCategory", finRequirementCategory);
+     }
+     */
     /**
      * 保存
      */
     @SysLog(MODULE = "cms", REMARK = "保存金融类别表")
     @ApiOperation("保存金融类别表")
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @PreAuthorize("hasAuthority('rms:finrequirementcategory:save')")
-    public Object save(@RequestBody FinRequirementCategory entity){
-		try {
-			if (finRequirementCategoryService.saves(entity)) {
-				return new CommonResult().success();
-			}
-		} catch (Exception e) {
-			log.error("保存帮助表：%s", e.getMessage(), e);
-			return new CommonResult().failed();
-		}
-		return new CommonResult().failed();
+    public Object save(@RequestBody FinRequirementCategory entity) {
+        try {
+            if (finRequirementCategoryService.saves(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("保存帮助表：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
     }
 
     /**
@@ -88,18 +86,18 @@ public class FinRequirementCategoryController {
      */
     @SysLog(MODULE = "cms", REMARK = "修改金融类别表")
     @ApiOperation("修改金融类别表")
-    @RequestMapping("/update")
+    @PostMapping("/update")
     @PreAuthorize("hasAuthority('rms:finrequirementcategory:update')")
-    public Object update(@RequestBody FinRequirementCategory entity){
-		try {
-			if (finRequirementCategoryService.updateById(entity)) {
-				return new CommonResult().success();
-			}
-		} catch (Exception e) {
-			log.error("更新帮助表：%s", e.getMessage(), e);
-			return new CommonResult().failed();
-		}
-		return new CommonResult().failed();
+    public Object update(@RequestBody FinRequirementCategory entity) {
+        try {
+            if (finRequirementCategoryService.updateById(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("更新帮助表：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
     }
 
     /**
@@ -107,37 +105,37 @@ public class FinRequirementCategoryController {
      */
     @SysLog(MODULE = "cms", REMARK = "删除金融类别表")
     @ApiOperation("删除金融类别表")
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('rms:finrequirementcategory:delete')")
-    public Object delete(@ApiParam("id") @PathVariable Long id){
-		try {
-			if (ValidatorUtils.empty(id)) {
-				return new CommonResult().paramFailed("帮助表id");
-			}
-			if (finRequirementCategoryService.removeById(id)) {
-				return new CommonResult().success();
-			}
-		} catch (Exception e) {
-			log.error("删除帮助表：%s", e.getMessage(), e);
-			return new CommonResult().failed();
-		}
-		return new CommonResult().failed();
+    public Object delete(@ApiParam("id") @PathVariable Long id) {
+        try {
+            if (ValidatorUtils.empty(id)) {
+                return new CommonResult().paramFailed("帮助表id");
+            }
+            if (finRequirementCategoryService.removeById(id)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("删除帮助表：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
     }
 
-	@SysLog(MODULE = "cms", REMARK = "查询金融类别表明细")
-	@ApiOperation("查询金融类别表明细")
-	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
-	public Object getFinRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
-		try {
-			if (ValidatorUtils.empty(id)) {
-				return new CommonResult().paramFailed("金融类别表id");
-			}
-			FinRequirementCategory object = finRequirementCategoryService.getById(id);
-			return new CommonResult().success(object);
-		} catch (Exception e) {
-			log.error("查询金融类别表明细：%s", e.getMessage(), e);
-			return new CommonResult().failed();
-		}
-	}
+    @SysLog(MODULE = "cms", REMARK = "查询金融类别表明细")
+    @ApiOperation("查询金融类别表明细")
+    @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    public Object getFinRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
+        try {
+            if (ValidatorUtils.empty(id)) {
+                return new CommonResult().paramFailed("金融类别表id");
+            }
+            FinRequirementCategory object = finRequirementCategoryService.getById(id);
+            return new CommonResult().success(object);
+        } catch (Exception e) {
+            log.error("查询金融类别表明细：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+    }
 }

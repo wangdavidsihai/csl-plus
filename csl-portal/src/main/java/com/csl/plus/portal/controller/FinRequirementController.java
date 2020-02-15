@@ -35,7 +35,7 @@ public class FinRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
-    @RequestMapping("/list")
+    @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('rms:finrequirement:list')")
     public Object getFinRequirementByPage(FinRequirement entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
@@ -53,7 +53,7 @@ public class FinRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据CatId查询列表")
-    @RequestMapping("/{catid}/list")
+    @GetMapping("/{catid}/list")
     public Object getFinRequirementByCatId(FinRequirement entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
@@ -85,7 +85,7 @@ public class FinRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "保存金融需求表")
     @ApiOperation("保存金融需求表")
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @PreAuthorize("hasAuthority('rms:finrequirement:save')")
     public Object save(@RequestBody FinRequirement entity) {
         try {
@@ -104,7 +104,7 @@ public class FinRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "修改金融需求表")
     @ApiOperation("修改金融需求表")
-    @RequestMapping("/update")
+    @PostMapping("/update")
     @PreAuthorize("hasAuthority('rms:finrequirement:update')")
     public Object update(@RequestBody FinRequirement entity) {
         try {
@@ -123,7 +123,7 @@ public class FinRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "删除金融需求表")
     @ApiOperation("删除金融需求表")
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('rms:finrequirement:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {

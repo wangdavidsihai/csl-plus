@@ -31,7 +31,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "SingleCmsController", description = "内容关系管理")
-//@RequestMapping("/api/single/cms")
+@RequestMapping("/api/single/cms")
 public class SingleCmsController extends ApiBaseAction {
 
     @Resource

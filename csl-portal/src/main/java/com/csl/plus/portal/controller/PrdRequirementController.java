@@ -35,7 +35,7 @@ public class PrdRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
-    @RequestMapping("/list")
+    @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('rms:prdrequirement:list')")
     public Object getPrdRequirementByPage(PrdRequirement entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
@@ -53,7 +53,7 @@ public class PrdRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据CatId查询列表")
-    @RequestMapping("/{catid}/list")
+    @GetMapping("/{catid}/list")
 //    @PreAuthorize("hasAuthority('rms:prdrequirement:list')")
     public Object getPrdRequirementByCatId(PrdRequirement entity, @ApiParam("Category id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
@@ -86,7 +86,7 @@ public class PrdRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "保存需求表")
     @ApiOperation("保存需求表")
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @PreAuthorize("hasAuthority('rms:prdrequirement:save')")
     public Object save(@RequestBody PrdRequirement entity) {
         try {
@@ -105,7 +105,7 @@ public class PrdRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "修改需求表")
     @ApiOperation("修改需求表")
-    @RequestMapping("/update")
+    @PostMapping("/update")
     @PreAuthorize("hasAuthority('rms:prdrequirement:update')")
     public Object update(@RequestBody PrdRequirement entity) {
         try {
@@ -124,7 +124,7 @@ public class PrdRequirementController {
      */
     @SysLog(MODULE = "cms", REMARK = "删除需求表")
     @ApiOperation("删除需求表")
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('rms:prdrequirement:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {

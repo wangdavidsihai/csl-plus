@@ -81,7 +81,7 @@ public class UmsMemberController extends ApiBaseAction {
      * @return
      */
     @ApiIgnore
-    @RequestMapping(value = "submitFormId")
+    @PostMapping(value = "submitFormId")
     @ApiOperation(value = "提交小程序推送formid")
     @ResponseBody
     public Object submitFormId(HttpServletRequest request, HttpServletResponse response, String formId,
