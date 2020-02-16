@@ -23,6 +23,7 @@ import java.util.Map;
 /**
  * 会员登录注册管理Controller
  */
+@ApiIgnore
 @Controller
 @Api(tags = "UmsMemberController", description = "会员自助管理")
 @RequestMapping("/api/member")
