@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 技术应用领域表
@@ -22,10 +23,11 @@ import org.springframework.web.bind.annotation.*;
  * @email
  * @date 2020-02-15 22:12:07
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "/api/ResTechnicalAppAreaController", description = "技术应用领域表管理")
-@RequestMapping("res/restechnicalapparea")
+@RequestMapping("/api/res/restechnicalapparea")
 public class ResTechnicalAppAreaController {
     @Autowired
     private IResTechnicalAppAreaService resTechnicalAppAreaService;

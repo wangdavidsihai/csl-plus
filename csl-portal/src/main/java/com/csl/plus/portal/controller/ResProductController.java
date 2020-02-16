@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(tags = "/api/ResProductController", description = "需求表管理")
-@RequestMapping("res/resproduct")
+@RequestMapping("/api/res/resproduct")
 public class ResProductController {
     @Autowired
     private IResProductService resProductService;
@@ -137,5 +137,24 @@ public class ResProductController {
             log.error("查询需求表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
+    }
+
+    /**
+     * 列表
+     */
+    @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
+    @ApiOperation("根据CatId查询列表")
+    @GetMapping("/{catid}/list")
+    public Object getResProductByCatId(ResProduct entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+        try {
+            entity = new ResProduct();
+            entity.setCategoryId(catid);
+            return new CommonResult()
+                    .success(resProductService.page(new Page<ResProduct>(pageNum, pageSize), new QueryWrapper<>(entity)));
+        } catch (Exception e) {
+            log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
+        }
+        return new CommonResult().failed();
     }
 }

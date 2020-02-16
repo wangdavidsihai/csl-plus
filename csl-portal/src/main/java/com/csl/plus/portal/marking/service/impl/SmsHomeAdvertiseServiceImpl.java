@@ -20,15 +20,11 @@ import com.csl.plus.portal.pms.service.IPmsProductAttributeCategoryService;
 import com.csl.plus.portal.pms.service.IPmsProductCategoryService;
 import com.csl.plus.portal.pms.service.IPmsProductService;
 import com.csl.plus.portal.res.service.*;
-import com.csl.plus.portal.rms.service.IFinRequirementCategoryService;
-import com.csl.plus.portal.rms.service.IPrdRequirementCategoryService;
-import com.csl.plus.portal.rms.service.ITechRequirementCategoryService;
+import com.csl.plus.portal.rms.service.*;
 import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.res.entity.*;
-import com.csl.plus.rms.entity.FinRequirementCategory;
-import com.csl.plus.rms.entity.PrdRequirementCategory;
-import com.csl.plus.rms.entity.TechRequirementCategory;
+import com.csl.plus.rms.entity.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,9 +87,15 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     @Resource
     private IPrdRequirementCategoryService prdRequirementCategoryService;
     @Resource
+    private IPrdRequirementService prdRequirementService;
+    @Resource
     private ITechRequirementCategoryService techRequirementCategoryService;
     @Resource
+    private ITechRequirementService techRequirementService;
+    @Resource
     private IFinRequirementCategoryService finRequirementCategoryService;
+    @Resource
+    private IFinRequirementService finRequirementService;
 
     @Resource
     private IResFinanceCategoryService resFinanceCategoryService;
@@ -128,9 +130,12 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
         // 获取新品推荐
         result.setNewProductList(this.getNewProductList(0, 4));
         result.setPmsProductCategoryList(this.getPmsProductCategoryList(0, 10));
-        result.setFinRequirementCategoryList(this.getFinRequirementCategoryList(0, 10));
-        result.setTechRequirementCategoryList(this.getTechRequirementCategoryList(0, 10));
-        result.setPrdRequirementCategoryList(this.getPrdRequirementCategoryList(0, 10));
+        result.setPrdRequirementCategories(this.getPrdRequirementCategoryList(0, 5));
+        result.setPrdRequirementLis(this.getPrdRequirementList(0, 5));
+        result.setTechRequirementCategories(this.getTechRequirementCategoryList(0, 10));
+        result.setTechRequirementList(this.getTechRequirementList(0, 5));
+        result.setFinRequirementCategories(this.getFinRequirementCategoryList(0, 10));
+        result.setFinRequirementList(this.getFinRequirementList(0, 5));
 
         //返回资源库
         result.setFinResourceCategories(this.getFinResourceCategoryList(0, 5));
@@ -248,15 +253,33 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     }
 
     @Override
+    public List<PrdRequirement> getPrdRequirementList(int pageNum, int pageSize) {
+        PrdRequirement prdRequirement = new PrdRequirement();
+        return prdRequirementService.list(new QueryWrapper<>(prdRequirement));
+    }
+
+    @Override
     public List<TechRequirementCategory> getTechRequirementCategoryList(int pageNum, int pageSize) {
         TechRequirementCategory techRequirementCategory = new TechRequirementCategory();
         return techRequirementCategoryService.list(new QueryWrapper<>(techRequirementCategory));
     }
 
     @Override
+    public List<TechRequirement> getTechRequirementList(int pageNum, int pageSize) {
+        TechRequirement techRequirement = new TechRequirement();
+        return techRequirementService.list(new QueryWrapper<>(techRequirement));
+    }
+
+    @Override
     public List<FinRequirementCategory> getFinRequirementCategoryList(int pageNum, int pageSize) {
         FinRequirementCategory finRequirementCategory = new FinRequirementCategory();
         return finRequirementCategoryService.list(new QueryWrapper<>(finRequirementCategory));
+    }
+
+    @Override
+    public List<FinRequirement> getFinRequirementList(int pageNum, int pageSize) {
+        FinRequirement finRequirement = new FinRequirement();
+        return finRequirementService.list(new QueryWrapper<>(finRequirement));
     }
 
     @Override

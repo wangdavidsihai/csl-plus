@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(tags = "/api/ResFinanceCategoryController", description = "金融类别表管理")
-@RequestMapping("res/resfinancecategory")
+@RequestMapping("/api/res/resfinancecategory")
 public class ResFinanceCategoryController {
     @Autowired
     private IResFinanceCategoryService resFinanceCategoryService;

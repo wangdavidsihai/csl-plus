@@ -7,9 +7,7 @@ import com.csl.plus.pms.entity.PmsBrand;
 import com.csl.plus.pms.entity.PmsProduct;
 import com.csl.plus.pms.entity.PmsProductCategory;
 import com.csl.plus.res.entity.*;
-import com.csl.plus.rms.entity.FinRequirementCategory;
-import com.csl.plus.rms.entity.PrdRequirementCategory;
-import com.csl.plus.rms.entity.TechRequirementCategory;
+import com.csl.plus.rms.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,11 +35,12 @@ public class HomeContentResult {
 
     private List<PmsProductCategory> pmsProductCategoryList;
 
-    private List<PrdRequirementCategory> prdRequirementCategoryList;
-
-    private List<TechRequirementCategory> techRequirementCategoryList;
-
-    private List<FinRequirementCategory> finRequirementCategoryList;
+    private List<PrdRequirementCategory> prdRequirementCategories;
+    private List<PrdRequirement> prdRequirementLis;
+    private List<TechRequirementCategory> techRequirementCategories;
+    private List<TechRequirement> techRequirementList;
+    private List<FinRequirementCategory> finRequirementCategories;
+    private List<FinRequirement> finRequirementList;
 
     //Resources start
 
@@ -54,5 +53,7 @@ public class HomeContentResult {
     private List<ResProjCategory> projectResourceCategories;
     private List<ResProjProduction> projectResourceList;
     private List<ResExpert> expertResourceList;
+
+
     //Resources end
 }

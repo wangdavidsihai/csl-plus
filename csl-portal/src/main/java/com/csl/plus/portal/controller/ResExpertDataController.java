@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(tags = "/api/ResExpertDataController", description = "专家表管理")
-@RequestMapping("res/resexpertdata")
+@RequestMapping("/api/res/resexpertdata")
 public class ResExpertDataController {
     @Autowired
     private IResExpertDataService resExpertDataService;

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/ResFinanceController", description = "金融需求表管理")
-@RequestMapping("res/resfinance")
+@Api(tags = "/api/ResFinanceController", description = "金融资源表管理")
+@RequestMapping("/api/res/resfinance")
 public class ResFinanceController {
     @Autowired
     private IResFinanceService resFinanceService;
@@ -33,7 +33,7 @@ public class ResFinanceController {
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+    @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('res:resfinance:list')")
@@ -43,7 +43,7 @@ public class ResFinanceController {
             return new CommonResult()
                     .success(resFinanceService.page(new Page<ResFinance>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
-            log.error("根据条件查询所有金融需求表列表：%s", e.getMessage(), e);
+            log.error("根据条件查询所有金融资源表列表：%s", e.getMessage(), e);
         }
         return new CommonResult().failed();
     }
@@ -65,8 +65,8 @@ public class ResFinanceController {
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存金融需求表")
-    @ApiOperation("保存金融需求表")
+    @SysLog(MODULE = "res", REMARK = "保存金融资源表")
+    @ApiOperation("保存金融资源表")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('res:resfinance:save')")
     public Object save(@RequestBody ResFinance entity) {
@@ -75,7 +75,7 @@ public class ResFinanceController {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("保存帮助表：%s", e.getMessage(), e);
+            log.error("保存金融资源：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -84,8 +84,8 @@ public class ResFinanceController {
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改金融需求表")
-    @ApiOperation("修改金融需求表")
+    @SysLog(MODULE = "res", REMARK = "修改金融资源表")
+    @ApiOperation("修改金融资源表")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('res:resfinance:update')")
     public Object update(@RequestBody ResFinance entity) {
@@ -94,7 +94,7 @@ public class ResFinanceController {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("更新帮助表：%s", e.getMessage(), e);
+            log.error("更新金融资源表：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -103,39 +103,59 @@ public class ResFinanceController {
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除金融需求表")
-    @ApiOperation("删除金融需求表")
+    @SysLog(MODULE = "res", REMARK = "删除金融资源表")
+    @ApiOperation("删除金融资源表")
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('res:resfinance:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
-                return new CommonResult().paramFailed("帮助表id");
+                return new CommonResult().paramFailed("金融资源表id");
             }
             if (resFinanceService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("删除帮助表：%s", e.getMessage(), e);
+            log.error("删除金融资源表：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
     }
 
-    @SysLog(MODULE = "cms", REMARK = "查询金融需求表明细")
-    @ApiOperation("查询金融需求表明细")
+    @SysLog(MODULE = "res", REMARK = "查询金融资源表明细")
+    @ApiOperation("查询金融资源表明细")
     @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
     public Object getResFinanceById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
-                return new CommonResult().paramFailed("金融需求表id");
+                return new CommonResult().paramFailed("金融资源表id");
             }
             ResFinance object = resFinanceService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
-            log.error("查询金融需求表明细：%s", e.getMessage(), e);
+            log.error("查询金融资源表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
+    }
+
+
+    /**
+     * 列表
+     */
+    @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
+    @ApiOperation("根据CatId查询列表")
+    @GetMapping("/{catid}/list")
+    public Object getResFinanceByCatId(ResFinance entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+        try {
+            entity = new ResFinance();
+            entity.setCategoryId(catid);
+            return new CommonResult()
+                    .success(resFinanceService.page(new Page<ResFinance>(pageNum, pageSize), new QueryWrapper<>(entity)));
+        } catch (Exception e) {
+            log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
+        }
+        return new CommonResult().failed();
     }
 }

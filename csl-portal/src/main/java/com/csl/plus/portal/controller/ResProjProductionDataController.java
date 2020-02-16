@@ -1,7 +1,5 @@
 package com.csl.plus.portal.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.portal.res.service.IResProjProductionDataService;
 import com.csl.plus.res.entity.ResProjProductionData;
@@ -25,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(tags = "/api/ResProjProductionDataController", description = "项目表详细信息管理")
-@RequestMapping("res/resprojproductiondata")
+@RequestMapping("/api/res/resprojproductiondata")
 public class ResProjProductionDataController {
     @Autowired
     private IResProjProductionDataService resProjProductionDataService;
@@ -33,20 +31,20 @@ public class ResProjProductionDataController {
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
-    @ApiOperation("根据条件查询列表")
-    @GetMapping("/list")
-//    @PreAuthorize("hasAuthority('res:resprojproductiondata:list')")
-    public Object getResProjProductionDataByPage(ResProjProductionData entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
-        try {
-            return new CommonResult()
-                    .success(resProjProductionDataService.page(new Page<ResProjProductionData>(pageNum, pageSize), new QueryWrapper<>(entity)));
-        } catch (Exception e) {
-            log.error("根据条件查询所有项目表详细信息列表：%s", e.getMessage(), e);
-        }
-        return new CommonResult().failed();
-    }
+//    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+//    @ApiOperation("根据条件查询列表")
+//    @GetMapping("/list")
+////    @PreAuthorize("hasAuthority('res:resprojproductiondata:list')")
+//    public Object getResProjProductionDataByPage(ResProjProductionData entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+//                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+//        try {
+//            return new CommonResult()
+//                    .success(resProjProductionDataService.page(new Page<ResProjProductionData>(pageNum, pageSize), new QueryWrapper<>(entity)));
+//        } catch (Exception e) {
+//            log.error("根据条件查询所有项目表详细信息列表：%s", e.getMessage(), e);
+//        }
+//        return new CommonResult().failed();
+//    }
 
 
     /**

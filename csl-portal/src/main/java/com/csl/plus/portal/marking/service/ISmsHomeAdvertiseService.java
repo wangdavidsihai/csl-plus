@@ -10,9 +10,7 @@ import com.csl.plus.pms.entity.PmsBrand;
 import com.csl.plus.pms.entity.PmsProduct;
 import com.csl.plus.pms.entity.PmsProductCategory;
 import com.csl.plus.res.entity.*;
-import com.csl.plus.rms.entity.FinRequirementCategory;
-import com.csl.plus.rms.entity.PrdRequirementCategory;
-import com.csl.plus.rms.entity.TechRequirementCategory;
+import com.csl.plus.rms.entity.*;
 
 import java.util.List;
 
@@ -45,9 +43,15 @@ public interface ISmsHomeAdvertiseService extends IService<SmsHomeAdvertise> {
 
     List<PrdRequirementCategory> getPrdRequirementCategoryList(int pageNum, int pageSize);
 
+    List<PrdRequirement> getPrdRequirementList(int pageNum, int pageSize);
+
     List<TechRequirementCategory> getTechRequirementCategoryList(int pageNum, int pageSize);
 
+    List<TechRequirement> getTechRequirementList(int pageNum, int pageSize);
+
     List<FinRequirementCategory> getFinRequirementCategoryList(int pageNum, int pageSize);
+
+    List<FinRequirement> getFinRequirementList(int pageNum, int pageSize);
 
     List<ResFinanceCategory> getFinResourceCategoryList(int pageNum, int pageSize);
 

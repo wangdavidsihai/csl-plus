@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 技术应用领域表
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @email
  * @date 2020-01-30 10:58:45
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "/api/TechRequirementAppAreaController", description = "技术应用领域表管理")
