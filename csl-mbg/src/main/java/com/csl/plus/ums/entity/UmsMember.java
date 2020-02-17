@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -37,6 +37,7 @@ public class UmsMember implements Serializable {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 昵称
@@ -93,44 +94,27 @@ public class UmsMember implements Serializable {
     @TableField("source_type")
     private Integer sourceType;
 
-    /**
-     * 积分
-     */
-    private Integer integration;
-
-    /**
-     * 成长值
-     */
-    private Integer growth;
-
-    /**
-     * 剩余抽奖次数
-     */
-    @TableField("luckey_count")
-    private Integer luckeyCount;
-    /**
-     * 历史积分数量
-     */
-    @TableField("history_integration")
-    private Integer historyIntegration;
+//    /**
+//     * 积分
+//     */
+//    private Integer integration;
+//
+//    /**
+//     * 成长值
+//     */
+//    private Integer growth;
 
     private String avatar;
 
     @TableField("weixin_openid")
     private String weixinOpenid;
-
     /**
      * 邀请码
      */
+    @JsonIgnore
     private String invitecode;
-    /**
-     * 余额
-     */
-    private BigDecimal blance;
-
-    @TableField("school_id")
-    private Long schoolId;
     @TableField(exist = false)
+    @JsonIgnore
     private String confimpassword;
     // email
     private String email;

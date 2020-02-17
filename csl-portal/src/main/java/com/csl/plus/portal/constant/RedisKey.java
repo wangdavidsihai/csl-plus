@@ -13,4 +13,6 @@ public class RedisKey {
     public static String orderDetailResult = "orderDetailResult";
 
     public static String PmsProductConsult = "PmsProductConsult";
+
+    public static String PermisionListKey = "PermList:%s";
 }

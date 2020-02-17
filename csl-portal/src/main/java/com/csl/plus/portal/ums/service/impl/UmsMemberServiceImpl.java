@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.csl.plus.common.utils.CommonCodeConst;
 import com.csl.plus.exception.ApiMallPlusException;
 import com.csl.plus.portal.config.WxAppletProperties;
+import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
-import com.csl.plus.portal.util.CharUtil;
-import com.csl.plus.portal.util.CommonUtil;
-import com.csl.plus.portal.util.JsonUtils;
-import com.csl.plus.portal.util.JwtTokenUtil;
+import com.csl.plus.portal.util.*;
 import com.csl.plus.portal.vo.MemberDetails;
 import com.csl.plus.sys.mapper.SysAreaMapper;
 import com.csl.plus.ums.entity.UmsMember;
+import com.csl.plus.ums.entity.UmsMemberPermission;
 import com.csl.plus.ums.mapper.UmsMemberMapper;
 import com.csl.plus.ums.mapper.UmsMemberMemberTagRelationMapper;
+import com.csl.plus.ums.mapper.UmsMemberPermissionMapper;
 import com.csl.plus.utils.CommonResult;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -37,11 +37,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * <p>
@@ -79,6 +75,9 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     private String tokenHead;
     @Resource
     private UmsMemberMemberTagRelationMapper umsMemberMemberTagRelationMapper;
+
+    @Resource
+    private UmsMemberPermissionMapper umsMemberPermissionMapper;
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -210,7 +209,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     public void updateIntegration(Long id, Integer integration) {
         UmsMember record = new UmsMember();
         record.setId(id);
-        record.setIntegration(integration);
+//        record.setIntegration(integration);
         memberMapper.updateById(record);
     }
 
@@ -270,9 +269,9 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 umsMember.setPassword(passwordEncoder.encode("123456"));
                 umsMember.setCreateTime(new Date());
                 umsMember.setStatus(CommonCodeConst.STATUS_ACTIVE);
-                umsMember.setBlance(new BigDecimal(0));
-                umsMember.setIntegration(0);
-                umsMember.setHistoryIntegration(0);
+//                umsMember.setBlance(new BigDecimal(0));
+//                umsMember.setIntegration(0);
+//                umsMember.setHistoryIntegration(0);
                 umsMember.setWeixinOpenid(sessionData.getString("openid"));
                 if (StringUtils.isEmpty(me.get("avatarUrl").toString())) {
                     // 会员头像(默认头像)
@@ -314,8 +313,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         Map<String, Object> tokenMap = new HashMap<>();
         String token = null;
         // 密码需要客户端加密后传递
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-                passwordEncoder.encode(password));
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+//                passwordEncoder.encode(password));
         try {
             /*
              * Authentication authentication =
@@ -331,8 +330,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 throw new BadCredentialsException("密码不正确");
             }
             UmsMember member = this.getByUsername(username);
-            // Authentication authentication =
-            // authenticationManager.authenticate(authenticationToken);
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -340,7 +337,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
             tokenMap.put("userInfo", member);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
-
         }
 
         tokenMap.put("token", token);
@@ -377,6 +373,19 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     // 替换字符串
     public String getUserMessage(String access_token, String openid) {
         return String.format(wxAppletProperties.getUserMessage(), access_token, openid);
+    }
+
+    @Override
+    public List<UmsMemberPermission> listMemberPerms(Long id) {
+        if (!redisService.exists(String.format(RedisKey.PermisionListKey, id))) {
+            List<UmsMemberPermission> list = umsMemberPermissionMapper.getUmsMemberPerms(id);
+            String key = String.format(RedisKey.PermisionListKey, id);
+            redisService.set(key, JsonUtil.objectToJson(list));
+            return list;
+        } else {
+            return JsonUtil.jsonToList(redisService.get(String.format(RedisKey.PermisionListKey, id)), UmsMemberPermission.class);
+        }
+
     }
 
 }

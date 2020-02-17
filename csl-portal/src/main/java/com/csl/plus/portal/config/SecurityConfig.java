@@ -5,9 +5,10 @@ import com.csl.plus.portal.component.RestAuthenticationEntryPoint;
 import com.csl.plus.portal.component.RestfulAccessDeniedHandler;
 import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
-import com.csl.plus.portal.vo.MemberDetails;
+import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberLevel;
+import com.csl.plus.ums.entity.UmsMemberPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 /**
  * SpringSecurity的配置
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
                         "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/swagger-resources/**",
                         "/v2/api-docs/**", "doc.html")
-                .permitAll().antMatchers("/api/single/**", "/api/**/list","/api/**/save")// 公共api要允许匿名访问
+                .permitAll().antMatchers("/api/single/**", "/api/**/list", "/api/**/save")// 公共api要允许匿名访问
                 .permitAll().antMatchers(HttpMethod.OPTIONS)// 跨域请求会先进行一次options请求
                 .permitAll().anyRequest()// 除上面外的所有请求全部需要鉴权认证
                 .authenticated();
@@ -76,20 +78,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
+
     @Bean
     public UserDetailsService userDetailsService() {
         // 获取登录用户信息
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                UmsMember member = memberService.getByUsername(username);
-                UmsMemberLevel level = memberLevelService.getById(member.getMemberLevelId());
-                if (member != null && level != null) {
-                    return new MemberDetails(member, level.getValue());
-                }
-                throw new UsernameNotFoundException("用户名或密码错误");
+        return username -> {
+            UmsMember user = new UmsMember();
+            user.setUsername(username);
+            UmsMember umsMember = memberService.getByUsername(username);
+            UmsMemberLevel level = memberLevelService.getById(umsMember.getMemberLevelId());
+            if (umsMember != null && level != null) {
+                List<UmsMemberPermission> permissionList = memberService.listMemberPerms(umsMember.getId());
+                return new UmsMemberUserDetails(umsMember, permissionList);
             }
+            throw new UsernameNotFoundException("用户名或密码错误");
         };
     }
 

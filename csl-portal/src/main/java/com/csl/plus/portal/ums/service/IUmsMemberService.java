@@ -2,10 +2,12 @@ package com.csl.plus.portal.ums.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.csl.plus.ums.entity.UmsMember;
+import com.csl.plus.ums.entity.UmsMemberPermission;
 import com.csl.plus.utils.CommonResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,5 +67,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
     Object register(UmsMember umsMember);
 
     Object activate(UmsMember umsMember);
+
+    List<UmsMemberPermission> listMemberPerms(Long id);
 
 }

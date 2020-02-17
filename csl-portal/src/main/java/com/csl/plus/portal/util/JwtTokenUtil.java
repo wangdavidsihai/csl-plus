@@ -74,7 +74,7 @@ public class JwtTokenUtil {
         String username;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            username = claims.get(CLAIM_KEY_USERNAME).toString();
         } catch (Exception e) {
             username = null;
         }

@@ -21,16 +21,9 @@
         <result column="personalized_signature"
                 property="personalizedSignature"/>
         <result column="source_type" property="sourceType"/>
-        <result column="integration" property="integration"/>
-        <result column="growth" property="growth"/>
-        <result column="luckey_count" property="luckeyCount"/>
-        <result column="history_integration"
-                property="historyIntegration"/>
         <result column="avatar" property="avatar"/>
         <result column="weixin_openid" property="weixinOpenid"/>
         <result column="invitecode" property="invitecode"/>
-        <result column="blance" property="blance"/>
-        <result column="school_id" property="schoolId"/>
         <result column="email" property="email"/>
         <result column="category" property="category"/>
         <result column="company_name" property="companyName"/>
@@ -41,9 +34,8 @@
     <sql id="Base_Column_List">
         id, member_level_id, username, password, nickname, phone, status,
         create_time, icon, gender, birthday, city, job,
-        personalized_signature, source_type, integration, growth,
-        luckey_count, history_integration, avatar, weixin_openid, invitecode,
-        blance, school_id,email,category,company_name,company_cert
+        personalized_signature, source_type, avatar, weixin_openid, invitecode,
+        email,category,company_name,company_cert
     </sql>
 
     <select id="getByUsername" resultMap="UmsMemberBaseResultMap">
