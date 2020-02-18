@@ -15,5 +15,7 @@ public interface IResExpertDataService extends IService<ResExpertData> {
 
 
     boolean saves(ResExpertData entity);
+
+    ResExpertData getExpertDataByExpId(Long expId);
 }
 

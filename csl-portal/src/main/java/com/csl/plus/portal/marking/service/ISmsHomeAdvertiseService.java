@@ -70,4 +70,6 @@ public interface ISmsHomeAdvertiseService extends IService<SmsHomeAdvertise> {
     List<ResProjProduction> getProjectResourceList(int pageNum, int pageSize);
 
     List<ResExpert> getExpertList(int pageNum, int pageSize);
+
+    List<ResTalent> getTalentList(int pageNum, int pageSize);
 }

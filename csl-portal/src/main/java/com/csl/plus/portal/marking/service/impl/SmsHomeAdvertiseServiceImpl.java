@@ -115,6 +115,8 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     private IResTechnicalService resTechnicalService;
     @Resource
     private IResExpertService expertService;
+    @Resource
+    private IResTalentService talentService;
 
 
     @Override
@@ -147,7 +149,7 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
         result.setProjectResourceList(this.getProjectResourceList(0, 5));
         result.setTechResourceCategories(this.getTechResourceCategoryList(0, 5));
         result.setTechResourceList(this.getTechResourceList(0, 5));
-
+        result.setTalentResourceList(this.getTalentList(0, 5));
         // 获取人气推荐
         //result.setHotProductList(this.getHotProductList(0, 4));
         // 获取推荐专题
@@ -238,6 +240,12 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     public List<ResExpert> getExpertList(int pageNum, int pageSize) {
         ResExpert resExpert = new ResExpert();
         return expertService.list(new QueryWrapper<>(resExpert));
+    }
+
+    @Override
+    public List<ResTalent> getTalentList(int pageNum, int pageSize) {
+        ResTalent resTalent = new ResTalent();
+        return talentService.list(new QueryWrapper<>(resTalent));
     }
 
     @Override

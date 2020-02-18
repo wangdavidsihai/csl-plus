@@ -24,4 +24,9 @@ public class ResExpertDataServiceImpl extends ServiceImpl<ResExpertDataMapper, R
         return true;
     }
 
+    @Override
+    public ResExpertData getExpertDataByExpId(Long expId) {
+        return resExpertDataMapper.getExpertDataByExpId(expId);
+    }
+
 }

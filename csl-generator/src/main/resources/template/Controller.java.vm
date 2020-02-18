@@ -41,7 +41,7 @@ public class ${className}Controller {
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+    @SysLog(MODULE = "${moduleName}", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('${moduleName}:${pathName}:list')")
@@ -61,7 +61,7 @@ public class ${className}Controller {
      * 信息
      */
      /**
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询${comments}列表")
+    @SysLog(MODULE = "${moduleName}", REMARK = "根据条件查询${comments}列表")
     @ApiOperation("根据条件查询${comments}列表") 
     @GetMapping("/info/{${pk.attrname}}")
     @PreAuthorize("hasAuthority('${moduleName}:${pathName}:info')")
@@ -74,7 +74,7 @@ public class ${className}Controller {
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存${comments}")
+    @SysLog(MODULE = "${moduleName}", REMARK = "保存${comments}")
     @ApiOperation("保存${comments}")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('${moduleName}:${pathName}:save')")
@@ -93,7 +93,7 @@ public class ${className}Controller {
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改${comments}")
+    @SysLog(MODULE = "${moduleName}", REMARK = "修改${comments}")
     @ApiOperation("修改${comments}")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('${moduleName}:${pathName}:update')")
@@ -112,7 +112,7 @@ public class ${className}Controller {
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除${comments}")
+    @SysLog(MODULE = "${moduleName}", REMARK = "删除${comments}")
     @ApiOperation("删除${comments}")
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('${moduleName}:${pathName}:delete')")
@@ -131,7 +131,7 @@ public class ${className}Controller {
 		return new CommonResult().failed();
     }
 
-	@SysLog(MODULE = "cms", REMARK = "查询${comments}明细")
+	@SysLog(MODULE = "${moduleName}", REMARK = "查询${comments}明细")
 	@ApiOperation("查询${comments}明细")
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAuthority('${moduleName}:${pathName}:read')")

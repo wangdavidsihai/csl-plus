@@ -53,7 +53,7 @@ public class HomeContentResult {
     private List<ResProjCategory> projectResourceCategories;
     private List<ResProjProduction> projectResourceList;
     private List<ResExpert> expertResourceList;
-
+    private List<ResTalent> talentResourceList;
 
     //Resources end
 }

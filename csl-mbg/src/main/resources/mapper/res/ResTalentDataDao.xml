@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.csl.plus.res.mapper.ResExpertDataMapper">
+<mapper namespace="com.csl.plus.res.mapper.ResTalentDataMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.csl.plus.res.entity.ResExpertData" id="resExpertDataMap">
+    <resultMap type="com.csl.plus.res.entity.ResTalentData" id="resTalentDataMap">
         <result property="id" column="id"/>
         <result property="categoryId" column="category_id"/>
         <result property="image" column="image"/>
@@ -21,19 +21,18 @@
         <result property="remarks" column="remarks"/>
         <result property="delFlag" column="del_flag"/>
         <result property="status" column="status"/>
-        <result property="expId" column="exp_id"/>
+        <result property="talId" column="tal_id"/>
     </resultMap>
 
-
-    <select id="getExpertDataByExpId" resultMap="resExpertDataMap">
+    <select id="getTalentDataByTalId" resultMap="resTalentDataMap">
         SELECT
         e.name,
         ed.*
         FROM
-        res_expert_data ed
-        INNER JOIN res_expert e ON ed.exp_id = e.id
+        res_talent_data ed
+        INNER JOIN res_talent e ON ed.tal_id = e.id
         WHERE
-        ed.exp_id = #{expId}
+        ed.tal_id = #{talId}
     </select>
 
 </mapper>
