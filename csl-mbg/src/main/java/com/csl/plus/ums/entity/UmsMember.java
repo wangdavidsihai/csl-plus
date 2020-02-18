@@ -37,7 +37,6 @@ public class UmsMember implements Serializable {
     /**
      * 密码
      */
-    @JsonIgnore
     private String password;
     /**
      * 昵称

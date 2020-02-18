@@ -75,7 +75,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     private String tokenHead;
     @Resource
     private UmsMemberMemberTagRelationMapper umsMemberMemberTagRelationMapper;
-
     @Resource
     private UmsMemberPermissionMapper umsMemberPermissionMapper;
 
@@ -316,15 +315,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 //        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 //                passwordEncoder.encode(password));
         try {
-            /*
-             * Authentication authentication =
-             * authenticationManager.authenticate(authenticationToken);
-             * SecurityContextHolder.getContext().setAuthentication(authentication);
-             * UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-             * UmsMember member = this.getByUsername(username); token =
-             * jwtTokenUtil.generateToken(userDetails);
-             */
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
@@ -334,11 +324,11 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
+            member.setPassword("");
             tokenMap.put("userInfo", member);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
-
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
 
@@ -365,7 +355,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 
     // 替换字符串
     public String getWebAccess(String CODE) {
-
         return String.format(wxAppletProperties.getWebAccessTokenhttps(), wxAppletProperties.getAppId(),
                 wxAppletProperties.getSecret(), CODE);
     }
