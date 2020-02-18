@@ -125,7 +125,7 @@ public class ResExpertDataController {
     @SysLog(MODULE = "cms", REMARK = "查询专家表明细")
     @ApiOperation("查询专家表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('res:resexpertdata:read')")
+    @PreAuthorize("hasAuthority('res:resexpertdata:read')")
     public Object getResExpertDataById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

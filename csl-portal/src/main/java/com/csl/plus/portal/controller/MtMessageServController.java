@@ -68,7 +68,7 @@ public class MtMessageServController {
     @SysLog(MODULE = "cms", REMARK = "保存服务端站内信")
     @ApiOperation("保存服务端站内信")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('rms:mtmessageserv:save')")
+    @PreAuthorize("hasAuthority('inbox:mtmessageserv:save')")
     public Object save(@RequestBody MtMessageServ entity) {
         try {
             if (mtMessageServService.saves(entity)) {
@@ -87,7 +87,7 @@ public class MtMessageServController {
     @SysLog(MODULE = "cms", REMARK = "修改服务端站内信")
     @ApiOperation("修改服务端站内信")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('rms:mtmessageserv:update')")
+    @PreAuthorize("hasAuthority('inbox:mtmessageserv:update')")
     public Object update(@RequestBody MtMessageServ entity) {
         try {
             if (mtMessageServService.updateById(entity)) {
@@ -106,7 +106,7 @@ public class MtMessageServController {
     @SysLog(MODULE = "cms", REMARK = "删除服务端站内信")
     @ApiOperation("删除服务端站内信")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('rms:mtmessageserv:delete')")
+    @PreAuthorize("hasAuthority('inbox:mtmessageserv:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
@@ -125,7 +125,7 @@ public class MtMessageServController {
     @SysLog(MODULE = "cms", REMARK = "查询服务端站内信明细")
     @ApiOperation("查询服务端站内信明细")
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('inbox:mtmessageserv:read')")
     public Object getMtMessageServById(@ApiParam("新闻表id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

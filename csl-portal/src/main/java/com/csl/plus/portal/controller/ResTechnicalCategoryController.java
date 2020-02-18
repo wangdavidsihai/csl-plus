@@ -125,7 +125,7 @@ public class ResTechnicalCategoryController {
     @SysLog(MODULE = "cms", REMARK = "查询技术类别表明细")
     @ApiOperation("查询技术类别表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:restechnicalcategory:read')")
     public Object getResTechnicalCategoryById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

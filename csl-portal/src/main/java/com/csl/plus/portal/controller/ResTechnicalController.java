@@ -125,7 +125,7 @@ public class ResTechnicalController {
     @SysLog(MODULE = "cms", REMARK = "查询需求表明细")
     @ApiOperation("查询需求表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:restechnical:read')")
     public Object getResTechnicalById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

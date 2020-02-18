@@ -125,7 +125,7 @@ public class ResProductCategoryController {
     @SysLog(MODULE = "cms", REMARK = "查询需求类别表明细")
     @ApiOperation("查询需求类别表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:resproductcategory:read')")
     public Object getResProductCategoryById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

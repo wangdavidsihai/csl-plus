@@ -125,7 +125,7 @@ public class PrdRequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "查询需求类别表明细")
     @ApiOperation("查询需求类别表明细")
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('rms:prdrequirementcategory:read')")
     public Object getPrdRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

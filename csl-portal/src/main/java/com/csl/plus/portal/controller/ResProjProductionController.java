@@ -125,7 +125,7 @@ public class ResProjProductionController {
     @SysLog(MODULE = "cms", REMARK = "查询项目表明细")
     @ApiOperation("查询项目表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:resprojproduction:read')")
     public Object getResProjProductionById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

@@ -125,7 +125,7 @@ public class TechRequirementCategoryController {
     @SysLog(MODULE = "cms", REMARK = "查询技术类别表明细")
     @ApiOperation("查询技术类别表明细")
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:techrequirementcategory:read')")
     public Object getTechRequirementCategoryById(@ApiParam("新闻表id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

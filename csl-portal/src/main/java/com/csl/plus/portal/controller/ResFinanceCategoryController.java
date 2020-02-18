@@ -122,10 +122,10 @@ public class ResFinanceCategoryController {
         return new CommonResult().failed();
     }
 
-    @SysLog(MODULE = "cms", REMARK = "查询金融类别表明细")
+    @SysLog(MODULE = "res", REMARK = "查询金融类别表明细")
     @ApiOperation("查询金融类别表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('res:resfinancecategory:read')")
     public Object getResFinanceCategoryById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {

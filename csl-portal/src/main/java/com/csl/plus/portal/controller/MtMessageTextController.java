@@ -68,7 +68,7 @@ public class MtMessageTextController {
     @SysLog(MODULE = "cms", REMARK = "保存消息内容表")
     @ApiOperation("保存消息内容表")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('rms:mtmessagetext:save')")
+    @PreAuthorize("hasAuthority('inbox:mtmessagetext:save')")
     public Object save(@RequestBody MtMessageText entity) {
         try {
             if (mtMessageTextService.saves(entity)) {
@@ -87,7 +87,7 @@ public class MtMessageTextController {
     @SysLog(MODULE = "cms", REMARK = "修改消息内容表")
     @ApiOperation("修改消息内容表")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('rms:mtmessagetext:update')")
+    @PreAuthorize("hasAuthority('inbox:mtmessagetext:update')")
     public Object update(@RequestBody MtMessageText entity) {
         try {
             if (mtMessageTextService.updateById(entity)) {
@@ -106,7 +106,7 @@ public class MtMessageTextController {
     @SysLog(MODULE = "cms", REMARK = "删除消息内容表")
     @ApiOperation("删除消息内容表")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('rms:mtmessagetext:delete')")
+    @PreAuthorize("hasAuthority('inbox:mtmessagetext:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
@@ -125,7 +125,7 @@ public class MtMessageTextController {
     @SysLog(MODULE = "cms", REMARK = "查询消息内容表明细")
     @ApiOperation("查询消息内容表明细")
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
+    @PreAuthorize("hasAuthority('inbox:mtmessagetext:read')")
     public Object getMtMessageTextById(@ApiParam("新闻表id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
