@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -326,7 +325,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
             token = jwtTokenUtil.generateToken(userDetails);
             member.setPassword("");
             tokenMap.put("userInfo", member);
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
         tokenMap.put("token", token);

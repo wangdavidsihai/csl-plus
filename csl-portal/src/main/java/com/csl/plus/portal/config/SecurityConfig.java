@@ -86,12 +86,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             UmsMember user = new UmsMember();
             user.setUsername(username);
             UmsMember umsMember = memberService.getByUsername(username);
-            UmsMemberLevel level = memberLevelService.getById(umsMember.getMemberLevelId());
-            if (umsMember != null && level != null) {
+            if (umsMember == null) {
+                throw new UsernameNotFoundException("用户名或密码错误.");
+            } else {
+                UmsMemberLevel level = memberLevelService.getById(umsMember.getMemberLevelId());
+//                if (umsMember != null && level != null) {
                 List<UmsMemberPermission> permissionList = memberService.listMemberPerms(umsMember.getId());
                 return new UmsMemberUserDetails(umsMember, permissionList);
+//                } else {
+//                    throw new UsernameNotFoundException("用户名或密码错误.");
+//                }
             }
-            throw new UsernameNotFoundException("用户名或密码错误");
         };
     }
 
