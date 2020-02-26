@@ -68,5 +68,9 @@ public class ResExpert implements Serializable {
      *
      */
     private String status;
+    /**
+     *
+     */
+    private String sysGroup;
 
 }

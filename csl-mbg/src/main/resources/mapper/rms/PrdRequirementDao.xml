@@ -3,7 +3,7 @@
 
 <mapper namespace="com.csl.plus.rms.mapper.PrdRequirementMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.csl.plus.rms.entity.PrdRequirement" id="prdRequirementMap">
         <result property="id" column="id"/>
         <result property="categoryId" column="category_id"/>
@@ -29,6 +29,7 @@
         <result property="startDate" column="start_date"/>
         <result property="mobile" column="mobile"/>
         <result property="email" column="email"/>
+        <result property="sysGroup" column="sys_group"/>
     </resultMap>
 
 

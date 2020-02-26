@@ -5,40 +5,40 @@
 
 package com.csl.plus.exception;
 
-public class BusinessMallException extends RuntimeException {
+public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = 2874510430549463213L;
     private int returnCode;
 
-    public BusinessMallException() {
+    public BusinessException() {
     }
 
-    public BusinessMallException(String message, Throwable cause) {
+    public BusinessException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BusinessMallException(String message) {
+    public BusinessException(String message) {
         super(message);
     }
 
-    public BusinessMallException(Throwable cause) {
+    public BusinessException(Throwable cause) {
         super(cause);
     }
 
-    public BusinessMallException(int returnCode) {
+    public BusinessException(int returnCode) {
         this.returnCode = returnCode;
     }
 
-    public BusinessMallException(Exception e, int returnCode) {
+    public BusinessException(Exception e, int returnCode) {
         super(e);
         this.returnCode = returnCode;
     }
 
-    public BusinessMallException(String message, int returnCode) {
+    public BusinessException(String message, int returnCode) {
         super(message);
         this.returnCode = returnCode;
     }
 
-    public BusinessMallException(String message, Exception e, int returnCode) {
+    public BusinessException(String message, Exception e, int returnCode) {
         super(message, e);
         this.returnCode = returnCode;
     }

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.csl.plus.inbox.mapper.MtMessageServMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.csl.plus.inbox.entity.MtMessageServ" id="mtMessageServMap">
         <result property="id" column="id"/>
         <result property="sendid" column="sendId"/>
@@ -15,6 +15,7 @@
         <result property="status" column="status"/>
         <result property="delFlag" column="del_flag"/>
         <result property="channel" column="channel"/>
+        <result property="sysGroup" column="sys_group"/>
     </resultMap>
 
 
@@ -26,10 +27,13 @@
 
         </selectKey>
 
-        insert into mt_message_serv (id, sendId, recId, subject, message, refId, send_date,status,del_flag,channel)
+        insert into mt_message_serv (id, sendId, recId, subject, message, refId,
+        send_date,status,del_flag,channel,sys_group)
 
-        values (#{id,jdbcType=VARCHAR}, #{sendid,jdbcType=VARCHAR}, #{recid,jdbcType=VARCHAR},#{subject,jdbcType=VARCHAR},#{message,jdbcType=VARCHAR},
-        #{refid,jdbcType=VARCHAR},#{sendDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR})
+        values (#{id,jdbcType=VARCHAR}, #{sendid,jdbcType=VARCHAR},
+        #{recid,jdbcType=VARCHAR},#{subject,jdbcType=VARCHAR},#{message,jdbcType=VARCHAR},
+        #{refid,jdbcType=VARCHAR},#{sendDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},
+        #{delFlag,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR},#{sysGroup,jdbcType=VARCHAR})
 
     </insert>
 

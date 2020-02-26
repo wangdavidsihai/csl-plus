@@ -13,7 +13,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 服务端站内信
@@ -69,14 +72,17 @@ public class MtMessageServController {
     @ApiOperation("保存服务端站内信")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('inbox:mtmessageserv:save')")
-    public Object save(@RequestBody MtMessageServ entity) {
+    public Object save(@RequestBody @Valid MtMessageServ entity, BindingResult result) {
         try {
+            if (result.hasErrors()) {
+                return result.getFieldError().getDefaultMessage();
+            }
             if (mtMessageServService.saves(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("保存帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
+            log.error("保存失败：%s", e.getMessage(), e);
+            return new CommonResult().failed(e.getMessage());
         }
         return new CommonResult().failed();
     }
@@ -94,7 +100,7 @@ public class MtMessageServController {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("更新帮助表：%s", e.getMessage(), e);
+            log.error("更新失败：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -116,7 +122,7 @@ public class MtMessageServController {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("删除帮助表：%s", e.getMessage(), e);
+            log.error("删除失败：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();

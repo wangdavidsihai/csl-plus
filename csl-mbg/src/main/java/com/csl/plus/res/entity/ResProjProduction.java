@@ -84,5 +84,9 @@ public class ResProjProduction implements Serializable {
      *
      */
     private Date startDate;
+    /**
+     *
+     */
+    private String sysGroup;
 
 }

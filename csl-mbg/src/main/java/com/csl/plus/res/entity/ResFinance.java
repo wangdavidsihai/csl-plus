@@ -116,5 +116,9 @@ public class ResFinance implements Serializable {
      *
      */
     private String email;
+    /**
+     *
+     */
+    private String sysGroup;
 
 }

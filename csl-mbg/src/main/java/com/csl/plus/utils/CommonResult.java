@@ -31,16 +31,17 @@ public class CommonResult {
         this.data = data;
         return this;
     }
+
     /**
      * 普通成功返回
-     *
      */
     public CommonResult success() {
         this.code = SUCCESS;
         this.msg = "操作成功";
-        this.data =  "操作成功";
+        this.data = "操作成功";
         return this;
     }
+
     /**
      * 普通成功返回
      */
@@ -58,12 +59,14 @@ public class CommonResult {
     public CommonResult failed() {
         this.code = FAILED;
         this.msg = "操作失败";
+        this.data = "操作失败";
         return this;
     }
 
     public CommonResult failed(String msg) {
         this.code = FAILED;
         this.msg = msg;
+        this.data = msg;
         return this;
     }
 
@@ -111,6 +114,7 @@ public class CommonResult {
         validateFailed(result.getFieldError().getDefaultMessage());
         return this;
     }
+
     /**
      * 普通失败提示信息
      */
@@ -125,6 +129,7 @@ public class CommonResult {
         this.msg = msg;
         return this;
     }
+
     public int getCode() {
         return code;
     }

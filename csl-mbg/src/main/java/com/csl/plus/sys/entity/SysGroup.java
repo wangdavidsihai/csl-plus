@@ -1,4 +1,4 @@
-package com.csl.plus.res.entity;
+package com.csl.plus.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,15 +8,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 专家表
+ * 系统类别表
  *
  * @author David
  * @email
- * @date 2020-02-18 21:43:07
+ * @date 2020-02-26 13:23:47
  */
 @Data
-@TableName("res_talent")
-public class ResTalent implements Serializable {
+@TableName("sys_group")
+public class SysGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -25,21 +25,13 @@ public class ResTalent implements Serializable {
     @TableId
     private Long id;
     /**
-     * 所属学科
+     * 描述、摘要
      */
-    private Integer categoryId;
+    private String description;
     /**
-     * 姓名
+     * value
      */
-    private String name;
-    /**
-     * 性别
-     */
-    private String gender;
-    /**
-     * 出生日期
-     */
-    private Date dateofbirth;
+    private String value;
     /**
      * 创建者
      */
@@ -56,21 +48,5 @@ public class ResTalent implements Serializable {
      * 更新时间
      */
     private Date updateDate;
-    /**
-     * 备注信息
-     */
-    private String remarks;
-    /**
-     * 删除标记
-     */
-    private String delFlag;
-    /**
-     *
-     */
-    private String status;
-    /**
-     *
-     */
-    private String sysGroup;
 
 }
