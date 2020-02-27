@@ -2,8 +2,9 @@ package com.csl.plus.portal.ums.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.csl.plus.common.utils.CommonCodeConst;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.exception.ApiMallPlusException;
+import com.csl.plus.exception.BusinessException;
 import com.csl.plus.portal.config.WxAppletProperties;
 import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.single.ApiBaseAction;
@@ -120,7 +121,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateTime(new Date());
         // default in review status
-        user.setStatus(CommonCodeConst.STATUS_REVIEW);
+        user.setStatus(CommonCodes.STATUS_REVIEW);
         memberMapper.insert(user);
         user.setPassword(null);
         return new CommonResult().success("注册成功", user);
@@ -143,7 +144,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         umsMembers.setPassword(passwordEncoder.encode(user.getPassword()));
         umsMembers.setCreateTime(new Date());
         // default in review status
-        umsMembers.setStatus(CommonCodeConst.STATUS_ACTIVE);
+        umsMembers.setStatus(CommonCodes.STATUS_ACTIVE);
         memberMapper.updateById(umsMembers);
         umsMembers.setPassword(null);
         return new CommonResult().success("激活成功", umsMembers);
@@ -266,7 +267,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 umsMember.setSourceType(1);
                 umsMember.setPassword(passwordEncoder.encode("123456"));
                 umsMember.setCreateTime(new Date());
-                umsMember.setStatus(CommonCodeConst.STATUS_ACTIVE);
+                umsMember.setStatus(CommonCodes.STATUS_ACTIVE);
 //                umsMember.setBlance(new BigDecimal(0));
 //                umsMember.setIntegration(0);
 //                umsMember.setHistoryIntegration(0);
@@ -374,6 +375,20 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
             return JsonUtil.jsonToList(redisService.get(String.format(RedisKey.PermisionListKey, id)), UmsMemberPermission.class);
         }
 
+    }
+
+    @Override
+    public UmsMember updateProfile(UmsMember entity) {
+        UmsMember umsMember = new UmsMember();
+        umsMember.setUsername(entity.getUsername());
+        umsMember.setId(entity.getId());
+        umsMember.setStatus(CommonCodes.STATUS_ACTIVE);
+        umsMember = memberMapper.selectOne(new QueryWrapper<>(umsMember));
+        if (umsMember == null) {
+            throw new BusinessException("用户信息不存在或者用户被锁定了");
+        }
+        memberMapper.updateById(entity);
+        return entity;
     }
 
 }

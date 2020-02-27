@@ -3,7 +3,7 @@ package com.csl.plus.portal.single;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.cms.entity.*;
-import com.csl.plus.common.utils.CommonCodeConst;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.annotation.SysLog;
 import com.csl.plus.portal.cms.service.*;
@@ -130,7 +130,7 @@ public class SingleCmsController extends ApiBaseAction {
                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-            entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
+            entity.setStatus(CommonCodes.STATUS_ACTIVE);
             return new CommonResult().success(
                     cmsArticleService.page(new Page<CmsArticle>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
@@ -152,7 +152,7 @@ public class SingleCmsController extends ApiBaseAction {
         try {
             CmsArticleData entity = new CmsArticleData();
             entity.setId(id);
-            entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
+            entity.setStatus(CommonCodes.STATUS_ACTIVE);
             return new CommonResult().success(cmsArticleDataService.page(new Page<CmsArticleData>(pageNum, pageSize),
                     new QueryWrapper<>(entity)));
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class SingleCmsController extends ApiBaseAction {
                                      @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-            entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
+            entity.setStatus(CommonCodes.STATUS_ACTIVE);
             return new CommonResult()
                     .success(cmsNoticeService.page(new Page<CmsNotice>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
@@ -191,7 +191,7 @@ public class SingleCmsController extends ApiBaseAction {
         try {
             CmsNoticeData entity = new CmsNoticeData();
             entity.setId(id);
-            entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
+            entity.setStatus(CommonCodes.STATUS_ACTIVE);
             return new CommonResult().success(
                     cmsNoticeDataService.page(new Page<CmsNoticeData>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {

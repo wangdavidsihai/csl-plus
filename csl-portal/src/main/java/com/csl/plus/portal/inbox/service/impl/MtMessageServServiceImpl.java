@@ -2,6 +2,7 @@ package com.csl.plus.portal.inbox.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.exception.BusinessException;
 import com.csl.plus.inbox.entity.MtMessageServ;
 import com.csl.plus.inbox.mapper.MtMessageServMapper;
@@ -34,6 +35,7 @@ public class MtMessageServServiceImpl extends ServiceImpl<MtMessageServMapper, M
     public boolean saves(MtMessageServ entity) throws BusinessException {
         if (validate(entity)) {
             entity.setSendDate(new Date());
+            entity.setStatus(CommonCodes.STATUS_REVIEW);
             mtMessageServMapper.insert(entity);
         }
         return true;

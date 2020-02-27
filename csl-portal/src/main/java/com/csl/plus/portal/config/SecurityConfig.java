@@ -3,8 +3,10 @@ package com.csl.plus.portal.config;
 import com.csl.plus.portal.component.JwtAuthenticationTokenFilter;
 import com.csl.plus.portal.component.RestAuthenticationEntryPoint;
 import com.csl.plus.portal.component.RestfulAccessDeniedHandler;
+import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.portal.ums.service.RedisService;
 import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberLevel;
@@ -29,6 +31,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -46,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     @Autowired
     private IUmsMemberLevelService memberLevelService;
+    @Resource
+    private RedisService redisService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -89,6 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             if (umsMember == null) {
                 throw new UsernameNotFoundException("用户名或密码错误.");
             } else {
+                String key = String.format(RedisKey.PermisionListKey, umsMember.getId());
+                redisService.remove(key);
                 UmsMemberLevel level = memberLevelService.getById(umsMember.getMemberLevelId());
 //                if (umsMember != null && level != null) {
                 List<UmsMemberPermission> permissionList = memberService.listMemberPerms(umsMember.getId());

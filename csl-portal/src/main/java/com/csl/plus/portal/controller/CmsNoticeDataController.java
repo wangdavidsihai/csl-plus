@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.cms.entity.CmsNoticeData;
-import com.csl.plus.common.utils.CommonCodeConst;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.portal.cms.service.ICmsNoticeDataService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
@@ -43,7 +43,7 @@ public class CmsNoticeDataController {
                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-            entity.setStatus(CommonCodeConst.STATUS_ACTIVE);
+            entity.setStatus(CommonCodes.STATUS_ACTIVE);
             return new CommonResult().success(
                     cmsNoticeDataService.page(new Page<CmsNoticeData>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {

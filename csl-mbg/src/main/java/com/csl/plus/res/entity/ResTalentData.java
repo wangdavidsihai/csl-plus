@@ -89,4 +89,8 @@ public class ResTalentData implements Serializable {
      */
     private Long talId;
 
+    private String name;
+
+    private String sysGroup;
+
 }

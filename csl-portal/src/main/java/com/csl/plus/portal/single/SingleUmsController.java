@@ -1,7 +1,6 @@
 package com.csl.plus.portal.single;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.annotation.SysLog;
 import com.csl.plus.portal.cms.service.ISysAreaService;
 import com.csl.plus.portal.cms.service.ISysSchoolService;
@@ -67,7 +66,6 @@ public class SingleUmsController extends ApiBaseAction {
         }
     }
 
-    @IgnoreAuth
     @ApiOperation(value = "注册")
     @PostMapping(value = "/reg")
     public Object register(@RequestBody UmsMember umsMember) {
@@ -77,7 +75,6 @@ public class SingleUmsController extends ApiBaseAction {
         return memberService.register(umsMember);
     }
 
-    @IgnoreAuth
     @ApiOperation(value = "登录以后返回token")
     @PostMapping(value = "/login")
     public Object login(@RequestBody UmsMember umsMember) {
@@ -97,14 +94,13 @@ public class SingleUmsController extends ApiBaseAction {
 
     }
 
-    @IgnoreAuth
     @ApiOperation(value = "获取验证码")
-    @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+    @GetMapping(value = "/getAuthCode")
     public Object getAuthCode(@RequestParam String telephone) {
+
         return memberService.generateAuthCode(telephone);
     }
 
-    @IgnoreAuth
     @ApiOperation(value = "登出功能")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Object logout() {

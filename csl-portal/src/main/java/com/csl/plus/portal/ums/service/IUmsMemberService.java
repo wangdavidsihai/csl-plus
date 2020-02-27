@@ -70,4 +70,6 @@ public interface IUmsMemberService extends IService<UmsMember> {
 
     List<UmsMemberPermission> listMemberPerms(Long id);
 
+    UmsMember updateProfile(UmsMember entity);
+
 }
