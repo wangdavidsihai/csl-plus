@@ -315,6 +315,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 //        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 //                passwordEncoder.encode(password));
         try {
+            String key = String.format(RedisKey.PermisionListKey, username);
+            redisService.remove(key);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
@@ -365,14 +367,14 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     }
 
     @Override
-    public List<UmsMemberPermission> listMemberPerms(Long id) {
-        if (!redisService.exists(String.format(RedisKey.PermisionListKey, id))) {
+    public List<UmsMemberPermission> listMemberPerms(Long id, String username) {
+        if (!redisService.exists(String.format(RedisKey.PermisionListKey, username))) {
             List<UmsMemberPermission> list = umsMemberPermissionMapper.getUmsMemberPerms(id);
-            String key = String.format(RedisKey.PermisionListKey, id);
+            String key = String.format(RedisKey.PermisionListKey, username);
             redisService.set(key, JsonUtil.objectToJson(list));
             return list;
         } else {
-            return JsonUtil.jsonToList(redisService.get(String.format(RedisKey.PermisionListKey, id)), UmsMemberPermission.class);
+            return JsonUtil.jsonToList(redisService.get(String.format(RedisKey.PermisionListKey, username)), UmsMemberPermission.class);
         }
 
     }

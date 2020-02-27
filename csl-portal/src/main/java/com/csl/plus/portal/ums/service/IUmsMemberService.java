@@ -68,7 +68,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
 
     Object activate(UmsMember umsMember);
 
-    List<UmsMemberPermission> listMemberPerms(Long id);
+    List<UmsMemberPermission> listMemberPerms(Long id, String username);
 
     UmsMember updateProfile(UmsMember entity);
 
