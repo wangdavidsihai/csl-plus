@@ -26,7 +26,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 @Slf4j
 @RestController
-@Api(tags = "/api/ResProductAppAreaController", description = "资源应用领域表管理")
+@Api(tags = "/api/ResProductAppAreaController", description = "产品资源应用领域表管理")
 @RequestMapping("/api/res/resproductapparea")
 public class ResProductAppAreaController {
     @Autowired

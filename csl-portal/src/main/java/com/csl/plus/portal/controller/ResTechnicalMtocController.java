@@ -3,8 +3,8 @@ package com.csl.plus.portal.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
-import com.csl.plus.portal.res.service.IResProductService;
-import com.csl.plus.res.entity.ResProduct;
+import com.csl.plus.portal.res.service.IResTechnicalMtocService;
+import com.csl.plus.res.entity.ResTechnicalMtoc;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -20,28 +20,28 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author David
  * @email
- * @date 2020-02-15 22:12:07
+ * @date 2020-02-29 11:32:27
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/ResProductController", description = "产品资源管理")
-@RequestMapping("/api/res/resproduct")
-public class ResProductController {
+@Api(tags = "/api/ResTechnicalMtocController", description = "军转民技术管理")
+@RequestMapping("/api/res/restechmtoc")
+public class ResTechnicalMtocController {
     @Autowired
-    private IResProductService resProductService;
+    private IResTechnicalMtocService resTechnicalMtocService;
 
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+    @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
-//    @PreAuthorize("hasAuthority('res:resproduct:list')")
-    public Object getResProductByPage(ResProduct entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+    @PreAuthorize("hasAuthority('res:restechnicalmtoc:list')")
+    public Object getResTechnicalMtocByPage(ResTechnicalMtoc entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
             return new CommonResult()
-                    .success(resProductService.page(new Page<ResProduct>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(resTechnicalMtocService.page(new Page<ResTechnicalMtoc>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
             log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
         }
@@ -53,25 +53,25 @@ public class ResProductController {
      * 信息
      */
     /**
-     @SysLog(MODULE = "cms", REMARK = "根据条件查询需求表列表")
+     @SysLog(MODULE = "res", REMARK = "根据条件查询需求表列表")
      @ApiOperation("根据条件查询需求表列表")
      @GetMapping("/info/{id}")
-     @PreAuthorize("hasAuthority('res:resproduct:info')") public R info(@PathVariable("id") Long id){
-     ResProductEntity resProduct = resProductService.getById(id);
+     @PreAuthorize("hasAuthority('res:restechnicalmtoc:info')") public R info(@PathVariable("id") Long id){
+     ResTechnicalMtocEntity resTechnicalMtoc = resTechnicalMtocService.getById(id);
 
-     return R.ok().put("resProduct", resProduct);
+     return R.ok().put("resTechnicalMtoc", resTechnicalMtoc);
      }
      */
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存需求表")
+    @SysLog(MODULE = "res", REMARK = "保存需求表")
     @ApiOperation("保存需求表")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('res:resproduct:save')")
-    public Object save(@RequestBody ResProduct entity) {
+    @PreAuthorize("hasAuthority('res:restechnicalmtoc:save')")
+    public Object save(@RequestBody ResTechnicalMtoc entity) {
         try {
-            if (resProductService.saves(entity)) {
+            if (resTechnicalMtocService.saves(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -84,13 +84,13 @@ public class ResProductController {
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改需求表")
+    @SysLog(MODULE = "res", REMARK = "修改需求表")
     @ApiOperation("修改需求表")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('res:resproduct:update')")
-    public Object update(@RequestBody ResProduct entity) {
+    @PreAuthorize("hasAuthority('res:restechnicalmtoc:update')")
+    public Object update(@RequestBody ResTechnicalMtoc entity) {
         try {
-            if (resProductService.updateById(entity)) {
+            if (resTechnicalMtocService.updateById(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -103,16 +103,16 @@ public class ResProductController {
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除需求表")
+    @SysLog(MODULE = "res", REMARK = "删除需求表")
     @ApiOperation("删除需求表")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('res:resproduct:delete')")
+    @PreAuthorize("hasAuthority('res:restechnicalmtoc:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("帮助表id");
             }
-            if (resProductService.removeById(id)) {
+            if (resTechnicalMtocService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -122,39 +122,20 @@ public class ResProductController {
         return new CommonResult().failed();
     }
 
-    @SysLog(MODULE = "cms", REMARK = "查询需求表明细")
+    @SysLog(MODULE = "res", REMARK = "查询需求表明细")
     @ApiOperation("查询需求表明细")
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('cms:cmsarticle:read')")
-    public Object getResProductById(@ApiParam("id") @PathVariable Long id) {
+    @PreAuthorize("hasAuthority('res:restechnicalmtoc:read')")
+    public Object getResTechnicalMtocById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("需求表id");
             }
-            ResProduct object = resProductService.getById(id);
+            ResTechnicalMtoc object = resTechnicalMtocService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询需求表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
-    }
-
-    /**
-     * 列表
-     */
-    @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
-    @ApiOperation("根据CatId查询列表")
-    @GetMapping("/{catid}/list")
-    public Object getResProductByCatId(ResProduct entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
-        try {
-            entity = new ResProduct();
-            entity.setCategoryId(catid);
-            return new CommonResult()
-                    .success(resProductService.page(new Page<ResProduct>(pageNum, pageSize), new QueryWrapper<>(entity)));
-        } catch (Exception e) {
-            log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
-        }
-        return new CommonResult().failed();
     }
 }

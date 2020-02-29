@@ -2,6 +2,7 @@ package com.csl.plus.portal.vo;
 
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberPermission;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 会员详情封装
+ */
+@Data
 public class UmsMemberUserDetails implements UserDetails {
     private UmsMember umsMember;
     private List<UmsMemberPermission> permissionList;

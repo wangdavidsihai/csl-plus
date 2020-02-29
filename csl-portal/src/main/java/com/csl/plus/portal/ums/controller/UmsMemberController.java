@@ -3,6 +3,7 @@ package com.csl.plus.portal.ums.controller;
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.portal.vo.UmsMemberVO;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.utils.CommonResult;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,12 +34,17 @@ public class UmsMemberController extends ApiBaseAction {
     private String tokenHead;
 
     @ApiOperation(value = "修改密码")
-    @PostMapping(value = "/updatePassword")
+    @PostMapping(value = "/updatepassword")
     @ResponseBody
     @PreAuthorize("hasAuthority('ums:umsmember:updatepass')")
-    public Object updatePassword(@RequestParam String telephone, @RequestParam String password,
-                                 @RequestParam String authCode) {
-        return memberService.updatePassword(telephone, password, authCode);
+    public Object updatePassword(@RequestBody UmsMemberVO umsMemberVO) {
+        if (!umsMemberVO.getPassword().equals(umsMemberVO.getConfirmpassword())) {
+            return new CommonResult().failed("密码不匹配");
+        }
+        if (StringUtils.isEmpty(umsMemberVO.getPhone())) {
+            return new CommonResult().failed("手机号码不能为空");
+        }
+        return memberService.updatePassword(umsMemberVO.getPhone(), umsMemberVO.getPassword(), umsMemberVO.getAuthCode());
     }
 
     @IgnoreAuth
@@ -62,9 +69,9 @@ public class UmsMemberController extends ApiBaseAction {
         if (entity == null) {
             return new CommonResult().failed("用户信息不能为空");
         }
-        UmsMember umsMember = memberService.updateProfile(entity);
-        if (umsMember != null && umsMember.getId() != null) {
-            return new CommonResult().success(umsMember);
+        entity = memberService.updateProfile(entity);
+        if (entity != null && entity.getId() != null) {
+            return new CommonResult().success(entity);
         }
         return new CommonResult().failed();
     }

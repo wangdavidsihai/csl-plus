@@ -11,7 +11,7 @@ import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
 import com.csl.plus.portal.util.*;
-import com.csl.plus.portal.vo.MemberDetails;
+import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.sys.mapper.SysAreaMapper;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberPermission;
@@ -109,7 +109,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
          * if (!verifyAuthCode(authCode, telephone)) { return new
          * CommonResult().failed("验证码错误"); }
          */
-        if (!user.getPassword().equals(user.getConfimpassword())) {
+        if (!user.getPassword().equals(user.getConfirmpassword())) {
             return new CommonResult().failed("密码不一致");
         }
         // 查询是否已有该用户
@@ -186,10 +186,10 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         if (!verifyAuthCode(authCode, telephone)) {
             return new CommonResult().failed("验证码错误");
         }
-
+        member.setUpdateTime(new Date());
         member.setPassword(passwordEncoder.encode(password));
         memberMapper.updateById(member);
-        return new CommonResult().success("密码修改成功", null);
+        return new CommonResult().success("密码修改成功", "密码修改成功");
     }
 
     @Override
@@ -197,7 +197,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         try {
             SecurityContext ctx = SecurityContextHolder.getContext();
             Authentication auth = ctx.getAuthentication();
-            MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
+            UmsMemberUserDetails memberDetails = (UmsMemberUserDetails) auth.getPrincipal();
             return memberDetails.getUmsMember();
         } catch (Exception e) {
             return new UmsMember();
@@ -381,6 +381,10 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 
     @Override
     public UmsMember updateProfile(UmsMember entity) {
+//        // 验证验证码
+//        if (!verifyAuthCode(authCode, telephone)) {
+//            return new CommonResult().failed("验证码错误");
+//        }
         UmsMember umsMember = new UmsMember();
         umsMember.setUsername(entity.getUsername());
         umsMember.setId(entity.getId());
@@ -390,7 +394,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
             throw new BusinessException("用户信息不存在或者用户被锁定了");
         }
         memberMapper.updateById(entity);
-        return entity;
+        return memberMapper.selectOne(new QueryWrapper<>(umsMember));
     }
 
 }

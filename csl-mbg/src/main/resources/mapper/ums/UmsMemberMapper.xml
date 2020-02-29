@@ -13,6 +13,7 @@
         <result column="phone" property="phone"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
         <result column="icon" property="icon"/>
         <result column="gender" property="gender"/>
         <result column="birthday" property="birthday"/>
@@ -33,7 +34,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, member_level_id, username, password, nickname, phone, status,
-        create_time, icon, gender, birthday, city, job,
+        create_time,update_time, icon, gender, birthday, city, job,
         personalized_signature, source_type, avatar, weixin_openid, invitecode,
         email,category,company_name,company_cert
     </sql>

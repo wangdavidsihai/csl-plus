@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/ResTalentDataController", description = "人才数据表管理")
+@Api(tags = "/api/ResTalentDataController", description = "人才详细信息管理")
 @RequestMapping("/api/res/restalentdata")
 public class ResTalentDataController {
     @Autowired

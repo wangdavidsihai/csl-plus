@@ -1,0 +1,17 @@
+package com.csl.plus.res.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.csl.plus.res.entity.ResTechnicalAppAreaMtoc;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * 技术应用领域表
+ *
+ * @author David
+ * @email
+ * @date 2020-02-29 11:32:27
+ */
+@Mapper
+public interface ResTechnicalAppAreaMtocMapper extends BaseMapper<ResTechnicalAppAreaMtoc> {
+
+}

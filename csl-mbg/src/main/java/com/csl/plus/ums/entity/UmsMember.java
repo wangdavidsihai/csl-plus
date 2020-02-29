@@ -55,6 +55,11 @@ public class UmsMember implements Serializable {
      */
     @TableField("create_time")
     private Date createTime;
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private Date updateTime;
 
     /**
      * 头像
@@ -114,7 +119,7 @@ public class UmsMember implements Serializable {
     private String invitecode;
     @TableField(exist = false)
     @JsonIgnore
-    private String confimpassword;
+    private String confirmpassword;
     // email
     private String email;
     // category 1,普通企业 2 政府 3 军工企业 4 个人 5 其他组织

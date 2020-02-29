@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/ResProjProductionController", description = "项目表管理")
+@Api(tags = "/api/ResProjProductionController", description = "项目资源管理")
 @RequestMapping("/api/res/resprojproduction")
 public class ResProjProductionController {
     @Autowired

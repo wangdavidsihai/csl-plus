@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "/api/ResProjProductionDataController", description = "项目表详细信息管理")
+@Api(tags = "/api/ResProjProductionDataController", description = "项目资源详细信息管理")
 @RequestMapping("/api/res/resprojproductiondata")
 public class ResProjProductionDataController {
     @Autowired
