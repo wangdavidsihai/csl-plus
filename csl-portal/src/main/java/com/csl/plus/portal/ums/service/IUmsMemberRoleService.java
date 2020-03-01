@@ -2,6 +2,9 @@ package com.csl.plus.portal.ums.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.csl.plus.ums.entity.UmsMemberRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -15,5 +18,11 @@ public interface IUmsMemberRoleService extends IService<UmsMemberRole> {
 
 
     boolean saves(UmsMemberRole entity);
+
+    /**
+     * 获取用于所有角色
+     */
+    List<UmsMemberRole> getRoleListByUserId(@Param("userid") Long userid, String username);
+
 }
 

@@ -10,11 +10,13 @@ import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
-import com.csl.plus.portal.util.*;
+import com.csl.plus.portal.util.CharUtil;
+import com.csl.plus.portal.util.CommonUtil;
+import com.csl.plus.portal.util.JsonUtils;
+import com.csl.plus.portal.util.JwtTokenUtil;
 import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.sys.mapper.SysAreaMapper;
 import com.csl.plus.ums.entity.UmsMember;
-import com.csl.plus.ums.entity.UmsMemberPermission;
 import com.csl.plus.ums.mapper.UmsMemberMapper;
 import com.csl.plus.ums.mapper.UmsMemberMemberTagRelationMapper;
 import com.csl.plus.ums.mapper.UmsMemberPermissionMapper;
@@ -37,7 +39,10 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * <p>
@@ -364,19 +369,6 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     // 替换字符串
     public String getUserMessage(String access_token, String openid) {
         return String.format(wxAppletProperties.getUserMessage(), access_token, openid);
-    }
-
-    @Override
-    public List<UmsMemberPermission> listMemberPerms(Long id, String username) {
-        if (!redisService.exists(String.format(RedisKey.PermisionListKey, username))) {
-            List<UmsMemberPermission> list = umsMemberPermissionMapper.getUmsMemberPerms(id);
-            String key = String.format(RedisKey.PermisionListKey, username);
-            redisService.set(key, JsonUtil.objectToJson(list));
-            return list;
-        } else {
-            return JsonUtil.jsonToList(redisService.get(String.format(RedisKey.PermisionListKey, username)), UmsMemberPermission.class);
-        }
-
     }
 
     @Override

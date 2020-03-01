@@ -15,4 +15,9 @@
     </resultMap>
 
 
+    <select id="getRoleListByUserId" resultMap="umsMemberRoleMap">
+        select r.*
+        from ums_member_user_role ar left join ums_member_role r on ar.role_id = r.id
+        where ar.user_id = #{userid}
+    </select>
 </mapper>

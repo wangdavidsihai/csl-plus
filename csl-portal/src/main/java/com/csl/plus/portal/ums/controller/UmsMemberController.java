@@ -2,20 +2,23 @@ package com.csl.plus.portal.ums.controller;
 
 import com.csl.plus.portal.annotation.IgnoreAuth;
 import com.csl.plus.portal.single.ApiBaseAction;
+import com.csl.plus.portal.ums.service.IUmsMemberPermissionService;
+import com.csl.plus.portal.ums.service.IUmsMemberRoleService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.vo.UmsMemberVO;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.utils.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,12 +29,18 @@ import java.util.Map;
 @Api(tags = "UmsMemberController", description = "会员自助管理")
 @RequestMapping("/api/member")
 public class UmsMemberController extends ApiBaseAction {
-    @Autowired
-    private IUmsMemberService memberService;
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
+    @Resource
+    private IUmsMemberService memberService;
+    @Resource
+    private IUmsMemberRoleService umsMemberRoleService;
+    @Resource
+    private IUmsMemberPermissionService umsMemberPermissionService;
+
 
     @ApiOperation(value = "修改密码")
     @PostMapping(value = "/updatepassword")
@@ -52,10 +61,14 @@ public class UmsMemberController extends ApiBaseAction {
     @GetMapping("/info")
     @ResponseBody
     @PreAuthorize("hasAuthority('ums:umsmember:info')")
-    public Object user() {
+    public Object info(Principal principal) {
+        Map<String, Object> data = new HashMap<>();
         UmsMember umsMember = memberService.getCurrentMember();
+        data.put("umsMember", umsMember);
+        data.put("permissionList", umsMemberPermissionService.getMemberPermListByUserId(umsMember.getId(), umsMember.getUsername()));
+        data.put("roleList", umsMemberRoleService.getRoleListByUserId(umsMember.getId(), umsMember.getUsername()));
         if (umsMember != null && umsMember.getId() != null) {
-            return new CommonResult().success(umsMember);
+            return new CommonResult().success(data);
         }
         return new CommonResult().failed();
     }

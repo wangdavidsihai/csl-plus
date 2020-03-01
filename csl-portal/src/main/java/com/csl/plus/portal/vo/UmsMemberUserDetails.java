@@ -2,6 +2,7 @@ package com.csl.plus.portal.vo;
 
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberPermission;
+import com.csl.plus.ums.entity.UmsMemberRole;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 public class UmsMemberUserDetails implements UserDetails {
     private UmsMember umsMember;
     private List<UmsMemberPermission> permissionList;
+    private List<UmsMemberRole> roleList;
 
-    public UmsMemberUserDetails(UmsMember umsMember, List<UmsMemberPermission> permissionList) {
+    public UmsMemberUserDetails(UmsMember umsMember, List<UmsMemberPermission> permissionList, List<UmsMemberRole> roleList) {
         this.umsMember = umsMember;
         this.permissionList = permissionList;
+        this.roleList = roleList;
     }
 
     @Override

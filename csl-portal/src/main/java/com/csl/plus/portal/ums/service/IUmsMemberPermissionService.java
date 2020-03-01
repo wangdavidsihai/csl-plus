@@ -3,6 +3,8 @@ package com.csl.plus.portal.ums.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.csl.plus.ums.entity.UmsMemberPermission;
 
+import java.util.List;
+
 
 /**
  * 后台用户权限表
@@ -15,5 +17,7 @@ public interface IUmsMemberPermissionService extends IService<UmsMemberPermissio
 
 
     boolean saves(UmsMemberPermission entity);
+
+    List<UmsMemberPermission> getMemberPermListByUserId(Long id, String username);
 }
 

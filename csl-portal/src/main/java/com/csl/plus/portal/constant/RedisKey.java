@@ -15,4 +15,5 @@ public class RedisKey {
     public static String PmsProductConsult = "PmsProductConsult";
 
     public static String PermisionListKey = "PermList:%s";
+    public static String RoleListKey = "RoleList:%s";
 }

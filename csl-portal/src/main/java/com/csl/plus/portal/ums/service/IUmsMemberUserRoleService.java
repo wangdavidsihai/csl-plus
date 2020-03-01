@@ -13,7 +13,7 @@ import com.csl.plus.ums.entity.UmsMemberUserRole;
  */
 public interface IUmsMemberUserRoleService extends IService<UmsMemberUserRole> {
 
-
     boolean saves(UmsMemberUserRole entity);
+
 }
 

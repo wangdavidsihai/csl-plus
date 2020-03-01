@@ -4,12 +4,14 @@ import com.csl.plus.portal.component.JwtAuthenticationTokenFilter;
 import com.csl.plus.portal.component.RestAuthenticationEntryPoint;
 import com.csl.plus.portal.component.RestfulAccessDeniedHandler;
 import com.csl.plus.portal.ums.service.IUmsMemberLevelService;
+import com.csl.plus.portal.ums.service.IUmsMemberPermissionService;
+import com.csl.plus.portal.ums.service.IUmsMemberRoleService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.entity.UmsMemberLevel;
 import com.csl.plus.ums.entity.UmsMemberPermission;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.csl.plus.ums.entity.UmsMemberRole;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -39,14 +42,18 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private IUmsMemberService memberService;
-    @Autowired
+    @Resource
+    private IUmsMemberService umsMemberService;
+    @Resource
+    private IUmsMemberPermissionService umsMemberPermissionService;
+    @Resource
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-    @Autowired
+    @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    @Autowired
+    @Resource
     private IUmsMemberLevelService memberLevelService;
+    @Resource
+    private IUmsMemberRoleService umsMemberRoleService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -86,14 +93,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return username -> {
             UmsMember user = new UmsMember();
             user.setUsername(username);
-            UmsMember umsMember = memberService.getByUsername(username);
+            UmsMember umsMember = umsMemberService.getByUsername(username);
             if (umsMember == null) {
                 throw new UsernameNotFoundException("用户名或密码错误.");
             } else {
                 UmsMemberLevel level = memberLevelService.getById(umsMember.getMemberLevelId());
+
 //                if (umsMember != null && level != null) {
-                List<UmsMemberPermission> permissionList = memberService.listMemberPerms(umsMember.getId(), umsMember.getUsername());
-                return new UmsMemberUserDetails(umsMember, permissionList);
+                List<UmsMemberRole> umsMemberRoleList = umsMemberRoleService.getRoleListByUserId(umsMember.getId(), umsMember.getUsername());
+                List<UmsMemberPermission> permissionList = umsMemberPermissionService.getMemberPermListByUserId(umsMember.getId(), umsMember.getUsername());
+                return new UmsMemberUserDetails(umsMember, permissionList, umsMemberRoleList);
 //                } else {
 //                    throw new UsernameNotFoundException("用户名或密码错误.");
 //                }
