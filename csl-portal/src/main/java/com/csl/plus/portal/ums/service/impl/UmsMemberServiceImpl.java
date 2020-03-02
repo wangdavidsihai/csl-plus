@@ -129,7 +129,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         user.setStatus(CommonCodes.STATUS_REVIEW);
         memberMapper.insert(user);
         user.setPassword(null);
-        return new CommonResult().success("注册成功", user);
+        return new CommonResult().success("注册成功", "注册成功");
     }
 
     @Override

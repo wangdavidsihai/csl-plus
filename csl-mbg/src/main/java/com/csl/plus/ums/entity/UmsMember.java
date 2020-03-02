@@ -118,7 +118,7 @@ public class UmsMember implements Serializable {
     @JsonIgnore
     private String invitecode;
     @TableField(exist = false)
-    @JsonIgnore
+
     private String confirmpassword;
     // email
     private String email;
