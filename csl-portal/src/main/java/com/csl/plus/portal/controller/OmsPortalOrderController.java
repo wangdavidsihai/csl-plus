@@ -42,6 +42,7 @@ public class OmsPortalOrderController extends ApiBaseAction {
     @Autowired
     private IOmsOrderItemService orderItemService;
 
+    @ApiOperation("获取所有订单")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(OmsOrder queryParam, @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -98,10 +99,10 @@ public class OmsPortalOrderController extends ApiBaseAction {
      * @param orderParam
      * @return
      */
-    @ApiOperation("根据购物车信息生成订单")
+    @ApiOperation("提交订单")
     @PostMapping(value = "/submitOrder")
     @ResponseBody
-    public Object generateOrder(@RequestBody @Valid OrderParam orderParam, BindingResult result) {
+    public Object submitOrder(@RequestBody @Valid OrderParam orderParam, BindingResult result) {
         return orderService.generateOrder(orderParam);
     }
 
