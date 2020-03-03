@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,7 +17,6 @@ import java.util.List;
  * 订单表
  * </p>
  *
- *  
  * @since 2019-04-17
  */
 @Data
@@ -26,7 +26,7 @@ public class OmsOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableField(exist = false)
-    List<OmsOrderItem> orderItemList ;
+    List<OmsOrderItem> orderItemList;
     /**
      * 订单id
      */
@@ -35,10 +35,6 @@ public class OmsOrder implements Serializable {
 
     @TableField("member_id")
     private Long memberId;
-
-    @TableField("coupon_id")
-    private Long couponId;
-
     /**
      * 订单编号
      */
@@ -68,30 +64,6 @@ public class OmsOrder implements Serializable {
      */
     @TableField("pay_amount")
     private BigDecimal payAmount;
-
-    /**
-     * 运费金额
-     */
-    @TableField("freight_amount")
-    private BigDecimal freightAmount;
-
-    /**
-     * 促销优化金额（促销价、满减、阶梯价）
-     */
-    @TableField("promotion_amount")
-    private BigDecimal promotionAmount;
-
-    /**
-     * 积分抵扣金额
-     */
-    @TableField("integration_amount")
-    private BigDecimal integrationAmount;
-
-    /**
-     * 优惠券抵扣金额
-     */
-    @TableField("coupon_amount")
-    private BigDecimal couponAmount;
 
     /**
      * 管理员后台调整订单使用的折扣金额
@@ -134,99 +106,6 @@ public class OmsOrder implements Serializable {
     @TableField("delivery_sn")
     private String deliverySn;
 
-    /**
-     * 自动确认时间（天）
-     */
-    @TableField("auto_confirm_day")
-    private Integer autoConfirmDay;
-
-    /**
-     * 可以获得的积分
-     */
-    private Integer integration;
-
-    /**
-     * 可以活动的成长值
-     */
-    private Integer growth;
-
-    /**
-     * 活动信息
-     */
-    @TableField("promotion_info")
-    private String promotionInfo;
-
-    /**
-     * 发票类型：0->不开发票；1->电子发票；2->纸质发票
-     */
-    @TableField("bill_type")
-    private Integer billType;
-
-    /**
-     * 发票抬头
-     */
-    @TableField("bill_header")
-    private String billHeader;
-
-    /**
-     * 发票内容
-     */
-    @TableField("bill_content")
-    private String billContent;
-
-    /**
-     * 收票人电话
-     */
-    @TableField("bill_receiver_phone")
-    private String billReceiverPhone;
-
-    /**
-     * 收票人邮箱
-     */
-    @TableField("bill_receiver_email")
-    private String billReceiverEmail;
-
-    /**
-     * 收货人姓名
-     */
-    @TableField("receiver_name")
-    private String receiverName;
-
-    /**
-     * 收货人电话
-     */
-    @TableField("receiver_phone")
-    private String receiverPhone;
-
-    /**
-     * 收货人邮编
-     */
-    @TableField("receiver_post_code")
-    private String receiverPostCode;
-
-    /**
-     * 省份/直辖市
-     */
-    @TableField("receiver_province")
-    private String receiverProvince;
-
-    /**
-     * 城市
-     */
-    @TableField("receiver_city")
-    private String receiverCity;
-
-    /**
-     * 区
-     */
-    @TableField("receiver_region")
-    private String receiverRegion;
-
-    /**
-     * 详细地址
-     */
-    @TableField("receiver_detail_address")
-    private String receiverDetailAddress;
 
     /**
      * 订单备注
@@ -281,21 +160,35 @@ public class OmsOrder implements Serializable {
     @TableField("modify_time")
     private Date modifyTime;
 
-    @TableField("prepay_id")
-    private String prepayId;
 
     @TableField("supply_id")
     private Long supplyId;
 
-    @TableField("goods_id")
-    private Long goodsId;
-
-    @TableField("goods_name")
-    private String goodsName;
-
-    @TableField("school_id")
-    private Long schoolId;
-
+    /**
+     * 接收者ID
+     */
+    private String recid;
+    /**
+     * 标题
+     */
+    @NotEmpty(message = "标题不能为空")
+    private String subject;
+    /**
+     * 内容
+     */
+    @NotEmpty(message = "内容不能为空")
+    private String message;
+    /**
+     * 关联 id
+     */
+    @NotEmpty(message = "资源id不能为空")
+    private String refid;
+    @NotEmpty(message = "类型分组不能为空")
+    private String sysGroup;
+    /**
+     * 渠道
+     */
+    private String channel;
 
 
 }

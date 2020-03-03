@@ -11,7 +11,6 @@ import com.csl.plus.oms.service.IOmsOrderService;
 import com.csl.plus.oms.vo.OmsMoneyInfoParam;
 import com.csl.plus.oms.vo.OmsOrderDeliveryParam;
 import com.csl.plus.oms.vo.OmsReceiverInfoParam;
-
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,7 +59,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     public int close(List<Long> ids, String note) {
         OmsOrder record = new OmsOrder();
         record.setStatus(4);
-        int count = orderMapper.update(record, new QueryWrapper<OmsOrder>().eq("delete_status",0).in("id",ids));
+        int count = orderMapper.update(record, new QueryWrapper<OmsOrder>().eq("delete_status", 0).in("id", ids));
         List<OmsOrderOperateHistory> historyList = ids.stream().map(orderId -> {
             OmsOrderOperateHistory history = new OmsOrderOperateHistory();
             history.setOrderId(orderId);
@@ -73,17 +72,18 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         orderOperateHistoryDao.saveBatch(historyList);
         return count;
     }
+
     @Override
     public int updateReceiverInfo(OmsReceiverInfoParam receiverInfoParam) {
         OmsOrder order = new OmsOrder();
         order.setId(receiverInfoParam.getOrderId());
-        order.setReceiverName(receiverInfoParam.getReceiverName());
-        order.setReceiverPhone(receiverInfoParam.getReceiverPhone());
-        order.setReceiverPostCode(receiverInfoParam.getReceiverPostCode());
-        order.setReceiverDetailAddress(receiverInfoParam.getReceiverDetailAddress());
-        order.setReceiverProvince(receiverInfoParam.getReceiverProvince());
-        order.setReceiverCity(receiverInfoParam.getReceiverCity());
-        order.setReceiverRegion(receiverInfoParam.getReceiverRegion());
+//        order.setReceiverName(receiverInfoParam.getReceiverName());
+//        order.setReceiverPhone(receiverInfoParam.getReceiverPhone());
+//        order.setReceiverPostCode(receiverInfoParam.getReceiverPostCode());
+//        order.setReceiverDetailAddress(receiverInfoParam.getReceiverDetailAddress());
+//        order.setReceiverProvince(receiverInfoParam.getReceiverProvince());
+//        order.setReceiverCity(receiverInfoParam.getReceiverCity());
+//        order.setReceiverRegion(receiverInfoParam.getReceiverRegion());
         order.setModifyTime(new Date());
         int count = orderMapper.updateById(order);
         //插入操作记录
@@ -101,7 +101,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     public int updateMoneyInfo(OmsMoneyInfoParam moneyInfoParam) {
         OmsOrder order = new OmsOrder();
         order.setId(moneyInfoParam.getOrderId());
-        order.setFreightAmount(moneyInfoParam.getFreightAmount());
         order.setDiscountAmount(moneyInfoParam.getDiscountAmount());
         order.setModifyTime(new Date());
         int count = orderMapper.updateById(order);

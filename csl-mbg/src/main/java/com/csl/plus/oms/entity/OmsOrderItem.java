@@ -1,18 +1,18 @@
 package com.csl.plus.oms.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
  * 订单中所包含的商品
  * </p>
  *
- *  
  * @since 2019-04-17
  */
 @TableName("oms_order_item")
@@ -43,9 +43,6 @@ public class OmsOrderItem implements Serializable {
 
     @TableField("product_name")
     private String productName;
-
-    @TableField("product_brand")
-    private String productBrand;
 
     @TableField("product_sn")
     private String productSn;
@@ -80,58 +77,56 @@ public class OmsOrderItem implements Serializable {
     @TableField("product_category_id")
     private Long productCategoryId;
 
-    /**
-     * 商品的销售属性
-     */
-    private String sp1;
-
-    private String sp2;
-
-    private String sp3;
-
-    /**
-     * 商品促销名称
-     */
-    @TableField("promotion_name")
-    private String promotionName;
-
-    /**
-     * 商品促销分解金额
-     */
-    @TableField("promotion_amount")
-    private BigDecimal promotionAmount;
-
-    /**
-     * 优惠券优惠分解金额
-     */
-    @TableField("coupon_amount")
-    private BigDecimal couponAmount;
-
-    /**
-     * 积分优惠分解金额
-     */
-    @TableField("integration_amount")
-    private BigDecimal integrationAmount;
-
+//    productCategoryId/**
+//     * 商品的销售属性
+//     */
+//    private String sp1;
+//
+//    private String sp2;
+//
+//    private String sp3;
+//
+//    /**
+//     * 商品促销名称
+//     */
+//    @TableField("promotion_name")
+//    private String promotionName;
+//
+//    /**
+//     * 商品促销分解金额
+//     */
+//    @TableField("promotion_amount")
+//    private BigDecimal promotionAmount;
+//
+//    /**
+//     * 优惠券优惠分解金额
+//     */
+//    @TableField("coupon_amount")
+//    private BigDecimal couponAmount;
+//
+//    /**
+//     * 积分优惠分解金额
+//     */
+//    @TableField("integration_amount")
+//    private BigDecimal integrationAmount;
+//
     /**
      * 该商品经过优惠后的分解金额
      */
     @TableField("real_amount")
     private BigDecimal realAmount;
 
-    @TableField("gift_integration")
-    private Integer giftIntegration;
-
-    @TableField("gift_growth")
-    private Integer giftGrowth;
+//    @TableField("gift_integration")
+//    private Integer giftIntegration;
+//
+//    @TableField("gift_growth")
+//    private Integer giftGrowth;
 
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */
-    @TableField("product_attr")
-    private String productAttr;
-
-
+//    @TableField("product_attr")
+//    private String productAttr;
     public Long getId() {
         return id;
     }
@@ -178,14 +173,6 @@ public class OmsOrderItem implements Serializable {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getProductBrand() {
-        return productBrand;
-    }
-
-    public void setProductBrand(String productBrand) {
-        this.productBrand = productBrand;
     }
 
     public String getProductSn() {
@@ -236,62 +223,62 @@ public class OmsOrderItem implements Serializable {
         this.productCategoryId = productCategoryId;
     }
 
-    public String getSp1() {
-        return sp1;
-    }
-
-    public void setSp1(String sp1) {
-        this.sp1 = sp1;
-    }
-
-    public String getSp2() {
-        return sp2;
-    }
-
-    public void setSp2(String sp2) {
-        this.sp2 = sp2;
-    }
-
-    public String getSp3() {
-        return sp3;
-    }
-
-    public void setSp3(String sp3) {
-        this.sp3 = sp3;
-    }
-
-    public String getPromotionName() {
-        return promotionName;
-    }
-
-    public void setPromotionName(String promotionName) {
-        this.promotionName = promotionName;
-    }
-
-    public BigDecimal getPromotionAmount() {
-        return promotionAmount;
-    }
-
-    public void setPromotionAmount(BigDecimal promotionAmount) {
-        this.promotionAmount = promotionAmount;
-    }
-
-    public BigDecimal getCouponAmount() {
-        return couponAmount;
-    }
-
-    public void setCouponAmount(BigDecimal couponAmount) {
-        this.couponAmount = couponAmount;
-    }
-
-    public BigDecimal getIntegrationAmount() {
-        return integrationAmount;
-    }
-
-    public void setIntegrationAmount(BigDecimal integrationAmount) {
-        this.integrationAmount = integrationAmount;
-    }
-
+    //    public String getSp1() {
+//        return sp1;
+//    }
+//
+//    public void setSp1(String sp1) {
+//        this.sp1 = sp1;
+//    }
+//
+//    public String getSp2() {
+//        return sp2;
+//    }
+//
+//    public void setSp2(String sp2) {
+//        this.sp2 = sp2;
+//    }
+//
+//    public String getSp3() {
+//        return sp3;
+//    }
+//
+//    public void setSp3(String sp3) {
+//        this.sp3 = sp3;
+//    }
+//
+//    public String getPromotionName() {
+//        return promotionName;
+//    }
+//
+//    public void setPromotionName(String promotionName) {
+//        this.promotionName = promotionName;
+//    }
+//
+//    public BigDecimal getPromotionAmount() {
+//        return promotionAmount;
+//    }
+//
+//    public void setPromotionAmount(BigDecimal promotionAmount) {
+//        this.promotionAmount = promotionAmount;
+//    }
+//
+//    public BigDecimal getCouponAmount() {
+//        return couponAmount;
+//    }
+//
+//    public void setCouponAmount(BigDecimal couponAmount) {
+//        this.couponAmount = couponAmount;
+//    }
+//
+//    public BigDecimal getIntegrationAmount() {
+//        return integrationAmount;
+//    }
+//
+//    public void setIntegrationAmount(BigDecimal integrationAmount) {
+//        this.integrationAmount = integrationAmount;
+//    }
+//
     public BigDecimal getRealAmount() {
         return realAmount;
     }
@@ -299,58 +286,57 @@ public class OmsOrderItem implements Serializable {
     public void setRealAmount(BigDecimal realAmount) {
         this.realAmount = realAmount;
     }
-
-    public Integer getGiftIntegration() {
-        return giftIntegration;
-    }
-
-    public void setGiftIntegration(Integer giftIntegration) {
-        this.giftIntegration = giftIntegration;
-    }
-
-    public Integer getGiftGrowth() {
-        return giftGrowth;
-    }
-
-    public void setGiftGrowth(Integer giftGrowth) {
-        this.giftGrowth = giftGrowth;
-    }
-
-    public String getProductAttr() {
-        return productAttr;
-    }
-
-    public void setProductAttr(String productAttr) {
-        this.productAttr = productAttr;
-    }
+//
+//    public Integer getGiftIntegration() {
+//        return giftIntegration;
+//    }
+//
+//    public void setGiftIntegration(Integer giftIntegration) {
+//        this.giftIntegration = giftIntegration;
+//    }
+//
+//    public Integer getGiftGrowth() {
+//        return giftGrowth;
+//    }
+//
+//    public void setGiftGrowth(Integer giftGrowth) {
+//        this.giftGrowth = giftGrowth;
+//    }
+//
+//    public String getProductAttr() {
+//        return productAttr;
+//    }
+//
+//    public void setProductAttr(String productAttr) {
+//        this.productAttr = productAttr;
+//    }
 
     @Override
     public String toString() {
         return "OmsOrderItem{" +
-        ", id=" + id +
-        ", orderId=" + orderId +
-        ", orderSn=" + orderSn +
-        ", productId=" + productId +
-        ", productPic=" + productPic +
-        ", productName=" + productName +
-        ", productBrand=" + productBrand +
-        ", productSn=" + productSn +
-        ", productPrice=" + productPrice +
-        ", productQuantity=" + productQuantity +
-        ", productSkuId=" + productSkuId +
-        ", productSkuCode=" + productSkuCode +
-        ", productCategoryId=" + productCategoryId +
-        ", sp1=" + sp1 +
-        ", sp2=" + sp2 +
-        ", sp3=" + sp3 +
-        ", promotionName=" + promotionName +
-        ", promotionAmount=" + promotionAmount +
-        ", couponAmount=" + couponAmount +
-        ", integrationAmount=" + integrationAmount +
-        ", realAmount=" + realAmount +
-        ", giftIntegration=" + giftIntegration +
-        ", giftGrowth=" + giftGrowth +
-        ", productAttr=" + productAttr +
-        "}";
+                ", id=" + id +
+                ", orderId=" + orderId +
+                ", orderSn=" + orderSn +
+                ", productId=" + productId +
+                ", productPic=" + productPic +
+                ", productName=" + productName +
+                ", productSn=" + productSn +
+                ", productPrice=" + productPrice +
+                ", productQuantity=" + productQuantity +
+                ", productSkuId=" + productSkuId +
+                ", productSkuCode=" + productSkuCode +
+                ", productCategoryId=" + productCategoryId +
+//                ", sp1=" + sp1 +
+//                ", sp2=" + sp2 +
+//                ", sp3=" + sp3 +
+//                ", promotionName=" + promotionName +
+//                ", promotionAmount=" + promotionAmount +
+//                ", couponAmount=" + couponAmount +
+//                ", integrationAmount=" + integrationAmount +
+                ", realAmount=" + realAmount +
+//                ", giftIntegration=" + giftIntegration +
+//                ", giftGrowth=" + giftGrowth +
+//                ", productAttr=" + productAttr +
+                "}";
     }
 }

@@ -62,43 +62,43 @@ public class MtMessageController {
      return R.ok().put("mtMessage", mtMessage);
      }
      */
-    /**
-     * 保存
-     */
-    @SysLog(MODULE = "cms", REMARK = "保存消息通知表")
-    @ApiOperation("保存消息通知表")
-    @PostMapping("/save")
-    @PreAuthorize("hasAuthority('inbox:mtmessage:save')")
-    public Object save(@RequestBody MtMessage entity) {
-        try {
-            if (mtMessageService.saves(entity)) {
-                return new CommonResult().success();
-            }
-        } catch (Exception e) {
-            log.error("保存帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
-        }
-        return new CommonResult().failed();
-    }
+//    /**
+//     * 保存
+//     */
+//    @SysLog(MODULE = "cms", REMARK = "保存消息通知表")
+//    @ApiOperation("保存消息通知表")
+//    @PostMapping("/save")
+//    @PreAuthorize("hasAuthority('inbox:mtmessage:save')")
+//    public Object save(@RequestBody MtMessage entity) {
+//        try {
+//            if (mtMessageService.saves(entity)) {
+//                return new CommonResult().success();
+//            }
+//        } catch (Exception e) {
+//            log.error("保存帮助表：%s", e.getMessage(), e);
+//            return new CommonResult().failed();
+//        }
+//        return new CommonResult().failed();
+//    }
 
-    /**
-     * 修改
-     */
-    @SysLog(MODULE = "cms", REMARK = "修改消息通知表")
-    @ApiOperation("修改消息通知表")
-    @PostMapping("/update")
-    @PreAuthorize("hasAuthority('inbox:mtmessage:update')")
-    public Object update(@RequestBody MtMessage entity) {
-        try {
-            if (mtMessageService.updateById(entity)) {
-                return new CommonResult().success();
-            }
-        } catch (Exception e) {
-            log.error("更新帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
-        }
-        return new CommonResult().failed();
-    }
+//    /**
+//     * 修改
+//     */
+//    @SysLog(MODULE = "cms", REMARK = "修改消息通知表")
+//    @ApiOperation("修改消息通知表")
+//    @PostMapping("/update")
+//    @PreAuthorize("hasAuthority('inbox:mtmessage:update')")
+//    public Object update(@RequestBody MtMessage entity) {
+//        try {
+//            if (mtMessageService.updateById(entity)) {
+//                return new CommonResult().success();
+//            }
+//        } catch (Exception e) {
+//            log.error("更新帮助表：%s", e.getMessage(), e);
+//            return new CommonResult().failed();
+//        }
+//        return new CommonResult().failed();
+//    }
 
     /**
      * 删除

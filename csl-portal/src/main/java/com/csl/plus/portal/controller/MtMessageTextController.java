@@ -65,63 +65,62 @@ public class MtMessageTextController {
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存消息内容表")
-    @ApiOperation("保存消息内容表")
-    @PostMapping("/save")
-    @PreAuthorize("hasAuthority('inbox:mtmessagetext:save')")
-    public Object save(@RequestBody MtMessageText entity) {
-        try {
-            if (mtMessageTextService.saves(entity)) {
-                return new CommonResult().success();
-            }
-        } catch (Exception e) {
-            log.error("保存帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
-        }
-        return new CommonResult().failed();
-    }
+//    @SysLog(MODULE = "cms", REMARK = "保存消息内容表")
+//    @ApiOperation("保存消息内容表")
+//    @PostMapping("/save")
+//    @PreAuthorize("hasAuthority('inbox:mtmessagetext:save')")
+//    public Object save(@RequestBody MtMessageText entity) {
+//        try {
+//            if (mtMessageTextService.saves(entity)) {
+//                return new CommonResult().success();
+//            }
+//        } catch (Exception e) {
+//            log.error("保存帮助表：%s", e.getMessage(), e);
+//            return new CommonResult().failed();
+//        }
+//        return new CommonResult().failed();
+//    }
 
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改消息内容表")
-    @ApiOperation("修改消息内容表")
-    @PostMapping("/update")
-    @PreAuthorize("hasAuthority('inbox:mtmessagetext:update')")
-    public Object update(@RequestBody MtMessageText entity) {
-        try {
-            if (mtMessageTextService.updateById(entity)) {
-                return new CommonResult().success();
-            }
-        } catch (Exception e) {
-            log.error("更新帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
-        }
-        return new CommonResult().failed();
-    }
+//    @SysLog(MODULE = "cms", REMARK = "修改消息内容表")
+//    @ApiOperation("修改消息内容表")
+//    @PostMapping("/update")
+//    @PreAuthorize("hasAuthority('inbox:mtmessagetext:update')")
+//    public Object update(@RequestBody MtMessageText entity) {
+//        try {
+//            if (mtMessageTextService.updateById(entity)) {
+//                return new CommonResult().success();
+//            }
+//        } catch (Exception e) {
+//            log.error("更新帮助表：%s", e.getMessage(), e);
+//            return new CommonResult().failed();
+//        }
+//        return new CommonResult().failed();
+//    }
 
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除消息内容表")
-    @ApiOperation("删除消息内容表")
-    @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('inbox:mtmessagetext:delete')")
-    public Object delete(@ApiParam("id") @PathVariable Long id) {
-        try {
-            if (ValidatorUtils.empty(id)) {
-                return new CommonResult().paramFailed("帮助表id");
-            }
-            if (mtMessageTextService.removeById(id)) {
-                return new CommonResult().success();
-            }
-        } catch (Exception e) {
-            log.error("删除帮助表：%s", e.getMessage(), e);
-            return new CommonResult().failed();
-        }
-        return new CommonResult().failed();
-    }
-
+//    @SysLog(MODULE = "cms", REMARK = "删除消息内容表")
+//    @ApiOperation("删除消息内容表")
+//    @DeleteMapping("/delete")
+//    @PreAuthorize("hasAuthority('inbox:mtmessagetext:delete')")
+//    public Object delete(@ApiParam("id") @PathVariable Long id) {
+//        try {
+//            if (ValidatorUtils.empty(id)) {
+//                return new CommonResult().paramFailed("帮助表id");
+//            }
+//            if (mtMessageTextService.removeById(id)) {
+//                return new CommonResult().success();
+//            }
+//        } catch (Exception e) {
+//            log.error("删除帮助表：%s", e.getMessage(), e);
+//            return new CommonResult().failed();
+//        }
+//        return new CommonResult().failed();
+//    }
     @SysLog(MODULE = "cms", REMARK = "查询消息内容表明细")
     @ApiOperation("查询消息内容表明细")
     @GetMapping(value = "/{id}")
