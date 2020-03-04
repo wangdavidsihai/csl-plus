@@ -3,20 +3,18 @@ package com.csl.plus.portal.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.csl.plus.oms.entity.OmsOrder;
 import com.csl.plus.oms.entity.OmsOrderItem;
-import com.csl.plus.oms.vo.OmsOrderDetail;
 import com.csl.plus.oms.vo.OrderParam;
-import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.oms.service.IOmsOrderItemService;
 import com.csl.plus.portal.oms.service.IOmsOrderService;
 import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
-import com.csl.plus.portal.util.JsonUtil;
 import com.csl.plus.utils.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-@Api(tags = "需求对接管理", description = "需求对接管理")
+@Api(tags = "/api/OmsOrderController", description = "订单管理")
 @RequestMapping("/api/order")
 public class OmsPortalOrderController extends ApiBaseAction {
 
@@ -45,36 +43,27 @@ public class OmsPortalOrderController extends ApiBaseAction {
     @ApiOperation("获取所有订单")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('oms:order:list')")
     public Object list(OmsOrder queryParam, @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         queryParam.setMemberId(umsMemberService.getCurrentMember().getId());
         List<OmsOrder> orderList = orderService.list(new QueryWrapper<>(queryParam));
         for (OmsOrder order : orderList) {
             OmsOrderItem query = new OmsOrderItem();
-            query.setOrderId(queryParam.getId());
+            query.setOrderId(order.getId());
             List<OmsOrderItem> orderItemList = orderItemService.list(new QueryWrapper<>(query));
             order.setOrderItemList(orderItemList);
         }
         return new CommonResult().success(orderList);
     }
 
-    @ApiOperation("获取订单详情:订单信息、商品信息、操作记录")
+    @ApiOperation("获取订单详情:订单信息,操作记录")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('oms:order:detail')")
     public Object detail(@RequestParam(value = "id", required = false, defaultValue = "0") Long id) {
-        OmsOrder orderDetailResult = null;
-        String bannerJson = redisService.get(RedisKey.PmsProductResult + id);
-        if (bannerJson != null) {
-            orderDetailResult = JsonUtil.jsonToPojo(bannerJson, OmsOrderDetail.class);
-        } else {
-            orderDetailResult = orderService.getById(id);
-            OmsOrderItem query = new OmsOrderItem();
-            query.setOrderId(id);
-            List<OmsOrderItem> orderItemList = orderItemService.list(new QueryWrapper<>(query));
-            orderDetailResult.setOrderItemList(orderItemList);
-            redisService.set(RedisKey.PmsProductResult + id, JsonUtil.objectToJson(orderDetailResult));
-            redisService.expire(RedisKey.PmsProductResult + id, 10 * 60);
-        }
+
+        OmsOrder orderDetailResult = orderService.getOrderDerails(id);
 
         return new CommonResult().success(orderDetailResult);
     }
@@ -100,8 +89,9 @@ public class OmsPortalOrderController extends ApiBaseAction {
      * @return
      */
     @ApiOperation("提交订单")
-    @PostMapping(value = "/submitOrder")
+    @PostMapping(value = "/submitorder")
     @ResponseBody
+    @PreAuthorize("hasAuthority('oms:order:submit')")
     public Object submitOrder(@RequestBody @Valid OrderParam orderParam, BindingResult result) {
         return orderService.generateOrder(orderParam);
     }

@@ -17,12 +17,13 @@
         <result column="product_sku_code" property="productSkuCode"/>
         <result column="product_category_id" property="productCategoryId"/>
         <result column="real_amount" property="realAmount"/>
+        <result column="url" property="url"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, order_id, order_sn, product_id, product_pic, product_name, product_sn, product_price,
-        product_quantity, product_sku_id, product_sku_code, product_category_id,real_amount
+        product_quantity, product_sku_id, product_sku_code, product_category_id,real_amount,url
     </sql>
 
 </mapper>

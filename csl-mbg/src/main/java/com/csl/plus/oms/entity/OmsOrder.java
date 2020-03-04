@@ -124,11 +124,11 @@ public class OmsOrder implements Serializable {
     @TableField("delete_status")
     private Integer deleteStatus;
 
-    /**
-     * 下单时使用的积分
-     */
-    @TableField("use_integration")
-    private Integer useIntegration;
+//    /**
+//     * 下单时使用的积分
+//     */
+//    @TableField("use_integration")
+//    private Integer useIntegration;
 
     /**
      * 支付时间

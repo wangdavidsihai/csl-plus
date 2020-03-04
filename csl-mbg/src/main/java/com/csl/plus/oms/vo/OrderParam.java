@@ -54,4 +54,6 @@ public class OrderParam implements java.io.Serializable {
     @NotEmpty(message = "类型分组不能为空")
     private String sysGroup;
 
+    private String url;
+
 }

@@ -27,12 +27,12 @@
         <result column="comment_time" property="commentTime"/>
         <result column="modify_time" property="modifyTime"/>
         <result column="supply_id" property="supplyId"/>
-        <result property="recid" column="recId"/>
-        <result property="subject" column="subject"/>
-        <result property="message" column="message"/>
-        <result property="refid" column="refId"/>
-        <result property="channel" column="channel"/>
-        <result property="sysGroup" column="sys_group"/>
+        <result column="recId" property="recid"/>
+        <result column="subject" property="subject"/>
+        <result column="message" property="message"/>
+        <result column="refId" property="refid"/>
+        <result column="channel" property="channel"/>
+        <result column="sys_group" property="sysGroup"/>
     </resultMap>
     <resultMap id="orderDetailMap" type="com.csl.plus.oms.vo.OmsOrderDetail"
                extends="com.csl.plus.oms.mapper.OmsOrderMapper.BaseResultMap">

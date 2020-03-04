@@ -1,17 +1,17 @@
 package com.csl.plus.ums.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 会员收货地址表
+ * 会员地址表
  * </p>
  *
- *  
  * @since 2019-04-19
  */
 @TableName("ums_member_receive_address")
@@ -150,16 +150,16 @@ public class UmsMemberReceiveAddress implements Serializable {
     @Override
     public String toString() {
         return "UmsMemberReceiveAddress{" +
-        ", id=" + id +
-        ", memberId=" + memberId +
-        ", name=" + name +
-        ", phoneNumber=" + phoneNumber +
-        ", defaultStatus=" + defaultStatus +
-        ", postCode=" + postCode +
-        ", province=" + province +
-        ", city=" + city +
-        ", region=" + region +
-        ", detailAddress=" + detailAddress +
-        "}";
+                ", id=" + id +
+                ", memberId=" + memberId +
+                ", name=" + name +
+                ", phoneNumber=" + phoneNumber +
+                ", defaultStatus=" + defaultStatus +
+                ", postCode=" + postCode +
+                ", province=" + province +
+                ", city=" + city +
+                ", region=" + region +
+                ", detailAddress=" + detailAddress +
+                "}";
     }
 }

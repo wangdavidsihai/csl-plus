@@ -3,9 +3,9 @@ package com.csl.plus.portal.oms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.exception.ApiMallPlusException;
 import com.csl.plus.exception.BusinessException;
-import com.csl.plus.inbox.entity.MtMessageServ;
 import com.csl.plus.marking.entity.SmsCouponHistory;
 import com.csl.plus.marking.entity.SmsGroup;
 import com.csl.plus.marking.entity.SmsGroupMember;
@@ -20,6 +20,7 @@ import com.csl.plus.pms.entity.PmsProduct;
 import com.csl.plus.pms.entity.PmsSkuStock;
 import com.csl.plus.pms.mapper.PmsSkuStockMapper;
 import com.csl.plus.portal.config.WxAppletProperties;
+import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.marking.service.ISmsCouponHistoryService;
 import com.csl.plus.portal.marking.service.ISmsCouponService;
 import com.csl.plus.portal.marking.service.ISmsGroupMemberService;
@@ -33,6 +34,7 @@ import com.csl.plus.portal.ums.service.IUmsMemberReceiveAddressService;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
 import com.csl.plus.portal.util.DateUtils;
+import com.csl.plus.portal.util.JsonUtil;
 import com.csl.plus.portal.util.UserUtils;
 import com.csl.plus.portal.util.applet.TemplateData;
 import com.csl.plus.portal.util.applet.WX_TemplateMsgUtil;
@@ -153,6 +155,24 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     }
 
     @Override
+    public OmsOrder getOrderDerails(Long id) {
+        OmsOrder orderDetail = null;
+        String bannerJson = redisService.get(RedisKey.PmsProductResult + id);
+        if (bannerJson != null) {
+            orderDetail = JsonUtil.jsonToPojo(bannerJson, OmsOrderDetail.class);
+        } else {
+            orderDetail = orderService.getById(id);
+            OmsOrderItem query = new OmsOrderItem();
+            query.setOrderId(id);
+            List<OmsOrderItem> orderItemList = orderItemService.list(new QueryWrapper<>(query));
+            orderDetail.setOrderItemList(orderItemList);
+            redisService.set(RedisKey.PmsProductResult + id, JsonUtil.objectToJson(orderDetail));
+            redisService.expire(RedisKey.PmsProductResult + id, 10 * 60);
+        }
+        return orderDetail;
+    }
+
+    @Override
     public void sendDelayMessageCancelOrder(Long orderId) {
         // 获取订单超时时间
         OmsOrderSetting orderSetting = orderSettingMapper.selectById(1L);
@@ -248,39 +268,11 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
 
     @Override
     public CommonResult generateOrder(OrderParam orderParam) {
+        //validate params
+        validate(orderParam);
 
-        String type = orderParam.getType();
-        if (umsMemberService.getById(orderParam.getSendid()) == null) {
-            throw new BusinessException("用户信息不存在");
-        }
         UmsMember currentMember = UserUtils.getCurrentMember();
-        if (!StringUtils.isEmpty(orderParam.getRefid())) {
-            IService service = beanServiceMap.get(orderParam.getSysGroup());
-            if (service == null || service.getById(orderParam.getRefid()) == null) {
-                throw new BusinessException("对接资源信息不存在");
-            }
-        }
-        List<OmsOrderItem> orderItemList = new ArrayList<OmsOrderItem>();
-        String name = "";
-        // 生成下单商品信息
-        OmsOrderItem orderItem = new OmsOrderItem();
-//        orderItem.setProductAttr("");
-        orderItem.setProductId(Long.parseLong(orderParam.getRefid()));
-//        orderItem.setProductName(cartPromotionItem.getProductName());
-//        orderItem.setProductPic(cartPromotionItem.getProductPic());
-//        orderItem.setProductAttr(cartPromotionItem.getProductAttr());
-//        orderItem.setProductPrice(cartPromotionItem.getPrice());
-//        orderItem.setProductQuantity(cartPromotionItem.getQuantity());
-//        orderItem.setProductSkuId(cartPromotionItem.getProductSkuId());
-//        orderItem.setProductSkuCode(cartPromotionItem.getProductSkuCode());
-//        orderItem.setProductCategoryId(cartPromotionItem.getProductCategoryId());
-//        name = cartPromotionItem.getProductName();
-        orderItemList.add(orderItem);
-        // 计算order_item的实付金额
-//        handleRealAmount(orderItemList);
-        // 进行库存锁定
-//        lockStock(cartPromotionItemList);
-        // 根据商品合计、运费、活动优惠、优惠券、积分计算应付金额
+
         OmsOrder order = new OmsOrder();
         order.setDiscountAmount(new BigDecimal(0));
         order.setTotalAmount(new BigDecimal(0));
@@ -293,43 +285,44 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         order.setPayType(0);
         // 订单来源：0->PC订单；1->app订单
         order.setSourceType(1);
-        // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
-        order.setStatus(0);
-        // 订单类型：0->正常订单；1->秒杀订单
+        // 订单状态：0->review
+        order.setStatus(Integer.parseInt(CommonCodes.STATUS_REVIEW));
+        // 订单类型：0->正常订单；1->异常
         order.setOrderType(0);
-        // 收货人信息：姓名、电话、邮编、地址
-        UmsMemberReceiveAddress address = addressService.getById(orderParam.getAddressId());
         // 0->未确认；1->已确认
         order.setConfirmStatus(0);
         order.setDeleteStatus(0);
         // 生成订单号
         order.setOrderSn(generateOrderSn(order));
-        // TODO: 2018/9/3 bill_*,delivery_*
+        order.setChannel(orderParam.getChannel());
+        order.setMessage(orderParam.getMessage());
+        order.setRefid(orderParam.getRefid());
+        order.setSubject(orderParam.getSubject());
+        order.setSysGroup(orderParam.getSysGroup());
         // 插入order表和order_item表
         orderService.save(order);
+        List<OmsOrderItem> orderItemList = new ArrayList<OmsOrderItem>();
+        OmsOrderItem orderItem = new OmsOrderItem();
+        orderItem.setProductId(Long.parseLong(orderParam.getRefid()));
+        orderItemList.add(orderItem);
         orderItem.setOrderId(order.getId());
         orderItem.setOrderSn(order.getOrderSn());
+        orderItem.setUrl(orderParam.getUrl());
         orderItemService.saveBatch(orderItemList);
-        // 删除购物车中的下单商品
-//        deleteCartItemList(cartPromotionItemList, currentMember);
         Map<String, Object> result = new HashMap<>();
         result.put("order", order);
         result.put("orderItemList", orderItemList);
 
-//        String platform = orderParam.getPlatform();
-//        if ("1".equals(platform)) {
-//            push(currentMember, order, orderParam.getPage(), orderParam.getFormId(), name);
-//        }
         return new CommonResult().success("下单成功", result);
     }
 
-    private boolean validate(MtMessageServ entity) {
-        if (umsMemberService.getById(entity.getSendid()) == null) {
+    private boolean validate(OrderParam orderParam) {
+        if (umsMemberService.getById(orderParam.getSendid()) == null) {
             throw new BusinessException("用户信息不存在");
         }
-        if (!StringUtils.isEmpty(entity.getRefid())) {
-            IService service = beanServiceMap.get(entity.getSysGroup());
-            if (service == null || service.getById(entity.getRefid()) == null) {
+        if (!StringUtils.isEmpty(orderParam.getRefid())) {
+            IService service = beanServiceMap.get(orderParam.getSysGroup());
+            if (service == null || service.getById(orderParam.getRefid()) == null) {
                 throw new BusinessException("对接资源信息不存在");
             }
         }
