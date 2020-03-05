@@ -83,7 +83,7 @@ public class SingleUmsController extends ApiBaseAction {
             return new CommonResult().validateFailed("用户名或密码错误");
         }
         try {
-            Map<String, Object> token = memberService.login(umsMember.getUsername(), umsMember.getPassword());
+            Map<String, Object> token = memberService.login(umsMember);
             if (token.get("token") == null) {
                 return new CommonResult().validateFailed("用户名或密码错误");
             }

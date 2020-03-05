@@ -10,13 +10,12 @@ import com.csl.plus.portal.constant.RedisKey;
 import com.csl.plus.portal.single.ApiBaseAction;
 import com.csl.plus.portal.ums.service.IUmsMemberService;
 import com.csl.plus.portal.ums.service.RedisService;
-import com.csl.plus.portal.util.CharUtil;
-import com.csl.plus.portal.util.CommonUtil;
-import com.csl.plus.portal.util.JsonUtils;
-import com.csl.plus.portal.util.JwtTokenUtil;
+import com.csl.plus.portal.util.*;
 import com.csl.plus.portal.vo.UmsMemberUserDetails;
 import com.csl.plus.sys.mapper.SysAreaMapper;
 import com.csl.plus.ums.entity.UmsMember;
+import com.csl.plus.ums.entity.UmsMemberLoginLog;
+import com.csl.plus.ums.mapper.UmsMemberLoginLogMapper;
 import com.csl.plus.ums.mapper.UmsMemberMapper;
 import com.csl.plus.ums.mapper.UmsMemberMemberTagRelationMapper;
 import com.csl.plus.ums.mapper.UmsMemberPermissionMapper;
@@ -36,6 +35,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +56,16 @@ import java.util.Random;
 public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements IUmsMemberService {
 
     @Resource
-    private UmsMemberMapper memberMapper;
+    private JwtTokenUtil jwtTokenUtil;
+    @Value("${redis.key.prefix.authCode}")
+    private String REDIS_KEY_PREFIX_AUTH_CODE;
+    @Value("${authCode.expire.seconds}")
+    private Long AUTH_CODE_EXPIRE_SECONDS;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
+    @Resource
+    private UmsMemberMapper memberMapper;
     @Resource
     private PasswordEncoder passwordEncoder;
     @Resource
@@ -67,21 +76,14 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      */
     @Resource
     private UserDetailsService userDetailsService;
-
     @Resource
     private SysAreaMapper areaMapper;
-    @Resource
-    private JwtTokenUtil jwtTokenUtil;
-    @Value("${redis.key.prefix.authCode}")
-    private String REDIS_KEY_PREFIX_AUTH_CODE;
-    @Value("${authCode.expire.seconds}")
-    private Long AUTH_CODE_EXPIRE_SECONDS;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
     @Resource
     private UmsMemberMemberTagRelationMapper umsMemberMemberTagRelationMapper;
     @Resource
     private UmsMemberPermissionMapper umsMemberPermissionMapper;
+    @Resource
+    private UmsMemberLoginLogMapper umsMemberLoginLogMapper;
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -313,26 +315,27 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     }
 
     @Override
-    public Map<String, Object> login(String username, String password) {
+    public Map<String, Object> login(UmsMember umsMember) {
         Map<String, Object> tokenMap = new HashMap<>();
         String token = null;
         // 密码需要客户端加密后传递
 //        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 //                passwordEncoder.encode(password));
         try {
-            String key = String.format(RedisKey.PermisionListKey, username);
+            String key = String.format(RedisKey.PermisionListKey, umsMember.getUsername());
             redisService.remove(key);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
+            if (!passwordEncoder.matches(umsMember.getPassword(), userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
-            UmsMember member = this.getByUsername(username);
+            UmsMember member = this.getByUsername(umsMember.getUsername());
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
             member.setPassword("");
             tokenMap.put("userInfo", member);
+            auditLogin(umsMember);
         } catch (Exception e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
@@ -341,6 +344,20 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 
         return tokenMap;
 
+    }
+
+    private void auditLogin(UmsMember member) {
+        UmsMemberLoginLog umsMemberLoginLog = new UmsMemberLoginLog();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
+        umsMemberLoginLog.setIp(IpAddressUtil.getIpAddr(request));
+        umsMemberLoginLog.setCity("");
+        umsMemberLoginLog.setProvince("");
+        umsMemberLoginLog.setCreateDate(new Date());
+        umsMemberLoginLog.setChannel(member.getClientContext().getChannel());
+        umsMemberLoginLog.setMemberName(member.getUsername());
+        umsMemberLoginLog.setAppVersion(member.getClientContext().getAppVersion());
+        umsMemberLoginLogMapper.insert(umsMemberLoginLog);
     }
 
     @Override

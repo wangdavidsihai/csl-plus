@@ -1,15 +1,12 @@
 package com.csl.plus.portal.component;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
+import com.csl.plus.portal.annotation.SysLog;
+import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.portal.util.IpAddressUtil;
+import com.csl.plus.sys.entity.SysWebLog;
+import com.csl.plus.sys.mapper.SysWebLogMapper;
+import com.csl.plus.ums.entity.UmsMember;
+import com.csl.plus.utils.ValidatorUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,13 +19,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.csl.plus.portal.annotation.SysLog;
-import com.csl.plus.portal.ums.service.IUmsMemberService;
-import com.csl.plus.portal.util.IpAddressUtil;
-import com.csl.plus.sys.entity.SysWebLog;
-import com.csl.plus.sys.mapper.SysWebLogMapper;
-import com.csl.plus.ums.entity.UmsMember;
-import com.csl.plus.utils.ValidatorUtils;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * 系统日志，切面处理类
@@ -36,118 +34,118 @@ import com.csl.plus.utils.ValidatorUtils;
 @Aspect
 @Component
 public class SysLogAspect {
-	private Logger logger = LoggerFactory.getLogger(SysLogAspect.class);
-	@Resource
-	public SysWebLogMapper fopSystemOperationLogService;
-	@Resource
-	public IUmsMemberService adminService;
+    private Logger logger = LoggerFactory.getLogger(SysLogAspect.class);
+    @Resource
+    public SysWebLogMapper fopSystemOperationLogService;
+    @Resource
+    public IUmsMemberService umsMemberService;
 
-	@Pointcut("@annotation(com.csl.plus.annotation.SysLog)")
-	public void logPointCut() {
+    @Pointcut("@annotation(com.csl.plus.annotation.SysLog)")
+    public void logPointCut() {
 
-	}
+    }
 
-	@Before("logPointCut()")
-	public void saveSysLog(JoinPoint joinPoint) {
-		try {
+    @Before("logPointCut()")
+    public void saveSysLog(JoinPoint joinPoint) {
+        try {
 
-			MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-			Method method = signature.getMethod();
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            Method method = signature.getMethod();
 
-			SysWebLog sysLog = new SysWebLog();
-			SysLog syslog1 = method.getAnnotation(SysLog.class);
-			if (syslog1 != null) {
-				// 注解上的描述
-				sysLog.setServiceName(syslog1.MODULE());
-				sysLog.setOperationDesc(syslog1.REMARK());
-			}
+            SysWebLog sysLog = new SysWebLog();
+            SysLog syslog1 = method.getAnnotation(SysLog.class);
+            if (syslog1 != null) {
+                // 注解上的描述
+                sysLog.setServiceName(syslog1.MODULE());
+                sysLog.setOperationDesc(syslog1.REMARK());
+            }
 
-			// 请求的方法名
-			String clazzName = joinPoint.getTarget().getClass().getName();
-			Class<?> clazz = Class.forName(clazzName);
-			String clazzSimpleName = clazz.getSimpleName();
-			String methodName = signature.getName();
-			sysLog.setMethod(clazzSimpleName + "." + methodName);
+            // 请求的方法名
+            String clazzName = joinPoint.getTarget().getClass().getName();
+            Class<?> clazz = Class.forName(clazzName);
+            String clazzSimpleName = clazz.getSimpleName();
+            String methodName = signature.getName();
+            sysLog.setMethod(clazzSimpleName + "." + methodName);
 
-			// 请求的参数
-			String[] parameterNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
-			StringBuilder sb = null;
-			if (Objects.nonNull(parameterNames)) {
-				sb = new StringBuilder();
-				for (int i = 0; i < parameterNames.length; i++) {
-					Object param = joinPoint.getArgs()[i] != null ? joinPoint.getArgs()[i] : "";
-					if (StringUtils.isNotEmpty(param.toString()) && !"request".equals(parameterNames[i])
-							&& !"response".equals(parameterNames[i]) && !"modelMap".equals(parameterNames[i])) {
-						if (param instanceof Integer) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof String) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Double) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Float) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Long) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Boolean) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Date) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else if (param instanceof Timestamp) {
-							sb.append(parameterNames[i] + ":" + param + "; ");
-						} else {
-							sb.append(parameterNames[i] + ":" + getString(param) + "; ");
-						}
-					}
-				}
-			}
-			sb = sb == null ? new StringBuilder() : sb;
-			sysLog.setParams(sb.toString());
-			// 设置IP地址
-			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-					.getRequest();
-			sysLog.setIp(IpAddressUtil.getIpAddr(request));
-			// 用户名
-			UmsMember sysUserEntity = adminService.getCurrentMember();
-			if (null != sysUserEntity) {
-				sysLog.setUserId(sysUserEntity.getId());
-				sysLog.setUserName(sysUserEntity.getUsername());
-			}
-			sysLog.setCreateTime(new Date());
-			logger.info(getString(sysLog));
+            // 请求的参数
+            String[] parameterNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
+            StringBuilder sb = null;
+            if (Objects.nonNull(parameterNames)) {
+                sb = new StringBuilder();
+                for (int i = 0; i < parameterNames.length; i++) {
+                    Object param = joinPoint.getArgs()[i] != null ? joinPoint.getArgs()[i] : "";
+                    if (StringUtils.isNotEmpty(param.toString()) && !"request".equals(parameterNames[i])
+                            && !"response".equals(parameterNames[i]) && !"modelMap".equals(parameterNames[i])) {
+                        if (param instanceof Integer) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof String) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Double) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Float) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Long) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Boolean) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Date) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else if (param instanceof Timestamp) {
+                            sb.append(parameterNames[i] + ":" + param + "; ");
+                        } else {
+                            sb.append(parameterNames[i] + ":" + getString(param) + "; ");
+                        }
+                    }
+                }
+            }
+            sb = sb == null ? new StringBuilder() : sb;
+            sysLog.setParams(sb.toString());
+            // 设置IP地址
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                    .getRequest();
+            sysLog.setIp(IpAddressUtil.getIpAddr(request));
+            // 用户名
+            UmsMember sysUserEntity = umsMemberService.getCurrentMember();
+            if (null != sysUserEntity) {
+                sysLog.setUserId(sysUserEntity.getId());
+                sysLog.setUserName(sysUserEntity.getUsername());
+            }
+            sysLog.setCreateTime(new Date());
+            logger.info(getString(sysLog));
 
-			// 保存系统日志
-			fopSystemOperationLogService.insert(sysLog);
-		} catch (Exception ex) {
-			logger.error("保存系统日志失败");
-		}
+            // 保存系统日志
+            fopSystemOperationLogService.insert(sysLog);
+        } catch (Exception ex) {
+            logger.error("保存系统日志失败");
+        }
 
-	}
+    }
 
-	public static String getString(Object o) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		StringBuffer sb = new StringBuffer();
-		sb.append("entity[");
-		Field[] farr = o.getClass().getDeclaredFields();
-		for (Field field : farr) {
-			try {
-				field.setAccessible(true);
-				if (!ValidatorUtils.empty(field.get(o))) {
-					sb.append(field.getName());
-					sb.append("=");
-					if (field.get(o) instanceof Date) {
-						// 日期的处理
-						sb.append(sdf.format(field.get(o)));
-					} else {
-						sb.append(field.get(o));
-					}
-					sb.append("|");
-				}
+    public static String getString(Object o) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        StringBuffer sb = new StringBuffer();
+        sb.append("entity[");
+        Field[] farr = o.getClass().getDeclaredFields();
+        for (Field field : farr) {
+            try {
+                field.setAccessible(true);
+                if (!ValidatorUtils.empty(field.get(o))) {
+                    sb.append(field.getName());
+                    sb.append("=");
+                    if (field.get(o) instanceof Date) {
+                        // 日期的处理
+                        sb.append(sdf.format(field.get(o)));
+                    } else {
+                        sb.append(field.get(o));
+                    }
+                    sb.append("|");
+                }
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		sb.append("]");
-		return sb.toString();
-	}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
