@@ -6,6 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.csl.plus.inbox.entity.MtMessage" id="mtMessageMap">
         <result property="id" column="id"/>
+        <result property="subject" column="subject"/>
         <result property="sendid" column="sendId"/>
         <result property="recid" column="recId"/>
         <result property="msgid" column="msgId"/>
@@ -22,9 +23,10 @@
 
         </selectKey>
 
-        insert into mt_message (id, sendId, recId, msgId, create_date,status,del_flag)
+        insert into mt_message (id, subject,sendId, recId, msgId, create_date,status,del_flag)
 
-        values (#{id,jdbcType=VARCHAR}, #{sendid,jdbcType=VARCHAR}, #{recid,jdbcType=VARCHAR},#{msgid,jdbcType=VARCHAR},#{createDate,jdbcType=TIMESTAMP},
+        values (#{id,jdbcType=VARCHAR}, #{sendid,jdbcType=VARCHAR},
+        #{recid,jdbcType=VARCHAR},#{msgid,jdbcType=VARCHAR},#{createDate,jdbcType=TIMESTAMP},
 
         #{status,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR})
 
