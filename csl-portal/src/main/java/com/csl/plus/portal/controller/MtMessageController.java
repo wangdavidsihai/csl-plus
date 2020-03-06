@@ -126,7 +126,7 @@ public class MtMessageController {
     @ApiOperation("查询消息通知表明细")
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAuthority('inbox:mtmessage:read')")
-    public Object getMtMessageById(@ApiParam("新闻表id") @PathVariable Long id) {
+    public Object getMtMessageById(@ApiParam("站内信id") @PathVariable String id) {
         try {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("消息通知表id");
