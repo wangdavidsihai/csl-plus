@@ -8,6 +8,8 @@ import com.csl.plus.inbox.entity.MtMessage;
 import com.csl.plus.inbox.entity.MtMessageText;
 import com.csl.plus.portal.inbox.service.IMtMessageService;
 import com.csl.plus.portal.inbox.service.IMtMessageTextService;
+import com.csl.plus.portal.ums.service.IUmsMemberService;
+import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -35,6 +37,8 @@ public class MtMessageController {
     private IMtMessageService mtMessageService;
     @Resource
     private IMtMessageTextService mtMessageTextService;
+    @Resource
+    private IUmsMemberService umsMemberService;
 
     /**
      * 列表
@@ -42,10 +46,12 @@ public class MtMessageController {
     @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
-//    @PreAuthorize("hasAuthority('rms:mtmessage:list')")
+    @PreAuthorize("hasAuthority('inbox:mtmessage:list')")
     public Object getMtMessageByPage(MtMessage entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
+            UmsMember umsMember = umsMemberService.getCurrentMember();
+            entity.setRecid(umsMember.getId().toString());
             return new CommonResult()
                     .success(mtMessageService.page(new Page<MtMessage>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
