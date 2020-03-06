@@ -14,7 +14,7 @@
 	<name>csl-admin</name>
 
 	<dependencies>
-	<dependency>
+		<dependency>
 			<groupId>com.csl.plus</groupId>
 			<artifactId>csl-mbg</artifactId>
 			<version>1.0-SNAPSHOT</version>

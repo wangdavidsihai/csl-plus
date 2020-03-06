@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -22,7 +21,7 @@ import java.util.Date;
 @Data
 @TableName("ums_member")
 @ApiModel(value = "user对象", description = "用户对象user")
-public class UmsMember extends BaseRequest implements Serializable {
+public class UmsMember extends BaseRequest {
 
     private static final long serialVersionUID = 1L;
 
@@ -119,7 +118,6 @@ public class UmsMember extends BaseRequest implements Serializable {
     @JsonIgnore
     private String invitecode;
     @TableField(exist = false)
-
     private String confirmpassword;
     // email
     private String email;
