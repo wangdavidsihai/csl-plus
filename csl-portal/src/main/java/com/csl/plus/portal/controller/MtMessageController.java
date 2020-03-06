@@ -3,17 +3,21 @@ package com.csl.plus.portal.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.inbox.entity.MtMessage;
+import com.csl.plus.inbox.entity.MtMessageText;
 import com.csl.plus.portal.inbox.service.IMtMessageService;
+import com.csl.plus.portal.inbox.service.IMtMessageTextService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * 消息通知表
@@ -27,8 +31,10 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "/api/MtMessageController", description = "消息通知表管理")
 @RequestMapping("/api/inbox/mtmessage")
 public class MtMessageController {
-    @Autowired
+    @Resource
     private IMtMessageService mtMessageService;
+    @Resource
+    private IMtMessageTextService mtMessageTextService;
 
     /**
      * 列表
@@ -131,7 +137,15 @@ public class MtMessageController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("消息通知表id");
             }
-            MtMessage object = mtMessageService.getById(id);
+            MtMessage mtMessage = new MtMessage();
+            mtMessage.setStatus(CommonCodes.INBOX_READ);
+            mtMessage.setId(id);
+            mtMessageService.updateById(mtMessage);
+            MtMessageText mtMessageText = new MtMessageText();
+            mtMessageText.setRefid(id);
+            mtMessageText.setStatus(CommonCodes.INBOX_READ);
+            mtMessageTextService.update(mtMessageText, new QueryWrapper<>());
+            MtMessageText object = mtMessageTextService.getOne(new QueryWrapper<>(mtMessageText));
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询消息通知表明细：%s", e.getMessage(), e);

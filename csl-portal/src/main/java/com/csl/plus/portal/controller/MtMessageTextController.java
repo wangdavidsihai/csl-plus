@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 消息内容表
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @email
  * @date 2020-01-31 17:46:11
  */
+@ApiIgnore
 @Slf4j
 @RestController
 @Api(tags = "/api/MtMessageTextController", description = "消息内容表管理")
@@ -130,7 +132,9 @@ public class MtMessageTextController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("消息内容表id");
             }
-            MtMessageText object = mtMessageTextService.getById(id);
+            MtMessageText mtMessageText = new MtMessageText();
+            mtMessageText.setRefid(id);
+            MtMessageText object = mtMessageTextService.getOne(new QueryWrapper<>(mtMessageText));
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询消息内容表明细：%s", e.getMessage(), e);

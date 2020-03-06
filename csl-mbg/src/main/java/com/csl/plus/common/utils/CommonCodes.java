@@ -13,5 +13,8 @@ public interface CommonCodes {
     public static final String ALLOWED = "Y";
     public static final String NOT_ALLOWED = "N";
 
+    public static final String INBOX_READ = "1";
+    public static final String INBOX_UNREAD = "0";
+
 
 }
