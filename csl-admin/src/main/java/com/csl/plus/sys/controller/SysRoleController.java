@@ -10,7 +10,6 @@ import com.csl.plus.sys.entity.SysRolePermission;
 import com.csl.plus.sys.service.ISysRoleService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,7 +39,7 @@ public class SysRoleController extends ApiController {
     @SysLog(MODULE = "sys", REMARK = "根据条件查询所有角色列表")
     @ApiOperation("根据条件查询所有角色列表")
     @GetMapping(value = "/list")
-    @PreAuthorize("hasAuthority('sys:role:read')")
+    @PreAuthorize("hasAuthority('sys:role:list')")
     public Object getRoleByPage(SysRole entity,
                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize
@@ -135,6 +134,7 @@ public class SysRoleController extends ApiController {
             return new CommonResult().failed();
         }
     }
+
     @SysLog(MODULE = "sys", REMARK = "获取相应角色权限")
     @ApiOperation("获取相应角色权限")
     @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
@@ -143,11 +143,12 @@ public class SysRoleController extends ApiController {
         List<SysRolePermission> permissionList = sysRoleService.getRolePermission(roleId);
         return new CommonResult().success(permissionList);
     }
+
     @SysLog(MODULE = "sys", REMARK = "获取相应角色权限-单表")
     @ApiOperation("获取相应角色权限-单表")
     @RequestMapping(value = "/rolePermission/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object rolePermission(@PathVariable Long  roleId) {
+    public Object rolePermission(@PathVariable Long roleId) {
         List<SysRolePermission> rolePermission = sysRoleService.getRolePermission(roleId);
         return new CommonResult().success(rolePermission);
     }
