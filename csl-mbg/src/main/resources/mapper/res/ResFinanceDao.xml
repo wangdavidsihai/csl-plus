@@ -30,7 +30,20 @@
         <result property="mobile" column="mobile"/>
         <result property="email" column="email"/>
         <result property="sysGroup" column="sys_group"/>
+        <association property="resCategory" column="category_id" javaType="com.csl.plus.res.entity.ResCategory">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="keywords" column="keywords"/>
+        </association>
+
     </resultMap>
+
+    <select id="getList" resultMap="resFinanceMap">
+        SELECT p.*, r.name,r.keywords
+        FROM
+        `res_finance` p
+        LEFT JOIN `res_category` r ON p.category_id = r.id
+    </select>
 
 
 </mapper>

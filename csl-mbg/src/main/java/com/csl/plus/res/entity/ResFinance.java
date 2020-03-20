@@ -1,5 +1,6 @@
 package com.csl.plus.res.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -120,5 +121,7 @@ public class ResFinance implements Serializable {
      *
      */
     private String sysGroup;
+    @TableField(exist = false)
+    private ResCategory resCategory;
 
 }

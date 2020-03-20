@@ -1,6 +1,6 @@
 package com.csl.plus.res.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.res.entity.ResProjProduction;
@@ -40,8 +40,10 @@ public class ResProjProductionController {
     public Object getResProjProductionByPage(ResProjProduction entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
+            IPage<ResProjProduction> page = new Page<ResProjProduction>(pageNum, pageSize);
+            page.setRecords(resProjProductionService.getList());
             return new CommonResult()
-                    .success(resProjProductionService.page(new Page<ResProjProduction>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(page);
         } catch (Exception e) {
             log.error("根据条件查询所有项目表列表：%s", e.getMessage(), e);
         }
@@ -126,7 +128,7 @@ public class ResProjProductionController {
     @ApiOperation("查询项目表明细")
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAuthority('res:resprojproduction:read')")
-    public Object getResProjProductionById(@ApiParam("新闻表id") @PathVariable Long id) {
+    public Object getResProjProductionById(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目表id");

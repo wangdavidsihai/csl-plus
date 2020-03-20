@@ -1,6 +1,6 @@
 package com.csl.plus.res.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.res.entity.ResFinance;
@@ -40,8 +40,10 @@ public class ResFinanceController {
     public Object getResFinanceByPage(ResFinance entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
+            IPage<ResFinance> page = new Page<ResFinance>(pageNum, pageSize);
+            page.setRecords(resFinanceService.getList());
             return new CommonResult()
-                    .success(resFinanceService.page(new Page<ResFinance>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(page);
         } catch (Exception e) {
             log.error("根据条件查询所有金融需求表列表：%s", e.getMessage(), e);
         }

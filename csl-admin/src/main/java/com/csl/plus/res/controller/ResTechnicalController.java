@@ -1,6 +1,6 @@
 package com.csl.plus.res.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.res.entity.ResTechnical;
@@ -40,8 +40,10 @@ public class ResTechnicalController {
     public Object getResTechnicalByPage(ResTechnical entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
+            IPage<ResTechnical> page = new Page<ResTechnical>(pageNum, pageSize);
+            page.setRecords(resTechnicalService.getList());
             return new CommonResult()
-                    .success(resTechnicalService.page(new Page<ResTechnical>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(page);
         } catch (Exception e) {
             log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
         }
