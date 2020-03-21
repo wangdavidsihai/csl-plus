@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.portal.res.service.IResProjCategoryService;
-import com.csl.plus.res.entity.ResProjCategory;
+import com.csl.plus.res.entity.ResProjectCategory;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -37,11 +37,11 @@ public class ResProjCategoryController {
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('res:resprojcategory:list')")
-    public Object getResProjCategoryByPage(ResProjCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public Object getResProjCategoryByPage(ResProjectCategory entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
             return new CommonResult()
-                    .success(resProjCategoryService.page(new Page<ResProjCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(resProjCategoryService.page(new Page<ResProjectCategory>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
             log.error("根据条件查询所有项目类别表列表：%s", e.getMessage(), e);
         }
@@ -69,7 +69,7 @@ public class ResProjCategoryController {
     @ApiOperation("保存项目类别表")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('res:resprojcategory:save')")
-    public Object save(@RequestBody ResProjCategory entity) {
+    public Object save(@RequestBody ResProjectCategory entity) {
         try {
             if (resProjCategoryService.saves(entity)) {
                 return new CommonResult().success();
@@ -88,7 +88,7 @@ public class ResProjCategoryController {
     @ApiOperation("修改项目类别表")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('res:resprojcategory:update')")
-    public Object update(@RequestBody ResProjCategory entity) {
+    public Object update(@RequestBody ResProjectCategory entity) {
         try {
             if (resProjCategoryService.updateById(entity)) {
                 return new CommonResult().success();
@@ -131,7 +131,7 @@ public class ResProjCategoryController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目类别表id");
             }
-            ResProjCategory object = resProjCategoryService.getById(id);
+            ResProjectCategory object = resProjCategoryService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询项目类别表明细：%s", e.getMessage(), e);

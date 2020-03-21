@@ -327,14 +327,14 @@ public class SmsHomeAdvertiseServiceImpl extends ServiceImpl<SmsHomeAdvertiseMap
     }
 
     @Override
-    public List<ResProjCategory> getProjectResourceCategoryList(int pageNum, int pageSize) {
-        ResProjCategory resProjCategory = new ResProjCategory();
+    public List<ResProjectCategory> getProjectResourceCategoryList(int pageNum, int pageSize) {
+        ResProjectCategory resProjCategory = new ResProjectCategory();
         return resProjCategoryService.list(new QueryWrapper<>(resProjCategory));
     }
 
     @Override
-    public List<ResProjProduction> getProjectResourceList(int pageNum, int pageSize) {
-        ResProjProduction resProjProduction = new ResProjProduction();
+    public List<ResProject> getProjectResourceList(int pageNum, int pageSize) {
+        ResProject resProjProduction = new ResProject();
         return resProjProductionService.list(new QueryWrapper<>(resProjProduction));
     }
 

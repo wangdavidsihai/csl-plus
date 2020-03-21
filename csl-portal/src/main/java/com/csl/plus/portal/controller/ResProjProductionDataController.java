@@ -2,7 +2,7 @@ package com.csl.plus.portal.controller;
 
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.portal.res.service.IResProjProductionDataService;
-import com.csl.plus.res.entity.ResProjProductionData;
+import com.csl.plus.res.entity.ResProjectData;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -67,7 +67,7 @@ public class ResProjProductionDataController {
     @ApiOperation("保存项目表详细信息")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('res:resprojproductiondata:save')")
-    public Object save(@RequestBody ResProjProductionData entity) {
+    public Object save(@RequestBody ResProjectData entity) {
         try {
             if (resProjProductionDataService.saves(entity)) {
                 return new CommonResult().success();
@@ -86,7 +86,7 @@ public class ResProjProductionDataController {
     @ApiOperation("修改项目表详细信息")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('res:resprojproductiondata:update')")
-    public Object update(@RequestBody ResProjProductionData entity) {
+    public Object update(@RequestBody ResProjectData entity) {
         try {
             if (resProjProductionDataService.updateById(entity)) {
                 return new CommonResult().success();
@@ -129,7 +129,7 @@ public class ResProjProductionDataController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目表详细信息id");
             }
-            ResProjProductionData object = resProjProductionDataService.getById(id);
+            ResProjectData object = resProjProductionDataService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询项目表详细信息明细：%s", e.getMessage(), e);

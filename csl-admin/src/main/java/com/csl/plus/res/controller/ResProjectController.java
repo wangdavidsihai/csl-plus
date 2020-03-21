@@ -3,8 +3,8 @@ package com.csl.plus.res.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
-import com.csl.plus.res.entity.ResProjProduction;
-import com.csl.plus.res.service.IResProjProductionService;
+import com.csl.plus.res.entity.ResProject;
+import com.csl.plus.res.service.IResProjectService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api(tags = "/api/ResProjProductionController", description = "项目表管理")
 @RequestMapping("res/project")
-public class ResProjProductionController {
+public class ResProjectController {
     @Autowired
-    private IResProjProductionService resProjProductionService;
+    private IResProjectService resProjProductionService;
 
     /**
      * 列表
@@ -37,10 +37,10 @@ public class ResProjProductionController {
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('res:resprojproduction:list')")
-    public Object getResProjProductionByPage(ResProjProduction entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public Object getResProjProductionByPage(ResProject entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-            IPage<ResProjProduction> page = new Page<ResProjProduction>(pageNum, pageSize);
+            IPage<ResProject> page = new Page<ResProject>(pageNum, pageSize);
             page.setRecords(resProjProductionService.getList());
             return new CommonResult()
                     .success(page);
@@ -71,7 +71,7 @@ public class ResProjProductionController {
     @ApiOperation("保存项目表")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('res:resprojproduction:save')")
-    public Object save(@RequestBody ResProjProduction entity) {
+    public Object save(@RequestBody ResProject entity) {
         try {
             if (resProjProductionService.saves(entity)) {
                 return new CommonResult().success();
@@ -90,7 +90,7 @@ public class ResProjProductionController {
     @ApiOperation("修改项目表")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('res:resprojproduction:update')")
-    public Object update(@RequestBody ResProjProduction entity) {
+    public Object update(@RequestBody ResProject entity) {
         try {
             if (resProjProductionService.updateById(entity)) {
                 return new CommonResult().success();
@@ -133,7 +133,7 @@ public class ResProjProductionController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目表id");
             }
-            ResProjProduction object = resProjProductionService.getById(id);
+            ResProject object = resProjProductionService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询项目表明细：%s", e.getMessage(), e);

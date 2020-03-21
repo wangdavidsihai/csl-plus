@@ -30,6 +30,9 @@
         <result property="mobile" column="mobile"/>
         <result property="email" column="email"/>
         <result property="sysGroup" column="sys_group"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="deleteStatus" column="delete_status"/>
+
         <association property="resCategory" column="category_id" javaType="com.csl.plus.res.entity.ResCategory">
             <id property="id" column="id"/>
             <result property="name" column="name"/>

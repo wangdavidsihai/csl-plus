@@ -16,8 +16,8 @@ import java.util.Date;
  * @date 2020-02-15 22:12:07
  */
 @Data
-@TableName("res_proj_production")
-public class ResProjProduction implements Serializable {
+@TableName("res_project")
+public class ResProject implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -90,7 +90,17 @@ public class ResProjProduction implements Serializable {
      */
     private String sysGroup;
 
+    /**
+     * 审核状态：0->未审核；1->审核通过
+     */
+    private Integer verifyStatus;
+    /**
+     * 删除状态：0->未删除；1->已删除
+     */
+    private Integer deleteStatus;
+
     @TableField(exist = false)
     private ResCategory resCategory;
+
 
 }

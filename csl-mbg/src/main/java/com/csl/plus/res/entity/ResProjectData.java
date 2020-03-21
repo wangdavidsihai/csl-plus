@@ -1,6 +1,5 @@
 package com.csl.plus.res.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -9,15 +8,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 金融需求表
+ * 项目表详细信息
  *
  * @author David
  * @email
  * @date 2020-02-15 22:12:07
  */
 @Data
-@TableName("res_finance")
-public class ResFinance implements Serializable {
+@TableName("res_project_data")
+public class ResProjectData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -26,9 +25,9 @@ public class ResFinance implements Serializable {
     @TableId
     private Long id;
     /**
-     * 类别ID
+     * 项目ID
      */
-    private Long categoryId;
+    private Long proId;
     /**
      * 标题
      */
@@ -38,25 +37,21 @@ public class ResFinance implements Serializable {
      */
     private String keywords;
     /**
-     * 描述、摘要
+     * 详细信息
      */
-    private String description;
+    private String content;
     /**
-     * 应用领域ID
+     * 项目编号
      */
-    private Long appAreaId;
+    private String proRef;
     /**
-     * 先进程度
+     * 项目单位
      */
-    private String mainFunc;
+    private String company;
     /**
-     * 型号
+     * 技术参数
      */
-    private String model;
-    /**
-     * 需求参数
-     */
-    private String finParam;
+    private String techParam;
     /**
      * 供应商
      */
@@ -117,20 +112,5 @@ public class ResFinance implements Serializable {
      *
      */
     private String email;
-    /**
-     *
-     */
-    private String sysGroup;
-    /**
-     * 审核状态：0->未审核；1->审核通过
-     */
-    private Integer verifyStatus;
-    /**
-     * 删除状态：0->未删除；1->已删除
-     */
-    private Integer deleteStatus;
-
-    @TableField(exist = false)
-    private ResCategory resCategory;
 
 }

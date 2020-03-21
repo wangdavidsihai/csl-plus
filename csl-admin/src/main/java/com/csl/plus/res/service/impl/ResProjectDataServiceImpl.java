@@ -1,9 +1,9 @@
-package com.csl.plus.portal.res.service.impl;
+package com.csl.plus.res.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.csl.plus.portal.res.service.IResProjProductionDataService;
 import com.csl.plus.res.entity.ResProjectData;
 import com.csl.plus.res.mapper.ResProjectDataMapper;
+import com.csl.plus.res.service.IResProjectDataService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @Service("resProjProductionDataService")
-public class ResProjProductionDataServiceImpl extends ServiceImpl<ResProjectDataMapper, ResProjectData> implements IResProjProductionDataService {
+public class ResProjectDataServiceImpl extends ServiceImpl<ResProjectDataMapper, ResProjectData> implements IResProjectDataService {
 
     @Resource
     private ResProjectDataMapper resProjProductionDataMapper;

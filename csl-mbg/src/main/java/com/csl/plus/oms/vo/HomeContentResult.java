@@ -50,8 +50,8 @@ public class HomeContentResult {
     private List<ResTechnical> techResourceList;
     private List<ResProductCategory> prodResourceCategories;
     private List<ResProduct> prodResourceList;
-    private List<ResProjCategory> projectResourceCategories;
-    private List<ResProjProduction> projectResourceList;
+    private List<ResProjectCategory> projectResourceCategories;
+    private List<ResProject> projectResourceList;
     private List<ResExpert> expertResourceList;
     private List<ResTalent> talentResourceList;
 

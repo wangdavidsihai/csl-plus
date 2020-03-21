@@ -1,4 +1,4 @@
-package com.csl.plus.portal.res.service;
+package com.csl.plus.res.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.csl.plus.res.entity.ResProjectData;
@@ -11,7 +11,7 @@ import com.csl.plus.res.entity.ResProjectData;
  * @email
  * @date 2020-02-15 22:12:07
  */
-public interface IResProjProductionDataService extends IService<ResProjectData> {
+public interface IResProjectDataService extends IService<ResProjectData> {
 
 
     boolean saves(ResProjectData entity);

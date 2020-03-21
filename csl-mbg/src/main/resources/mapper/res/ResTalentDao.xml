@@ -18,6 +18,8 @@
         <result property="delFlag" column="del_flag"/>
         <result property="status" column="status"/>
         <result property="sysGroup" column="sys_group"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="deleteStatus" column="delete_status"/>
     </resultMap>
 
 

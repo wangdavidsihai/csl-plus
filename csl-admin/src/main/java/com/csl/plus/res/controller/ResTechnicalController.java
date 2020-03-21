@@ -140,4 +140,20 @@ public class ResTechnicalController {
             return new CommonResult().failed();
         }
     }
+
+    @ApiOperation("批量修改审核状态")
+    @RequestMapping(value = "/update/verifyStatus")
+    @ResponseBody
+    @SysLog(MODULE = "res", REMARK = "批量修改审核状态")
+    @PreAuthorize("hasAuthority('res:restechnical:update')")
+    public Object updateVerifyStatus(@RequestParam("ids") Long ids,
+                                     @RequestParam("verifyStatus") Integer verifyStatus,
+                                     @RequestParam("detail") String detail) {
+        int count = resTechnicalService.updateVerifyStatus(ids, verifyStatus, detail);
+        if (count > 0) {
+            return new CommonResult().success(count);
+        } else {
+            return new CommonResult().failed();
+        }
+    }
 }

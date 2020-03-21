@@ -19,5 +19,7 @@ public interface IResTechnicalService extends IService<ResTechnical> {
     boolean saves(ResTechnical entity);
 
     List<ResTechnical> getList();
+
+    int updateVerifyStatus(Long ids, Integer verifyStatus, String detail);
 }
 

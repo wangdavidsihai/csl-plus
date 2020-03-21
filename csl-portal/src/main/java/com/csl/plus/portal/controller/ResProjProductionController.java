@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.portal.res.service.IResProjProductionService;
-import com.csl.plus.res.entity.ResProjProduction;
+import com.csl.plus.res.entity.ResProject;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -37,11 +37,11 @@ public class ResProjProductionController {
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
 //    @PreAuthorize("hasAuthority('res:resprojproduction:list')")
-    public Object getResProjProductionByPage(ResProjProduction entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public Object getResProjProductionByPage(ResProject entity, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
             return new CommonResult()
-                    .success(resProjProductionService.page(new Page<ResProjProduction>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(resProjProductionService.page(new Page<ResProject>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
             log.error("根据条件查询所有项目表列表：%s", e.getMessage(), e);
         }
@@ -69,7 +69,7 @@ public class ResProjProductionController {
     @ApiOperation("保存项目表")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('res:resprojproduction:save')")
-    public Object save(@RequestBody ResProjProduction entity) {
+    public Object save(@RequestBody ResProject entity) {
         try {
             if (resProjProductionService.saves(entity)) {
                 return new CommonResult().success();
@@ -88,7 +88,7 @@ public class ResProjProductionController {
     @ApiOperation("修改项目表")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('res:resprojproduction:update')")
-    public Object update(@RequestBody ResProjProduction entity) {
+    public Object update(@RequestBody ResProject entity) {
         try {
             if (resProjProductionService.updateById(entity)) {
                 return new CommonResult().success();
@@ -131,7 +131,7 @@ public class ResProjProductionController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目表id");
             }
-            ResProjProduction object = resProjProductionService.getById(id);
+            ResProject object = resProjProductionService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询项目表明细：%s", e.getMessage(), e);
@@ -145,13 +145,13 @@ public class ResProjProductionController {
     @SysLog(MODULE = "res", REMARK = "根据条件查询列表")
     @ApiOperation("根据CatId查询列表")
     @GetMapping("/{catid}/list")
-    public Object getResProjProductionByCatId(ResProjProduction entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public Object getResProjProductionByCatId(ResProject entity, @ApiParam("category Id") @PathVariable Long catid, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
-            entity = new ResProjProduction();
+            entity = new ResProject();
             entity.setCategoryId(catid);
             return new CommonResult()
-                    .success(resProjProductionService.page(new Page<ResProjProduction>(pageNum, pageSize), new QueryWrapper<>(entity)));
+                    .success(resProjProductionService.page(new Page<ResProject>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
             log.error("根据条件查询所有需求表列表：%s", e.getMessage(), e);
         }

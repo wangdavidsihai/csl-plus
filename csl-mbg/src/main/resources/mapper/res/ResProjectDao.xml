@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.csl.plus.res.mapper.ResProjProductionMapper">
+<mapper namespace="com.csl.plus.res.mapper.ResProjectMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.csl.plus.res.entity.ResProjProduction" id="resProjProductionMap">
+    <resultMap type="com.csl.plus.res.entity.ResProject" id="resProjProductionMap">
         <result property="id" column="id"/>
         <result property="categoryId" column="category_id"/>
         <result property="title" column="title"/>
@@ -22,6 +22,8 @@
         <result property="status" column="status"/>
         <result property="startDate" column="start_date"/>
         <result property="sysGroup" column="sys_group"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="deleteStatus" column="delete_status"/>
 
         <association property="resCategory" column="category_id" javaType="com.csl.plus.res.entity.ResCategory">
             <id property="id" column="id"/>

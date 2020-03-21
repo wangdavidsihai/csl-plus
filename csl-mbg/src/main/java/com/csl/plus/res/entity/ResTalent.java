@@ -72,5 +72,13 @@ public class ResTalent implements Serializable {
      *
      */
     private String sysGroup;
+    /**
+     * 审核状态：0->未审核；1->审核通过
+     */
+    private Integer verifyStatus;
+    /**
+     * 删除状态：0->未删除；1->已删除
+     */
+    private Integer deleteStatus;
 
 }
