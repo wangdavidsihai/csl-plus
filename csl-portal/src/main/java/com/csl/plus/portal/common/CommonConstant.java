@@ -64,13 +64,4 @@ public class CommonConstant {
 
     public static final String CUSTOM_COURSE_SALT = "FITCAMP_CUSTOMCOURSE_";
 
-    public static final String SYS_GROUP_RMS_FIN = "rms-fin";
-    public static final String SYS_GROUP_RMS_TECH = "rms-tech";
-    public static final String SYS_GROUP_RMS_PROD = "rms-prod";
-    public static final String SYS_GROUP_RES_EXP = "res-exp";
-    public static final String SYS_GROUP_RES_TAL = "res-tal";
-    public static final String SYS_GROUP_RES_FIN = "res-fin";
-    public static final String SYS_GROUP_RES_PROD = "res-prod";
-    public static final String SYS_GROUP_RES_PROJ = "res-proj";
-    public static final String SYS_GROUP_RES_TECH = "res-tech";
 }

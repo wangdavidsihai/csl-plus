@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.csl.plus.audit.entity.ReviewLog;
 import com.csl.plus.audit.mapper.ReviewLogMapper;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.res.entity.ResTechnical;
 import com.csl.plus.res.mapper.ResTechnicalMapper;
 import com.csl.plus.res.service.IResTechnicalService;
@@ -49,8 +50,17 @@ public class ResTechnicalServiceImpl extends ServiceImpl<ResTechnicalMapper, Res
         record.setDetail(detail);
         record.setStatus(verifyStatus);
         record.setApprover(UserUtils.getCurrentMember().getUsername());
+        record.setSysGroup(CommonCodes.SYS_GROUP_RES_TECH);
         reviewLogMapper.insert(record);
         return count;
+    }
+
+    @Override
+    public List<ReviewLog> getVertifyRecord(Long id, String sysGroup) {
+        ReviewLog reviewLog = new ReviewLog();
+        reviewLog.setSysGroup(sysGroup);
+        reviewLog.setRefId(id);
+        return reviewLogMapper.selectList(new QueryWrapper<>(reviewLog));
     }
 
 }

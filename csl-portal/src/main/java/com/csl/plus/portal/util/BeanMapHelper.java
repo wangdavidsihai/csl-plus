@@ -1,7 +1,7 @@
 package com.csl.plus.portal.util;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.csl.plus.portal.common.CommonConstant;
+import com.csl.plus.common.utils.CommonCodes;
 import com.csl.plus.portal.res.service.*;
 import com.csl.plus.portal.rms.service.IFinRequirementService;
 import com.csl.plus.portal.rms.service.IPrdRequirementService;
@@ -38,15 +38,15 @@ public class BeanMapHelper {
     @Bean(name = "beanServiceMap")
     public Map<String, IService> beanServiceMap() {
         Map<String, IService> beanServiceMap = new HashMap<String, IService>();
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RMS_FIN, finRequirementService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RMS_PROD, prdRequirementService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RMS_TECH, techRequirementService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_TAL, resTalentService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_TECH, resTechnicalService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_PROJ, resProjProductionService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_PROD, resProductService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_FIN, resFinanceService);
-        beanServiceMap.put(CommonConstant.SYS_GROUP_RES_EXP, resExpertService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RMS_FIN, finRequirementService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RMS_PROD, prdRequirementService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RMS_TECH, techRequirementService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_TAL, resTalentService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_TECH, resTechnicalService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_PROJ, resProjProductionService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_PROD, resProductService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_FIN, resFinanceService);
+        beanServiceMap.put(CommonCodes.SYS_GROUP_RES_EXP, resExpertService);
         return beanServiceMap;
     }
 }

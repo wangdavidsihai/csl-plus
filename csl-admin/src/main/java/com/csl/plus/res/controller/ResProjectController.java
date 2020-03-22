@@ -3,6 +3,7 @@ package com.csl.plus.res.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
+import com.csl.plus.audit.entity.ReviewLog;
 import com.csl.plus.res.entity.ResProject;
 import com.csl.plus.res.service.IResProjectService;
 import com.csl.plus.utils.CommonResult;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 项目表
@@ -28,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("res/project")
 public class ResProjectController {
     @Autowired
-    private IResProjectService resProjProductionService;
+    private IResProjectService resProjectService;
 
     /**
      * 列表
@@ -41,7 +44,7 @@ public class ResProjectController {
                                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         try {
             IPage<ResProject> page = new Page<ResProject>(pageNum, pageSize);
-            page.setRecords(resProjProductionService.getList());
+            page.setRecords(resProjectService.getList());
             return new CommonResult()
                     .success(page);
         } catch (Exception e) {
@@ -73,7 +76,7 @@ public class ResProjectController {
     @PreAuthorize("hasAuthority('res:resprojproduction:save')")
     public Object save(@RequestBody ResProject entity) {
         try {
-            if (resProjProductionService.saves(entity)) {
+            if (resProjectService.saves(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -92,7 +95,7 @@ public class ResProjectController {
     @PreAuthorize("hasAuthority('res:resprojproduction:update')")
     public Object update(@RequestBody ResProject entity) {
         try {
-            if (resProjProductionService.updateById(entity)) {
+            if (resProjectService.updateById(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -114,7 +117,7 @@ public class ResProjectController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("帮助表id");
             }
-            if (resProjProductionService.removeById(id)) {
+            if (resProjectService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -133,11 +136,38 @@ public class ResProjectController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("项目表id");
             }
-            ResProject object = resProjProductionService.getById(id);
+            ResProject object = resProjectService.getById(id);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询项目表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
+    }
+
+    @ApiOperation("批量修改审核状态")
+    @PostMapping(value = "/update/verifyStatus")
+    @ResponseBody
+    @SysLog(MODULE = "res", REMARK = "批量修改审核状态")
+    @PreAuthorize("hasAuthority('res:resprojproduction:update')")
+    public Object updateVerifyStatus(@RequestParam("ids") Long ids,
+                                     @RequestParam("verifyStatus") Integer verifyStatus,
+                                     @RequestParam("detail") String detail) {
+        int count = resProjectService.updateVerifyStatus(ids, verifyStatus, detail);
+        if (count > 0) {
+            return new CommonResult().success(count);
+        } else {
+            return new CommonResult().failed();
+        }
+    }
+
+
+    @ApiOperation("根据id获取审核信息")
+    @GetMapping(value = "/fetchVList/{id}/{sysGroup}")
+    @ResponseBody
+    @SysLog(MODULE = "res", REMARK = "据id获取审核信息")
+    @PreAuthorize("hasAuthority('res:resprojproduction:read')")
+    public Object fetchVList(@PathVariable Long id, @PathVariable String sysGroup) {
+        List<ReviewLog> list = resProjectService.getVertifyRecord(id, sysGroup);
+        return new CommonResult().success(list);
     }
 }

@@ -3,6 +3,7 @@ package com.csl.plus.res.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
+import com.csl.plus.audit.entity.ReviewLog;
 import com.csl.plus.res.entity.ResFinance;
 import com.csl.plus.res.service.IResFinanceService;
 import com.csl.plus.utils.CommonResult;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 金融需求表
@@ -139,5 +142,32 @@ public class ResFinanceController {
             log.error("查询金融需求表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
+    }
+
+    @ApiOperation("批量修改审核状态")
+    @PostMapping(value = "/update/verifyStatus")
+    @ResponseBody
+    @SysLog(MODULE = "res", REMARK = "批量修改审核状态")
+    @PreAuthorize("hasAuthority('res:resfinance:update')")
+    public Object updateVerifyStatus(@RequestParam("ids") Long ids,
+                                     @RequestParam("verifyStatus") Integer verifyStatus,
+                                     @RequestParam("detail") String detail) {
+        int count = resFinanceService.updateVerifyStatus(ids, verifyStatus, detail);
+        if (count > 0) {
+            return new CommonResult().success(count);
+        } else {
+            return new CommonResult().failed();
+        }
+    }
+
+
+    @ApiOperation("根据id获取审核信息")
+    @GetMapping(value = "/fetchVList/{id}/{sysGroup}")
+    @ResponseBody
+    @SysLog(MODULE = "res", REMARK = "据id获取审核信息")
+    @PreAuthorize("hasAuthority('res:resfinance:read')")
+    public Object fetchVList(@PathVariable Long id, @PathVariable String sysGroup) {
+        List<ReviewLog> list = resFinanceService.getVertifyRecord(id, sysGroup);
+        return new CommonResult().success(list);
     }
 }

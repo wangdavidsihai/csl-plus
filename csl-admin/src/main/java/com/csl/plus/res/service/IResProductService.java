@@ -1,6 +1,7 @@
 package com.csl.plus.res.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.csl.plus.audit.entity.ReviewLog;
 import com.csl.plus.res.entity.ResProduct;
 
 import java.util.List;
@@ -19,5 +20,9 @@ public interface IResProductService extends IService<ResProduct> {
     boolean saves(ResProduct entity);
 
     List<ResProduct> getList();
+
+    int updateVerifyStatus(Long ids, Integer verifyStatus, String detail);
+
+    List<ReviewLog> getVertifyRecord(Long id, String sysGroup);
 }
 

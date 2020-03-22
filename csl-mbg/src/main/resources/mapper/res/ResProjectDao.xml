@@ -36,7 +36,7 @@
     <select id="getList" resultMap="resProjProductionMap">
         SELECT p.*, r.name,r.keywords
         FROM
-        `res_proj_production` p
+        `res_project` p
         LEFT JOIN `res_category` r ON p.category_id = r.id
     </select>
 
