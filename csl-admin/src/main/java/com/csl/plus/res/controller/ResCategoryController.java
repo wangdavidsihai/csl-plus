@@ -67,18 +67,21 @@ public class ResCategoryController {
      */
     @SysLog(MODULE = "res", REMARK = "保存资源类别表")
     @ApiOperation("保存资源类别表")
-    @PostMapping("/save")
+    @PostMapping("/create")
     @PreAuthorize("hasAuthority('res:rescategory:save')")
     public Object save(@RequestBody ResCategory entity) {
+        String msg = "保存成功";
         try {
             if (resCategoryService.saves(entity)) {
-                return new CommonResult().success();
+                return new CommonResult().success(msg);
+            } else {
+                msg = "名字已经存在";
             }
         } catch (Exception e) {
             log.error("保存帮助表：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
-        return new CommonResult().failed();
+        return new CommonResult().failed(msg);
     }
 
     /**
@@ -86,18 +89,26 @@ public class ResCategoryController {
      */
     @SysLog(MODULE = "res", REMARK = "修改资源类别表")
     @ApiOperation("修改资源类别表")
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('res:rescategory:update')")
-    public Object update(@RequestBody ResCategory entity) {
+    public Object update(@PathVariable Integer id, @RequestBody ResCategory entity) {
+        String msg = "更新成功";
         try {
-            if (resCategoryService.updateById(entity)) {
-                return new CommonResult().success();
+            if (id != null) {
+                entity.setId(id);
+                if (resCategoryService.updateAnd(entity)) {
+                    return new CommonResult().success(msg);
+                } else {
+                    msg = "名字已经存在";
+                }
+            } else {
+                msg = "id不可以为空";
             }
         } catch (Exception e) {
             log.error("更新帮助表：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
-        return new CommonResult().failed();
+        return new CommonResult().failed(msg);
     }
 
 
@@ -105,7 +116,7 @@ public class ResCategoryController {
     @RequestMapping(value = "/update/showStatus", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('res:rescategory:update')")
-    public Object updateShowStatus(@RequestParam("id") Long id, @RequestParam("showStatus") Integer showStatus) {
+    public Object updateShowStatus(@RequestParam("id") Integer id, @RequestParam("showStatus") Integer showStatus) {
         int count = resCategoryService.updateShowStatus(id, showStatus);
         if (count > 0) {
             return new CommonResult().success(count);
@@ -119,18 +130,18 @@ public class ResCategoryController {
      */
     @SysLog(MODULE = "res", REMARK = "删除资源类别表")
     @ApiOperation("删除资源类别表")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('res:rescategory:delete')")
-    public Object delete(@ApiParam("id") @PathVariable Long id) {
+    public Object delete(@ApiParam("id") @PathVariable Integer id) {
         try {
             if (ValidatorUtils.empty(id)) {
-                return new CommonResult().paramFailed("帮助表id");
+                return new CommonResult().paramFailed("ID不能为空");
             }
             if (resCategoryService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("删除帮助表：%s", e.getMessage(), e);
+            log.error("删除资源类别表：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -140,7 +151,7 @@ public class ResCategoryController {
     @ApiOperation("查询资源类别表明细")
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAuthority('res:rescategory:read')")
-    public Object getResCategoryById(@ApiParam("id") @PathVariable Long id) {
+    public Object getResCategoryById(@ApiParam("id") @PathVariable Integer id) {
         try {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("资源类别表id");

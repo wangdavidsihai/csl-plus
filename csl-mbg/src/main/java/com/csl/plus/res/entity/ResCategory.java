@@ -1,5 +1,6 @@
 package com.csl.plus.res.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -22,12 +23,12 @@ public class ResCategory implements Serializable {
     /**
      * 主键
      */
-    @TableId
-    private Long id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
     /**
      * 上机分类的编号：0表示一级分类
      */
-    private Long parentId;
+    private Integer parentId = 0;
     /**
      *
      */
@@ -35,7 +36,7 @@ public class ResCategory implements Serializable {
     /**
      * 分类级别：0->1级；1->2级
      */
-    private Integer level;
+    private Integer level = 1;
     /**
      * 显示状态：0->不显示；1->显示
      */

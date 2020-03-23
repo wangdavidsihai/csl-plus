@@ -16,6 +16,10 @@ public interface IResCategoryService extends IService<ResCategory> {
 
     boolean saves(ResCategory entity);
 
-    int updateShowStatus(Long id, Integer showStatus);
+    int updateShowStatus(Integer id, Integer showStatus);
+
+    boolean updateAnd(ResCategory entity);
+
+    boolean saveAnd(ResCategory entity);
 }
 
