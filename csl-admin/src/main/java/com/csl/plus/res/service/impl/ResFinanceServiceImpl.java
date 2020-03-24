@@ -50,7 +50,7 @@ public class ResFinanceServiceImpl extends ServiceImpl<ResFinanceMapper, ResFina
         record.setDetail(detail);
         record.setStatus(verifyStatus);
         record.setApprover(UserUtils.getCurrentMember().getUsername());
-        record.setSysGroup(CommonCodes.SYS_GROUP_RES_TECH);
+        record.setSysGroup(CommonCodes.SYS_GROUP_RES_FIN);
         reviewLogMapper.insert(record);
         return count;
     }
