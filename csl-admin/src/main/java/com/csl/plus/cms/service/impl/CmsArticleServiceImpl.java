@@ -23,6 +23,8 @@ public class CmsArticleServiceImpl extends ServiceImpl<CmsArticleMapper, CmsArti
     @Transactional
     public boolean saves(CmsArticle entity) {
         Authentication au = SecurityContextHolder.getContext().getAuthentication();
+        entity.setCreateBy(au.getName());
+        entity.setAuthor(au.getName());
         entity.setStatus(CommonCodes.STATUS_REVIEW);
         entity.setCreateBy(au.getName());
         entity.setCreateDate(new Date());
