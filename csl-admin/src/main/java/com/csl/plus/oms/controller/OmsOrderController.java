@@ -10,7 +10,6 @@ import com.csl.plus.oms.vo.OmsOrderDeliveryParam;
 import com.csl.plus.oms.vo.OmsReceiverInfoParam;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -158,6 +157,7 @@ public class OmsOrderController {
         }
         return new CommonResult().failed();
     }
+
     @SysLog(MODULE = "oms", REMARK = "修改收货人信息")
     @ApiOperation("修改收货人信息")
     @RequestMapping(value = "/update/receiverInfo", method = RequestMethod.POST)
@@ -195,4 +195,18 @@ public class OmsOrderController {
         }
         return new CommonResult().failed();
     }
+
+    @SysLog(MODULE = "oms", REMARK = "备注订单")
+    @ApiOperation("备注订单")
+    @RequestMapping(value = "/update/assign", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateAssignment(@RequestParam("id") Long id, @RequestParam("pwid") Long pwid,
+                                   @RequestParam("note") String note) {
+        int count = IOmsOrderService.updateAssignment(id, pwid, note);
+        if (count > 0) {
+            return new CommonResult().success(count);
+        }
+        return new CommonResult().failed();
+    }
+
 }

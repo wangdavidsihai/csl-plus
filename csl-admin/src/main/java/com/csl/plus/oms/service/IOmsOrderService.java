@@ -5,7 +5,6 @@ import com.csl.plus.oms.entity.OmsOrder;
 import com.csl.plus.oms.vo.OmsMoneyInfoParam;
 import com.csl.plus.oms.vo.OmsOrderDeliveryParam;
 import com.csl.plus.oms.vo.OmsReceiverInfoParam;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -48,4 +47,10 @@ public interface IOmsOrderService extends IService<OmsOrder> {
      */
     @Transactional
     int close(List<Long> ids, String note);
+
+    /**
+     * 派单
+     */
+    @Transactional
+    int updateAssignment(Long id, Long pwid, String note);
 }

@@ -73,6 +73,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         return count;
     }
 
+
     @Override
     public int updateReceiverInfo(OmsReceiverInfoParam receiverInfoParam) {
         OmsOrder order = new OmsOrder();
@@ -128,6 +129,24 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         history.setOperateMan("后台管理员");
         history.setOrderStatus(status);
         history.setNote("修改备注信息：" + note);
+        orderOperateHistoryMapper.insert(history);
+        return count;
+    }
+
+    @Override
+    public int updateAssignment(Long id, Long pwid, String note) {
+
+        OmsOrder order = new OmsOrder();
+        order.setId(id);
+        order.setRecid(pwid.toString());
+        order.setModifyTime(new Date());
+        int count = orderMapper.updateById(order);
+        OmsOrderOperateHistory history = new OmsOrderOperateHistory();
+        history.setOrderId(id);
+        history.setCreateTime(new Date());
+        history.setOperateMan("后台管理员");
+//        history.setOrderStatus(status);
+        history.setNote("派单成功：：" + note);
         orderOperateHistoryMapper.insert(history);
         return count;
     }
