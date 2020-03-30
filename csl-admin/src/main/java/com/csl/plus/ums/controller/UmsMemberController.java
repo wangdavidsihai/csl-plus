@@ -1,8 +1,5 @@
 package com.csl.plus.ums.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
@@ -10,13 +7,11 @@ import com.csl.plus.ums.entity.UmsMember;
 import com.csl.plus.ums.service.IUmsMemberService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -119,7 +114,6 @@ public class UmsMemberController {
             log.error("查询会员表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
-
     }
 
     @ApiOperation(value = "批量删除会员表")
@@ -136,4 +130,19 @@ public class UmsMemberController {
         }
     }
 
+    @SysLog(MODULE = "ums", REMARK = "审核会员")
+    @ApiOperation("更新会员表")
+    @PostMapping(value = "/review/{id}")
+    @PreAuthorize("hasAuthority('ums:UmsMember:update')")
+    public Object reviewUmsMember(@RequestBody UmsMember entity) {
+        try {
+            if (IUmsMemberService.updateById(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("更新会员表：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
+    }
 }

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.csl.plus.vo.BaseRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -115,7 +114,7 @@ public class UmsMember extends BaseRequest {
     /**
      * 邀请码
      */
-    @JsonIgnore
+    //@JsonIgnore
     private String invitecode;
     @TableField(exist = false)
     private String confirmpassword;

@@ -11,6 +11,9 @@ import com.csl.plus.oms.service.IOmsOrderService;
 import com.csl.plus.oms.vo.OmsMoneyInfoParam;
 import com.csl.plus.oms.vo.OmsOrderDeliveryParam;
 import com.csl.plus.oms.vo.OmsReceiverInfoParam;
+import com.csl.plus.sys.entity.SysUser;
+import com.csl.plus.sys.service.ISysUserService;
+import com.csl.plus.util.UserUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +38,8 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     private IOmsOrderOperateHistoryService orderOperateHistoryDao;
     @Resource
     private OmsOrderOperateHistoryMapper orderOperateHistoryMapper;
+    @Resource
+    private ISysUserService sysUserService;
 
     @Override
     public int delivery(List<OmsOrderDeliveryParam> deliveryParamList) {
@@ -136,15 +141,16 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     @Override
     public int updateAssignment(Long id, Long pwid, String note) {
 
+        SysUser sysUser = sysUserService.getById(pwid);
         OmsOrder order = new OmsOrder();
         order.setId(id);
-        order.setRecid(pwid.toString());
+        order.setRecid(sysUser.getUsername());
         order.setModifyTime(new Date());
         int count = orderMapper.updateById(order);
         OmsOrderOperateHistory history = new OmsOrderOperateHistory();
         history.setOrderId(id);
         history.setCreateTime(new Date());
-        history.setOperateMan("后台管理员");
+        history.setOperateMan(UserUtils.getCurrentMember().getUsername());
 //        history.setOrderStatus(status);
         history.setNote("派单成功：：" + note);
         orderOperateHistoryMapper.insert(history);
