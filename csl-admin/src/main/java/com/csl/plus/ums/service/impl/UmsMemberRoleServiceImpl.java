@@ -54,6 +54,7 @@ public class UmsMemberRoleServiceImpl extends ServiceImpl<UmsMemberRoleMapper, U
 //        }
     }
 
+
     public void updatePermission(Long roleId, String permissionIds) {
         //先删除原有关系
         umsMemberRolePermissionMapper.delete(new QueryWrapper<UmsMemberRolePermission>().eq("role_id", roleId));
@@ -70,6 +71,18 @@ public class UmsMemberRoleServiceImpl extends ServiceImpl<UmsMemberRoleMapper, U
             umsMemberRolePermissionService.saveBatch(relationList);
         }
 
+    }
+
+    public List<UmsMemberRolePermission> getPermissionList(Long roleId) {
+        return umsMemberRolePermissionMapper.selectList(new QueryWrapper<UmsMemberRolePermission>().eq("role_id", roleId));
+    }
+
+    @Override
+    public boolean updatesRole(UmsMemberRole role) {
+        role.setId(role.getId());
+        updatePermission(role.getId(), role.getMenuIds());
+        umsMemberRoleMapper.updateById(role);
+        return true;
     }
 
 }

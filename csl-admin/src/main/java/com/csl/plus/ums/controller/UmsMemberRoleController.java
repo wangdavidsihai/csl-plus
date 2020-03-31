@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csl.plus.annotation.SysLog;
 import com.csl.plus.ums.entity.UmsMemberRole;
+import com.csl.plus.ums.entity.UmsMemberRolePermission;
 import com.csl.plus.ums.service.IUmsMemberRoleService;
 import com.csl.plus.utils.CommonResult;
 import com.csl.plus.utils.ValidatorUtils;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 /**
  * 后台用户角色表
@@ -35,7 +38,7 @@ public class UmsMemberRoleController {
     /**
      * 列表
      */
-    @SysLog(MODULE = "cms", REMARK = "根据条件查询列表")
+    @SysLog(MODULE = "ums", REMARK = "根据条件查询列表")
     @ApiOperation("根据条件查询列表")
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('ums:umsmemberrole:list')")
@@ -55,7 +58,7 @@ public class UmsMemberRoleController {
      * 信息
      */
     /**
-     @SysLog(MODULE = "cms", REMARK = "根据条件查询后台用户角色表列表")
+     @SysLog(MODULE = "ums", REMARK = "根据条件查询后台用户角色表列表")
      @ApiOperation("根据条件查询后台用户角色表列表")
      @GetMapping("/info/{id}")
      @PreAuthorize("hasAuthority('ums:umsmemberrole:info')") public R info(@PathVariable("id") Long id){
@@ -67,7 +70,7 @@ public class UmsMemberRoleController {
     /**
      * 保存
      */
-    @SysLog(MODULE = "cms", REMARK = "保存后台用户角色表")
+    @SysLog(MODULE = "ums", REMARK = "保存后台用户角色表")
     @ApiOperation("保存后台用户角色表")
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ums:umsmemberrole:save')")
@@ -77,7 +80,7 @@ public class UmsMemberRoleController {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("保存帮助表：%s", e.getMessage(), e);
+            log.error("保存后台用户角色：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -86,17 +89,20 @@ public class UmsMemberRoleController {
     /**
      * 修改
      */
-    @SysLog(MODULE = "cms", REMARK = "修改后台用户角色表")
+    @SysLog(MODULE = "ums", REMARK = "修改后台用户角色表")
     @ApiOperation("修改后台用户角色表")
-    @PostMapping("/update")
+    @PostMapping("/update/{roleId}")
     @PreAuthorize("hasAuthority('ums:umsmemberrole:update')")
-    public Object update(@RequestBody UmsMemberRole entity) {
+    public Object update(@RequestBody UmsMemberRole entity, @PathVariable Long roleId) {
         try {
-            if (umsMemberRoleService.updateById(entity)) {
-                return new CommonResult().success();
+            if (entity != null) {
+                entity.setId(roleId);
+                if (umsMemberRoleService.updatesRole(entity)) {
+                    return new CommonResult().success();
+                }
             }
         } catch (Exception e) {
-            log.error("更新帮助表：%s", e.getMessage(), e);
+            log.error("更新后台用户角色：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
@@ -105,39 +111,49 @@ public class UmsMemberRoleController {
     /**
      * 删除
      */
-    @SysLog(MODULE = "cms", REMARK = "删除后台用户角色表")
+    @SysLog(MODULE = "ums", REMARK = "删除后台用户角色表")
     @ApiOperation("删除后台用户角色表")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('ums:umsmemberrole:delete')")
     public Object delete(@ApiParam("id") @PathVariable Long id) {
         try {
             if (ValidatorUtils.empty(id)) {
-                return new CommonResult().paramFailed("帮助表id");
+                return new CommonResult().paramFailed("后台用户角色id");
             }
             if (umsMemberRoleService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
-            log.error("删除帮助表：%s", e.getMessage(), e);
+            log.error("删除后台用户角色：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();
     }
 
-    @SysLog(MODULE = "cms", REMARK = "查询后台用户角色表明细")
+    @SysLog(MODULE = "ums", REMARK = "查询后台用户角色表明细")
     @ApiOperation("查询后台用户角色表明细")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{roleId}")
     @PreAuthorize("hasAuthority('ums:umsmemberrole:read')")
-    public Object getUmsMemberRoleById(@ApiParam("id") @PathVariable Long id) {
+    public Object getUmsMemberRoleById(@ApiParam("roleId") @PathVariable Long roleId) {
         try {
-            if (ValidatorUtils.empty(id)) {
+            if (ValidatorUtils.empty(roleId)) {
                 return new CommonResult().paramFailed("后台用户角色表id");
             }
-            UmsMemberRole object = umsMemberRoleService.getById(id);
+            UmsMemberRole object = umsMemberRoleService.getById(roleId);
             return new CommonResult().success(object);
         } catch (Exception e) {
             log.error("查询后台用户角色表明细：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
+    }
+
+    @SysLog(MODULE = "ums", REMARK = "获取相应角色权限-单表")
+    @ApiOperation("获取相应角色权限-单表")
+    @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ums:umsmemberrole:read')")
+    public Object rolePermission(@PathVariable Long roleId) {
+        List<UmsMemberRolePermission> rolePermission = umsMemberRoleService.getPermissionList(roleId);
+        return new CommonResult().success(rolePermission);
     }
 }

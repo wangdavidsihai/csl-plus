@@ -1,18 +1,18 @@
 package com.csl.plus.ums.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
  * 会员等级表
  * </p>
  *
- *  
  * @since 2019-04-19
  */
 @TableName("ums_member_level")
@@ -241,22 +241,22 @@ public class UmsMemberLevel implements Serializable {
     @Override
     public String toString() {
         return "UmsMemberLevel{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", growthPoint=" + growthPoint +
-        ", defaultStatus=" + defaultStatus +
-        ", freeFreightPoint=" + freeFreightPoint +
-        ", commentGrowthPoint=" + commentGrowthPoint +
-        ", priviledgeFreeFreight=" + priviledgeFreeFreight +
-        ", priviledgeSignIn=" + priviledgeSignIn +
-        ", priviledgeComment=" + priviledgeComment +
-        ", priviledgePromotion=" + priviledgePromotion +
-        ", priviledgeMemberPrice=" + priviledgeMemberPrice +
-        ", priviledgeBirthday=" + priviledgeBirthday +
-        ", articlecount=" + articlecount +
-        ", goodscount=" + goodscount +
-        ", price=" + price +
-        ", note=" + note +
-        "}";
+                ", id=" + id +
+                ", name=" + name +
+                ", growthPoint=" + growthPoint +
+                ", defaultStatus=" + defaultStatus +
+                ", freeFreightPoint=" + freeFreightPoint +
+                ", commentGrowthPoint=" + commentGrowthPoint +
+                ", priviledgeFreeFreight=" + priviledgeFreeFreight +
+                ", priviledgeSignIn=" + priviledgeSignIn +
+                ", priviledgeComment=" + priviledgeComment +
+                ", priviledgePromotion=" + priviledgePromotion +
+                ", priviledgeMemberPrice=" + priviledgeMemberPrice +
+                ", priviledgeBirthday=" + priviledgeBirthday +
+                ", articlecount=" + articlecount +
+                ", goodscount=" + goodscount +
+                ", price=" + price +
+                ", note=" + note +
+                "}";
     }
 }
