@@ -70,7 +70,7 @@ public class CmsArticleController {
 	 *                "根据条件查询文章表列表") @ApiOperation("根据条件查询文章表列表") @RequestMapping("/info/{id}") @PreAuthorize("hasAuthority('cms:cmsarticle:info')")
 	 *                public R info(@PathVariable("id") String id){ CmsArticleEntity
 	 *                cmsArticle = cmsArticleService.getById(id);
-	 * 
+	 *
 	 *                return R.ok().put("cmsArticle", cmsArticle); }
 	 */
 	/**

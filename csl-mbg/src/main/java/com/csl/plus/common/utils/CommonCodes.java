@@ -4,17 +4,17 @@ package com.csl.plus.common.utils;
  * 常量
  */
 public interface CommonCodes {
-    // 帐号启用状态:0->正常；1->审核中; 2->关闭; 3->暂停
-    public static final String STATUS_ACTIVE = "0";
-    public static final String STATUS_REVIEW = "1";
-    public static final String STATUS_TERMINATED = "2";
-    public static final String STATUS_SUSPECTED = "3";
+    // 帐号启用状态:0->关闭；1->审核中; 2->关闭; 3->暂停
+    public static final int STATUS_ACTIVE = 1;
+    public static final int STATUS_REVIEW = 0;
+    public static final int STATUS_TERMINATED = 2;
+    public static final int STATUS_SUSPECTED = 3;
 
     public static final String ALLOWED = "Y";
     public static final String NOT_ALLOWED = "N";
 
-    public static final String INBOX_READ = "1";
-    public static final String INBOX_UNREAD = "0";
+    public static final Integer INBOX_READ = 1;
+    public static final Integer INBOX_UNREAD = 0;
 
     public static final String SYS_GROUP_RMS_FIN = "rms-fin";
     public static final String SYS_GROUP_RMS_TECH = "rms-tech";

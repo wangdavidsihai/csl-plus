@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/ums/UmsMember")
 public class UmsMemberController {
     @Resource
-    private IUmsMemberService IUmsMemberService;
+    private IUmsMemberService umsMemberService;
 
     @SysLog(MODULE = "ums", REMARK = "根据条件查询所有会员表列表")
     @ApiOperation("根据条件查询所有会员表列表")
@@ -41,7 +41,7 @@ public class UmsMemberController {
                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize
     ) {
         try {
-            return new CommonResult().success(IUmsMemberService.page(new Page<UmsMember>(pageNum, pageSize), new QueryWrapper<>(entity)));
+            return new CommonResult().success(umsMemberService.page(new Page<UmsMember>(pageNum, pageSize), new QueryWrapper<>(entity)));
         } catch (Exception e) {
             log.error("根据条件查询所有会员表列表：%s", e.getMessage(), e);
         }
@@ -54,7 +54,7 @@ public class UmsMemberController {
     @PreAuthorize("hasAuthority('ums:UmsMember:create')")
     public Object saveUmsMember(@RequestBody UmsMember entity) {
         try {
-            if (IUmsMemberService.save(entity)) {
+            if (umsMemberService.save(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class UmsMemberController {
     @PreAuthorize("hasAuthority('ums:UmsMember:update')")
     public Object updateUmsMember(@RequestBody UmsMember entity) {
         try {
-            if (IUmsMemberService.updateById(entity)) {
+            if (umsMemberService.updateById(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class UmsMemberController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("会员表id");
             }
-            if (IUmsMemberService.removeById(id)) {
+            if (umsMemberService.removeById(id)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class UmsMemberController {
             if (ValidatorUtils.empty(id)) {
                 return new CommonResult().paramFailed("会员表id");
             }
-            UmsMember coupon = IUmsMemberService.getById(id);
+            UmsMember coupon = umsMemberService.getById(id);
             return new CommonResult().success(coupon);
         } catch (Exception e) {
             log.error("查询会员表明细：%s", e.getMessage(), e);
@@ -122,7 +122,7 @@ public class UmsMemberController {
     @SysLog(MODULE = "pms", REMARK = "批量删除会员表")
     @PreAuthorize("hasAuthority('ums:UmsMember:delete')")
     public Object deleteBatch(@RequestParam("ids") List<Long> ids) {
-        boolean count = IUmsMemberService.removeByIds(ids);
+        boolean count = umsMemberService.removeByIds(ids);
         if (count) {
             return new CommonResult().success(count);
         } else {
@@ -136,11 +136,33 @@ public class UmsMemberController {
     @PreAuthorize("hasAuthority('ums:UmsMember:update')")
     public Object reviewUmsMember(@RequestBody UmsMember entity) {
         try {
-            if (IUmsMemberService.updateById(entity)) {
+            if (umsMemberService.updateById(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
             log.error("更新会员表：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
+    }
+
+    /**
+     * 修改
+     */
+    @SysLog(MODULE = "ums", REMARK = "修改后台用户角色状态")
+    @ApiOperation("修改后台用户角色状态")
+    @PostMapping("/update/showStatus")
+    @PreAuthorize("hasAuthority('ums:UmsMember:update')")
+    public Object updateShowStatus(@RequestParam("id") Long id, @RequestParam("status") Integer status) {
+        try {
+            UmsMember entity = new UmsMember();
+            entity.setId(id);
+            entity.setStatus(status);
+            if (umsMemberService.updateById(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("更新后台用户角色：%s", e.getMessage(), e);
             return new CommonResult().failed();
         }
         return new CommonResult().failed();

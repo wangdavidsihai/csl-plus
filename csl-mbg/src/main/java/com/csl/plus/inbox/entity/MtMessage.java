@@ -52,7 +52,7 @@ public class MtMessage implements Serializable {
     /**
      * 状态
      */
-    private String status;
+    private Integer status;
     /**
      * 删除标识
      */

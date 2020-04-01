@@ -48,7 +48,7 @@ public class UmsMember extends BaseRequest {
     /**
      * 帐号启用状态:A->正常；C->关闭; R->审核中; S->暂停
      */
-    private String status;
+    private Integer status;
     /**
      * 注册时间
      */

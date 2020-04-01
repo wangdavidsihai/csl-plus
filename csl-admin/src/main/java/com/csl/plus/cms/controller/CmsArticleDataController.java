@@ -64,7 +64,7 @@ public class CmsArticleDataController {
 	 *                public R info(@PathVariable("id") String id){
 	 *                CmsArticleDataEntity cmsArticleData =
 	 *                cmsArticleDataService.getById(id);
-	 * 
+	 *
 	 *                return R.ok().put("cmsArticleData", cmsArticleData); }
 	 */
 	/**

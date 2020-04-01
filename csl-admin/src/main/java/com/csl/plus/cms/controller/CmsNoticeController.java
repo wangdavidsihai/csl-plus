@@ -61,7 +61,7 @@ public class CmsNoticeController {
      */
      /**
     @SysLog(MODULE = "cms", REMARK = "根据条件查询文章表列表")
-    @ApiOperation("根据条件查询文章表列表") 
+    @ApiOperation("根据条件查询文章表列表")
     @RequestMapping("/info/{id}")
     @PreAuthorize("hasAuthority('cms:cmsnotice:info')")
     public R info(@PathVariable("id") String id){

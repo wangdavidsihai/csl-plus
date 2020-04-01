@@ -286,7 +286,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         // 订单来源：0->PC订单；1->app订单
         order.setSourceType(1);
         // 订单状态：0->review
-        order.setStatus(Integer.parseInt(CommonCodes.STATUS_REVIEW));
+        order.setStatus(CommonCodes.STATUS_REVIEW);
         // 订单类型：0->正常订单；1->异常
         order.setOrderType(0);
         // 0->未确认；1->已确认
