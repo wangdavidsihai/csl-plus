@@ -139,6 +139,7 @@ public class SysRoleController extends ApiController {
     @ApiOperation("获取相应角色权限")
     @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:read')")
     public Object getPermissionList(@PathVariable Long roleId) {
         List<SysRolePermission> permissionList = sysRoleService.getRolePermission(roleId);
         return new CommonResult().success(permissionList);
@@ -148,9 +149,32 @@ public class SysRoleController extends ApiController {
     @ApiOperation("获取相应角色权限-单表")
     @RequestMapping(value = "/rolePermission/{roleId}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:read')")
     public Object rolePermission(@PathVariable Long roleId) {
         List<SysRolePermission> rolePermission = sysRoleService.getRolePermission(roleId);
         return new CommonResult().success(rolePermission);
+    }
+
+    /**
+     * 修改
+     */
+    @SysLog(MODULE = "ums", REMARK = "修改用户状态")
+    @ApiOperation("修改用户状态")
+    @PostMapping("/update/showStatus")
+    @PreAuthorize("hasAuthority('sys:role:update')")
+    public Object updateShowStatus(@RequestParam("id") Long id, @RequestParam("status") Integer status) {
+        try {
+            SysRole entity = new SysRole();
+            entity.setId(id);
+            entity.setStatus(status);
+            if (sysRoleService.updateById(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("更新后台用户角色：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
     }
 }
 

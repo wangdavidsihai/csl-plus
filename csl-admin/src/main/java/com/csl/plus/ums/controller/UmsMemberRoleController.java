@@ -109,6 +109,28 @@ public class UmsMemberRoleController {
     }
 
     /**
+     * 修改
+     */
+    @SysLog(MODULE = "ums", REMARK = "修改后台用户角色状态")
+    @ApiOperation("修改后台用户角色状态")
+    @PostMapping("/update/showStatus")
+    @PreAuthorize("hasAuthority('ums:umsmemberrole:update')")
+    public Object updateShowStatus(@RequestParam("id") Long id, @RequestParam("status") Integer status) {
+        try {
+            UmsMemberRole entity = new UmsMemberRole();
+            entity.setId(id);
+            entity.setStatus(status);
+            if (umsMemberRoleService.updateById(entity)) {
+                return new CommonResult().success();
+            }
+        } catch (Exception e) {
+            log.error("更新后台用户角色：%s", e.getMessage(), e);
+            return new CommonResult().failed();
+        }
+        return new CommonResult().failed();
+    }
+
+    /**
      * 删除
      */
     @SysLog(MODULE = "ums", REMARK = "删除后台用户角色表")
