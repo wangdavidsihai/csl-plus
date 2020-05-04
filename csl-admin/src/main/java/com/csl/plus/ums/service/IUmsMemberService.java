@@ -12,4 +12,6 @@ import com.csl.plus.ums.entity.UmsMember;
  */
 public interface IUmsMemberService extends IService<UmsMember> {
 
+    boolean saves(UmsMember entity);
+
 }

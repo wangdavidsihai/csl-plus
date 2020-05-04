@@ -54,7 +54,7 @@ public class UmsMemberController {
     @PreAuthorize("hasAuthority('ums:UmsMember:create')")
     public Object saveUmsMember(@RequestBody UmsMember entity) {
         try {
-            if (umsMemberService.save(entity)) {
+            if (umsMemberService.saves(entity)) {
                 return new CommonResult().success();
             }
         } catch (Exception e) {
